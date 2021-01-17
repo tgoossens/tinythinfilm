@@ -1,0 +1,178 @@
+%% Simulation parameters
+clear;
+close all;
+
+
+
+
+addpath('../../recursion');
+addpath('../../wavepacket');
+addpath('../../filters');
+
+addpath(genpath('/home/thomas/Documents/imec/libs_hsimatlab-14_01_2020'))
+
+
+
+
+%% COlors
+    cmap = hot;
+    s=size(cmap,1);
+    color{1}=cmap(1,:);
+    color{2}=cmap(round(0.5*s),:);
+    color{3}=cmap(round(0.6*s),:);
+    color{4}=cmap(round(0.66*s),:)
+
+
+%% Variables and their accuracy
+
+%% Filter designs
+
+run('../../filters/filterstructs.m')
+
+filternames={'monolayer_paper'}
+
+
+
+filters= {monolayer_paper}
+
+
+
+for f=1:numel(filters)
+    filter=filters{f};
+    filtername=filternames{f}
+    %%% Angles range
+    angles =[0 5 10 20];
+
+    %%% Wavelength range
+    wl=linspace(0.7,0.9,300); % original
+                              %    wl=linspace(0.4,2,1000);
+    lambda=wl;
+
+
+    %% WAVE PACKET METHOD OPTIONS
+
+    %%% Spatial frequency range
+    vv=linspace(-1.05/min(wl),1.05/min(wl),2^12)';
+    dv = vv(2)-vv(1);
+
+
+    %% RECURSION OPTIONS
+    maxdepth=30;
+
+    %% Helper functions
+
+    visibility = @(x) (max(x)-min(x))./(max(x)+min(x));
+
+
+
+    %%%%%%%%%%%%%%%%%%%%%%% START SIMULATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %% Loop
+    % Incidnent angle
+    for a=1:numel(angles)
+        
+        angledeg=angles(a);
+        anglerad=deg2rad(angledeg);
+
+
+        %% Simulate
+
+        disp(['Simulate Infinite Film: ' num2str(angledeg) ' deg']);
+        Ttf(:,a)=simulatefilter(filter,angledeg,wl);
+
+         disp(['Simulate Wave Packet: ' num2str(angledeg) ' deg']);
+         Tpixel_wp(:,a)=simulatetiny_wp(filter,vv,angledeg,wl);
+
+        disp(['Simulate Recursive: ' num2str(angledeg) ' deg']);
+        Tpixel_rec(:,a)=real(simulatetiny_recursive(filter,angledeg,wl,maxdepth));
+
+
+    end
+
+
+%% Plot transmittance
+
+
+    %fig.Position=[680 3 900 930];
+    %    fig.Name='Wavepacket transmittance';
+    for a=1:numel(angles)
+        fig=figure(a);clf;
+        
+        % Cross-talk scaling formula
+        %        scaling=(1-sqrt(2)./(4*pi)*sqrt((wl*filter.h(2))/filter.n(2))*1./(filter.width/2))';
+        hplot=plot(wl*1e3,Tpixel_rec(:,a),'linewidth',1.5,'linestyle','-','color',color{3});hold on;
+        plot(wl*1e3,Ttf(:,a),'k-.','linewidth',1);hold on;
+        hwave=plot(wl*1e3,Tpixel_wp(:,a),'-','color',[0.7 0.1 0.1],'linewidth',2);hold on;
+        title([num2str(angles(a)) ' deg'])
+        ylim([0 1]);
+        xlim([wl(1) wl(end)]*1000)
+
+        ylim([0.5 1.2]);
+        % if(f==1)
+
+        % end
+        
+        if(f==3)
+            xlim([0.75 0.9]*1e3);
+        else
+            xlim([0.7 0.9]*1E3); %original
+        end
+        
+        if(and(f==1,a==1))
+            l0=0.71;y=1.1;d=0.02; line([l0 l0+d],y*[1 1],'linewidth',2,'linestyle','-.','color','k'); text(l0+d,y,'$T_\infty$')
+            l0=0.76;y=1.1;d=0.02; line([l0 l0+d],y*[1 1],'linewidth',2,'linestyle','-','color',hplot.Color); text(l0+d,y,'$T_\textup{tiny}^\textup{ray}$')    
+            l0=0.82;y=1.1;d=0.02; line([l0 l0+d],y*[1 1],'linewidth',2,'linestyle','-','color',hwave.Color); text(l0+d,y,'$T_\textup{tiny}^\textup{wave}$')    
+            %legh=legend('$T_\infty$','$T_\textup{eff}^\textup{ray}$','$T_\textup{eff}^\textup{wave}$')
+            %legh.Box='off'
+            
+            %legh.Orientation='Horizontal';
+        end
+
+        
+
+        box on;
+        ax=gca;
+        grid on;
+        ax.YGrid='off'
+        xticks([0.7 0.75 0.8 0.85 0.9]*1000)
+
+        fig.Position= [556 323 221 247];
+        ax.Position = [0.2330 0.2024 0.6720 0.7226];
+        xlabel('Wavelength (nm)');
+        title('Transmittance')
+        set(findall(gcf,'-property','FontSize'),'FontSize',11);
+        set(findall(gcf,'-property','interpreter'),'interpreter','latex');
+         if(a==1)
+            legh.FontSize=10; 
+         end
+        saveas(gcf,['fig/' filtername '_' num2str(angles(a)) 'deg.eps'],'epsc');
+        
+    end
+    
+    %%
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

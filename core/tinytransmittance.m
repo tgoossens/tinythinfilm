@@ -1,4 +1,4 @@
-function [T] = tinytransmittance(filter,angledeg,wavelengths,polarization,accuracy);
+function [T,Phi_t,Phi_in] = tinytransmittance(filter,angledeg,wavelengths,polarization,accuracy);
 %  TINYTRANSMITTANCE  Simulate tiny filter transmittance
 %   [T] = TINYTRANSMITTANCE(filter,angledeg,wavelengths,polarization,accuracy);
 %    
@@ -9,7 +9,9 @@ function [T] = tinytransmittance(filter,angledeg,wavelengths,polarization,accura
 %    - polarization ('s' or 'p')    
 %    - accuracy: 2^floor(accuracy) subdivision of the spatial frequency domain.
 %   Outputs
-%    - T (W):  Transmittance of the filter
+%    - T (Wx1):  Transmittance of the filter
+%    - Phi_T (Wx1):  Transmitted flux [W]
+%    - Phi_T (Wx1):  Incident flux [W]
 %    
 %    
 %  See also TINYFILTER    
@@ -22,7 +24,7 @@ anglerad=deg2rad(angledeg);
 width=filter.width;
 
 
-nu = linspace(-1.05/wl(1), 1.05/wl(1),2^floor(accuracy));
+nu = linspace(-1.05/wl(1), 1.05/wl(1),2^floor(accuracy))';
 vv=nu;
 
 
@@ -35,8 +37,8 @@ alpha = @(v,n) sqrt(k(n).^2-(2*pi*v).^2);
 
 
 %%  Calculate admittances
-[Y,r,t,eta] = surfaceadmittance(filter.n,filter.h,wl,nu,polarization);
-
+[Y,r,t] = surfaceadmittance(filter.n,filter.h,wl,nu,polarization);
+eta = admittance(filter.n,wl,nu,polarization);
 
 clear Eout;
 %matlab sinc function already includes the factor pi!!!
@@ -65,22 +67,21 @@ xfull=@(v) (v)==0;
 fftpix=fft(xpix(vv));
 
 
-eta0=eta(1);
-
-%substrate
-eta=eta(numel(filter.n));
+% Admittances of incident and substrate medium
+eta_in=eta(1);
+eta_sub=eta(numel(filter.n));
 
 
 for j=1:numel(wl)
     %OPGELET transpose in matlab neemt ook conj: gebruik .'
 
     %Incident flux
-    temp = real(eta0(:,j).*Ain(:,j).*fftshift(ifft(fft(conj(Ain(:,j))).*fftpix)));
+    temp = real(eta_in(:,j).*Ain(:,j).*fftshift(ifft(fft(conj(Ain(:,j))).*fftpix)));
     Phi_in(j)=trapz(vv,temp);
 
     
     % Transmutted flux
-    Phi_t(j)=real(trapz(vv,etas(:,j).*Ftp(:,j).*fftshift(ifft(fft(conj(At(:,j))).* ...
+    Phi_t(j)=real(trapz(vv,eta_sub(:,j).*At(:,j).*fftshift(ifft(fft(conj(At(:,j))).* ...
                                                       fftpix))));
     
 end
