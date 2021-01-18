@@ -1,4 +1,4 @@
-# Tiny Thin Film: 
+# Tiny Thin Film
 Calculate the transmittance of pixel-integrated thin-film filters.
 
 <img src="./doc/img/pixelfilters.png" alt="Pixel integrated thin-film filters" width="50%" >
