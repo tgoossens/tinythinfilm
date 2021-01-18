@@ -26,8 +26,7 @@ This toolbox aims to provide filter and camera designers with quick estimated of
 
 # How to use
 
-The tinythinfilm toolbox is mainly intented to provide good estimated of the filter transmittance.
-
+The toolbox is intented to provide quick and good transmittance estimates, not exact results.
 
 # Publications
 Goossens, Thomas. "Tiny thin-film filters from a different angle: Correcting angular dependency for spectral imaging.", PhD Thesis (2020).  
