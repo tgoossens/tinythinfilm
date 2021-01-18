@@ -1,2 +1,2 @@
 # Introduction
-Simulating the transmittance of tiny thin-film filters
+Simulating the transmittance of pixel-integrated thin-film filters
