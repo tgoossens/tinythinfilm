@@ -9,8 +9,10 @@ This is problematic when the sensors are used with an imaging lens and needs to 
 
 This toolbox aims to provide filter and camera designers with quick estimated of the expected filter transmittance. 
 
-<img src="./doc/img/pixelfilters.png" alt="Pixel integrated thin-film filters" width="50%" >
-
+<div>
+<img src="./doc/img/pixelfilters.png" alt="Pixel integrated thin-film filters" width="45%" >
+<img src="./doc/img/tinyfabry.png" alt="Tiny Fabry-Pérot transmittance" width="45%" >
+</div>
 
 # Features
 
@@ -23,6 +25,9 @@ This toolbox aims to provide filter and camera designers with quick estimated of
 - Simulate for focused light (under construction)
 
 # How to use
+
+The tinythinfilm toolbox is mainly intented to provide good estimated of the filter transmittance.
+
 
 # Publications
 Goossens, Thomas. "Tiny thin-film filters from a different angle: Correcting angular dependency for spectral imaging.", PhD Thesis (2020).  
