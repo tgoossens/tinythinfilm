@@ -72,6 +72,8 @@ legend('0^\circ','5^\circ','10^\circ','15^\circ','20^\circ')
 %ylim([0 1])
 ylabel('Transmittance')
 xlabel('Wavelength (µm)')
+box on
+
 
 
 
