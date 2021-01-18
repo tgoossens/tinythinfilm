@@ -7,7 +7,8 @@ This trend has mainly been driven by the need for developing compact and lightwe
 The pixel-integrated thin-film filters are used to select specific wavelengths. The spatial width, however, strongly affects the angular sensitivity of thin-film filters.
 This is problematic when the sensors are used with an imaging lens and needs to be taken into account at the design stage.
 
-This toolbox aims to provide filter and camera designers with quick estimated of the expected filter transmittance. 
+This toolbox aims to provide filter and camera designers with quick estimates of the expected filter transmittance.
+
 
 <div>
 <img src="./doc/img/pixelfilters.png" alt="Pixel integrated thin-film filters" width="45%" >
