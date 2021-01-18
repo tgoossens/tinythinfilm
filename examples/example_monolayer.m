@@ -21,6 +21,8 @@ accuracy = 9;
 wavelengths=linspace(0.6,0.9,1000); % µm
 angles = [0 5 10 15 20]
 
+
+%% Run simulation for each angle
 for a=1:numel(angles)
     
 
