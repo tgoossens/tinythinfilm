@@ -52,7 +52,7 @@ end
 
 
 %% Plot transmittance
-% There there is a drop in transmittance but also a reduction in fringe visibility
+% There there is a drop in transmittance and an increase in FWHM
 % 
 
 cmap = hot;
