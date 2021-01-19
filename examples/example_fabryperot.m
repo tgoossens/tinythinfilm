@@ -11,7 +11,7 @@ targetcwl = 0.800; %micron
 nair=1;
 nsub=3.56; %silicon substarte
 
-nl = 1.45; % low refractive index
+nl = 1.4; % low refractive index
 nh = 2.4; % high refractive index
 
 dh = targetcwl/(4*nh);%quarterwave 
@@ -23,7 +23,7 @@ thickness = [dh dl dh dl dh dl dh [dl dl] dh dl dh dl dh dl dh];
 width=5.5; %micron
 
 
-filter=tinyfilter(nair,nsub,n,thickness,width)
+filter=tinyfilter(nair,nsub,n,thickness,width);
 
 
 
@@ -31,8 +31,8 @@ filter=tinyfilter(nair,nsub,n,thickness,width)
 
 polarisation = 's';
 
-accuracy = 8;
-wavelengths=linspace(0.7,0.85,300); % µm
+accuracy = 7;
+wavelengths=linspace(0.73,0.85,300); % µm
 angles = [0 5 10 15 20]; 
 
 
@@ -43,9 +43,10 @@ for a=1:numel(angles)
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
-    [Ttiny,flux_t]=tinytransmittance(filter,angles(a),wavelengths,polarisation,accuracy);
+    [Ttiny]=tinytransmittance(filter,angles(a),wavelengths,polarisation,accuracy);
     T(:,a)=Ttiny;
-    flux(:,a)=flux_t;
+
+    Tclassic(:,a)=classictransmittance(filter,angles(a),wavelengths,polarisation);
 
 
 end
@@ -66,12 +67,14 @@ color{5}=cmap(round(0.66*s),:)
 
 figure(1);clf;  hold on;
 for a=1:numel(angles)
-    plot(wavelengths,T(:,a),'color',color{a},'linewidth',2)
+    htiny(a)=plot(wavelengths,T(:,a),'color',color{a},'linewidth',2)
+    hclassic=plot(wavelengths,Tclassic(:,a),':','color',color{a},'linewidth',1)
 end
-legend('0^\circ','5^\circ','10^\circ','15^\circ','20^\circ')
+legend([htiny hclassic],'0^\circ','5^\circ','10^\circ','15^\circ','20^\circ','T_\infty')
 %ylim([0 1])
 ylabel('Transmittance')
 xlabel('Wavelength (µm)')
+title('Tiny vs. infinite transmittance')
 box on
 
 

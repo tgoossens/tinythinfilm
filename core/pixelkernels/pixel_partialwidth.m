@@ -19,8 +19,18 @@ function  kernel = pixel_partialwidth(startpos,endpos)
 %    
 %    
 %  See also: PIXEL_FULLWIDTH
-%
+%    
+%  This pixel kernel is derived in the supplementeray information of (see publication..)   
+% 
 %  Copyright Thomas Goossens
-    sinca=@(x)sinc(x/pi);
-    kernel = @(nu) 1i *(exp(-2*pi*1i*v*endpos)-exp(-2*pi*1i*v*startpos))./(2*pi*v+eps);
+
+    kernel = @K
+    
+    function k = K(nu)
+        
+       k = 1i *(exp(-2*pi*1i*v*endpos)-exp(-2*pi*1i*v*startpos))./(2*pi*v);       
+       
+       % When zero, return the asymptotic limit
+       k(nu==0) =  (endpos-startpos);
+    end
 end
