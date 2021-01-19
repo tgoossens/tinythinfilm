@@ -29,6 +29,8 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 
 The toolbox is intented to provide quick and good transmittance estimates, not exact results.
 
+It is compatible with MATLAB and the free alternative Octave.
+
 # Publications
 Goossens, Thomas. "Tiny thin-film filters from a different angle: Correcting angular dependency for spectral imaging.", PhD Thesis (2020).  
 
