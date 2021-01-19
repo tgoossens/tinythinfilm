@@ -20,73 +20,70 @@ function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,p
     
     
 wl=wavelengths;
-anglerad=deg2rad(angledeg);
+anglerad=deg2rad(angledeg); 
 width=filter.width;
 
 
-nu = linspace(-1.05/wl(1), 1.05/wl(1),2^floor(accuracy))';
-vv=nu;
+% Spatial frequency integration domain
+nu = linspace(-1/wl(1), 1/wl(1),2^floor(accuracy))';
 
 
-dv = abs(vv(2)-vv(1));
 
-%% Definitions alpha and k
-k = @(n) 2*pi./(wl)*n;
+%% Definitions and helper ufcntions
 
-alpha = @(v,n) sqrt(k(n).^2-(2*pi*v).^2);
+% Wavenumber
+k = @(n) 2*pi./(wl)*n; 
 
+% Fourier transform of the pixel kernel (so we don't recompute it for each wavelength)
+fftpix=fft(pixelkernel(nu));
 
 %%  Calculate admittances
-[Y,r,t] = surfaceadmittance(filter.n,filter.h,wl,nu,polarization);
+
+% Complex surface admittance of filter stack
+% We will only use the transmission coefficient here
+[Y0,r,t] = surfaceadmittance(filter.n,filter.h,wl,nu,polarization);
+
+% Admittances of each layer
 eta = admittance(filter.n,wl,nu,polarization);
-
-clear Eout;
-%matlab sinc function already includes the factor pi!!!
-%sinca = @(x) sin(x)./(x+eps);
-
-sinca=@(x)sinc(x/pi);
-
-% Create tilted wave front and do this per wavelength!
-for j=1:numel(wl)
-    
-    Ain(:,j) = width*sinca(pi*width*(vv-filter.n(1)*sin(anglerad)/wl(j))); ...
-    %custom
-    bandpass = abs(vv).*wl(j) <=1;
-    
-    At(:,j)=bandpass.*t(:,j).*Ain(:,j);
-    Etout(:,j)=fftshift(fft(At(:,j)));
-end
-
-
-Erout=zeros(size(Etout));
-
-xpix = pixelkernel;
-xfull=@(v) (v)==0;
-
-%pix =xpix(vv'-vv);
-fftpix=fft(xpix(vv));
-
-
-% Admittances of incident and substrate medium
 eta_in=eta(1);
 eta_sub=eta(numel(filter.n));
 
-
 for j=1:numel(wl)
-    %OPGELET transpose in matlab neemt ook conj: gebruik .'
+    %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
+    % Incident wwave
+    Ain(:,j) = width*sinca(pi*width*(nu-filter.n(1)*sin(anglerad)/wl(j))); ...
+    
+    % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.
+    domain = abs(nu).*wl(j) <=1;
+    
+    % Transmitted wave
+    At(:,j)=domain.*t(:,j).*Ain(:,j);
 
-    %Incident flux
-    temp = real(eta_in(:,j).*Ain(:,j).*fftshift(ifft(fft(conj(Ain(:,j))).*fftpix)));
-    Phi_in(j)=trapz(vv,temp);
 
     
-    % Transmutted flux
-    Phi_t(j)=real(trapz(vv,eta_sub(:,j).*At(:,j).*fftshift(ifft(fft(conj(At(:,j))).* ...
+    %%%%%%%%%% FLUXES  %%%%%%%%%%%%
+    %Incident flux
+    temp = real(eta_in(:,j).*Ain(:,j).*fftshift(ifft(fft(conj(Ain(:,j))).*fftpix)));
+    Phi_in(j)=trapz(nu,temp);
+
+    
+    % Transmitted flux
+    Phi_t(j)=real(trapz(nu,eta_sub(:,j).*At(:,j).*fftshift(ifft(fft(conj(At(:,j))).* ...
                                                       fftpix))));
     
 end
 
+
+% Transmittance
 T=Phi_t./Phi_in;
 
 
+
+
+function f = sinca(x)
+% Modified sinc function because matlab sinc function already includes the factor pi.
+% This makes notation consistent with definitions in the publications.    
+    f=sinc(x/pi); 
 end
+end
+
