@@ -36,6 +36,7 @@ function [T,R,t,r] = classictransmittance(filter,angledeg,wavelengths,polarizati
         eta_sub=eta(numel(filter.n));
         
         
+        % Transmittance and Reflectance can be calculated form transmission and reflecction coefficients
         T(w) = real(eta_sub./eta_in .*  conj(t)*t);
         R(w) = conj(r)*r;
         
