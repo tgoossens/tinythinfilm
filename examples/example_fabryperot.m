@@ -68,10 +68,24 @@ color{5}=cmap(round(0.66*s),:)
 figure(1);clf;  hold on;
 for a=1:numel(angles)
     htiny(a)=plot(wavelengths,T(:,a),'color',color{a},'linewidth',2)
-    hclassic=plot(wavelengths,Tclassic(:,a),':','color',color{a},'linewidth',1)
+    hclassic=plot(wavelengths,Tclassic(:,a),':','color',color{a},'linewidth',1.5)
 end
-legend([htiny hclassic],'0^\circ','5^\circ','10^\circ','15^\circ','20^\circ','T_\infty')
-%ylim([0 1])
+
+
+
+
+%% Labeling
+
+text(0.73,0.6092,sprintf('Transmittance for\ninfinitely wide filter'))
+line( [0.7617   0.7790],[ 0.5684    0.4888],'color','k')
+
+text(0.73,0.2092,sprintf('Transmittance for\ntiny filter'))
+line( [ 0.7608    0.7729],[  0.1969    0.1255],'color','k')
+
+legend([htiny],'0^\circ','5^\circ','10^\circ','15^\circ','20^\circ')
+
+
+
 ylabel('Transmittance')
 xlabel('Wavelength (µm)')
 title('Tiny vs. infinite transmittance')

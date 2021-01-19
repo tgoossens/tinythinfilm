@@ -15,6 +15,12 @@ function [T,R,t,r] = classictransmittance(filter,angledeg,wavelengths,polarizati
 %    - r (Wx1):  Reflection coefficient of the filter
 %    
 %  See also TINYTRANSMITTANCE, TINYFILTER    
+%    
+%  The method implemented can be found in
+%    Lequime, M., and Amra, C. De l’Optique électromagnétique à
+% l’Interférométrie-Concepts et illustrations: Concepts et illustrations. EDP
+%  Sciences, 2013
+%    
 %  Copyright Thomas Goossens  
 %  http://github.com/tgoossens
 
@@ -37,7 +43,7 @@ function [T,R,t,r] = classictransmittance(filter,angledeg,wavelengths,polarizati
         
         
         % Transmittance and Reflectance can be calculated form transmission and reflecction coefficients
-        T(w) = real(eta_sub./eta_in .*  conj(t)*t);
+        T(w) = real(eta_sub)./real(eta_in) .*  conj(t)*t;
         R(w) = conj(r)*r;
         
     end

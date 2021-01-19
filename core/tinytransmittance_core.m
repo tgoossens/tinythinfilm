@@ -51,7 +51,7 @@ eta_sub=eta(numel(filter.n));
 for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wwave
-    Ain(:,j) = width*sinca(pi*width*(nu-filter.n(1)*sin(anglerad)/wl(j))); ...
+    Ain(:,j) = width*sinca(pi*width*(nu-filter.n(1)*sin(anglerad)/wl(j))); 
     
     % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.
     domain = abs(nu).*wl(j) <=1;
@@ -68,8 +68,8 @@ for j=1:numel(wl)
 
     
     % Transmitted flux
-    Phi_t(j)=real(trapz(nu,eta_sub(:,j).*At(:,j).*fftshift(ifft(fft(conj(At(:,j))).* ...
-                                                      fftpix))));
+    temp=real(eta_sub(:,j).*At(:,j).*fftshift(ifft(fft(conj(At(:,j))).*fftpix)));
+    Phi_t(j)=trapz(nu,temp); 
     
 end
 
