@@ -39,9 +39,10 @@ function [Y0,r,t] = surfaceadmittance(n,h,wl,nu,polarization)
     end
 
     if(polarization=='p')
-        eta = @(j) n(j).*eta0.*k(j)./(alpha(j)+eps);%p polarization
+        eta = @(j) n(j).*eta0.*k(j)./(alpha(j));%p polarization
     end
 
+    % Phase thickness of each layer
     delta = @(j) alpha(j).*h(j);
 
     N = numel(n);
