@@ -23,7 +23,7 @@ thickness = [dh dl dh dl dh dl dh [dl dl] dh dl dh dl dh dl dh];
 width=5.5; %micron
 
 
-filter=tinyfilter(nair,nsub,n,thickness,width);
+filter=tinyfilter(nair,n,nsub,thickness,width);
 
 
 

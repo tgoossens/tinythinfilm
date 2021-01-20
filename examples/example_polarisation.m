@@ -1,6 +1,7 @@
 % EXAMPLE POLARISATION
 %
 % This examples demonstates the different transmittance for s,p, and unpolarized light
+% It is seen that the transmittance for  p polarized light collapses less than quickly than the s-polarized light.
 % 
 % Copyright (c) Thomas Goossens
 
@@ -23,13 +24,13 @@ nh = 2.4; % high refractive index
 dh = targetcwl/(4*nh);%quarterwave 
 dl = targetcwl/(4*nl);%quarterwave 
 
-n = [nh nl nh nl nh nl nh  [nl nl]  nh nl nh nl nh nl nh];
+nstack = [nh nl nh nl nh nl nh  [nl nl]  nh nl nh nl nh nl nh];
 thickness = [dh dl dh dl dh dl dh  [dl dl]  dh dl dh dl dh dl dh];
 
 width=5.5 %micron
 
 
-filter=tinyfilter(nair,nsub,n,thickness,width);
+filter=tinyfilter(nair,nstack,nsub,thickness,width);
 
 
 

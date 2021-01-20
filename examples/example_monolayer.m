@@ -10,7 +10,7 @@ n = 1.5; % SiO2
 nair=1;
 nsub=3.56 % silicon
 width = 4; % µm
-filter=tinyfilter(nair,nsub,n,thickness,width)
+filter=tinyfilter(nair,n,nsub,thickness,width)
 
 
 %% Choose simulation options

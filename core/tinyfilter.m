@@ -1,4 +1,4 @@
-function filter = tinyfilter(n0,nsub,n,h,width)
+function filter = tinyfilter(n0,nstack,nsub,layerthickness,width)
 %  TINYFILTER  Create a struct containing filter design parametrs
 %   [filter] = SURFACEADMITTANCE(n,h,wl,v,polarization)
 %
@@ -24,8 +24,8 @@ function filter = tinyfilter(n0,nsub,n,h,width)
 %    Copyright Thomas Goossens
     
     
-    filter.n=[n0 reshape(n,[1 numel(n)]) nsub ];
-    filter.h=[NaN reshape(h,[1 numel(h)]) NaN ];
+    filter.n=[n0 reshape(nstack,[1 numel(nstack)]) nsub ];
+    filter.h=[NaN reshape(layerthickness,[1 numel(layerthickness)]) NaN ];
     filter.width=width;
     
     
