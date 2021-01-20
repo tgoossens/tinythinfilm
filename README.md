@@ -14,8 +14,9 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 <img src="./doc/img/pixelfilters.png" alt="Pixel integrated thin-film filters" width="45%" >
 <img src="./doc/img/tinyfabry.png" alt="Tiny Fabry-Pérot transmittance" width="45%" >
 </div>
-
-<img src="./doc/img/polarized.png" alt="Tiny Fabry-Pérot transmittance" width="45%" >
+<center
+<img src="./doc/img/polarized.png" alt="Tiny Fabry-Pérot transmittance" width="60%" >
+</center>
 
 # Features
 
