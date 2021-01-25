@@ -27,6 +27,8 @@ width=filter.width;
 % Spatial frequency integration domain
 nu = linspace(-1/wl(1), 1/wl(1),2^floor(accuracy))';
 
+%nu = linspace(-10/wl(1), 10/wl(1),2^floor(accuracy))';
+
 
 
 %% Definitions and helper ufcntions
@@ -36,6 +38,9 @@ k = @(n) 2*pi./(wl)*n;
 
 % Fourier transform of the pixel kernel (so we don't recompute it for each wavelength)
 fftpix=fft(pixelkernel(nu));
+conv_pix=@(f) conv(f,pixelkernel(nu),'same');
+% To be implemented: convolution using FFT
+
 
 %%  Calculate admittances
 
@@ -63,12 +68,15 @@ for j=1:numel(wl)
     
     %%%%%%%%%% FLUXES  %%%%%%%%%%%%
     %Incident flux
-    temp = real(eta_in(:,j).*Ain(:,j).*fftshift(ifft(fft(conj(Ain(:,j))).*fftpix)));
+    %    temp = 0.5*real(eta_in(:,j).*Ain(:,j).*fftshift(ifft(fft(conj(Ain(:,j))).*fftpix)));
+    temp=  0.5*real(eta_in(:,j).*Ain(:,j).*conv_pix(conj(Ain(:,j))));
     Phi_in(j)=trapz(nu,temp);
-
     
+    
+     
     % Transmitted flux
-    temp=real(eta_sub(:,j).*At(:,j).*fftshift(ifft(fft(conj(At(:,j))).*fftpix)));
+    %    temp=0.5*real(eta_sub(:,j).*At(:,j).*fftshift(ifft(fft(conj(At(:,j))).*fftpix)));
+    temp=  0.5*real(eta_sub(:,j).*At(:,j).*conv_pix(conj(At(:,j))));
     Phi_t(j)=trapz(nu,temp); 
     
 end
