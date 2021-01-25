@@ -37,7 +37,7 @@ filter=tinyfilter(nair,nstack,nsub,thickness,width);
 %% Choose simulation options
 
 
-accuracy = 7;
+accuracy = 8;
 wavelengths=linspace(0.7,0.85,300); % µm
 angles = [0 10 20 30 40]; 
 
@@ -103,6 +103,7 @@ xlimits=[0.7 0.82]
 subplot(131)
 legend([htiny],'0^\circ','10^\circ','20^\circ','30^\circ','40^\circ','location','best')
 box on
+xlabel('Wavelength (µm)')
 ylabel('Transmittance')
 ylim(ylimits)
 xlim(xlimits)
