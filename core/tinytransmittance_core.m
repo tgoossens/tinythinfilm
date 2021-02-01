@@ -58,6 +58,8 @@ for j=1:numel(wl)
     % Incident wwave
     Ain(:,j) = width*sinca(pi*width*(nu-filter.n(1)*sin(anglerad)/wl(j))); 
     
+
+    
     % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.
     domain = abs(nu).*wl(j) <=1;
     
@@ -67,16 +69,15 @@ for j=1:numel(wl)
 
     
     %%%%%%%%%% FLUXES  %%%%%%%%%%%%
-    %Incident flux
-    %    temp = 0.5*real(eta_in(:,j).*Ain(:,j).*fftshift(ifft(fft(conj(Ain(:,j))).*fftpix)));
-    temp=  0.5*real(eta_in(:,j).*Ain(:,j).*conv_pix(conj(Ain(:,j))));
-    Phi_in(j)=trapz(nu,temp);
-    
+    %Incident flux (explicit result)
+    nu_angle=filter.n(1)*sin(anglerad)/wl(j);
+    eta_in = admittance(filter.n,wl(j),nu_angle,polarization);
+    Phi_in(j)=real(eta_in(1))/2 * filter.width;
     
      
     % Transmitted flux
-    %    temp=0.5*real(eta_sub(:,j).*At(:,j).*fftshift(ifft(fft(conj(At(:,j))).*fftpix)));
     temp=  0.5*real(eta_sub(:,j).*At(:,j).*conv_pix(conj(At(:,j))));
+    temp= temp*abs(nu(2)-nu(1)); % discretization convolution integral
     Phi_t(j)=trapz(nu,temp); 
     
 end

@@ -33,8 +33,7 @@ polarisation = 's';
 
 accuracy = 7;
 wavelengths=linspace(0.73,0.85,300); % µm
-angles = [0 5 10 15 20]; 
-
+angles = [0 5 10 15 20 ]; 
 
 %% Run simulation for each angle
 for a=1:numel(angles)
@@ -47,7 +46,6 @@ for a=1:numel(angles)
     T(:,a)=Ttiny;
 
     Tclassic(:,a)=classictransmittance(filter,angles(a),wavelengths,polarisation);
-
 
 end
 

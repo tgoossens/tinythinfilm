@@ -1,6 +1,6 @@
 function [T,R,t,r] = classictransmittance(filter,angledeg,wavelengths,polarization);
 %  CLASSICTRANSMITTANCE  Simulate filter transmittance for an infinitely wide filter
-%   [T,R,t,r] = CLASSICTRANSMITTANCE(filter,angledeg,wavelengths,polarization,accuracy);
+%   [T,R,t,r] = CLASSICTRANSMITTANCE(filter,angledeg,wavelengths,polarization);
 %    
 %   Inputs
 %    - filter : Struct containing the tiny filter design (See also TINYFILTER)
