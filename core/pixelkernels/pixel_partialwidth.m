@@ -28,7 +28,7 @@ function  kernel = pixel_partialwidth(startpos,endpos)
     
     function k = K(nu)
         
-       k = 1i *(exp(2*pi*1i*nu*endpos)-exp(2*pi*1i*nu*startpos))./(2*pi*nu);       
+       k = 1i *(exp(-2*pi*1i*nu*endpos)-exp(-2*pi*1i*nu*startpos))./(2*pi*nu);       
        
        % When zero, return the asymptotic limit
        k(nu==0) =  (endpos-startpos);
