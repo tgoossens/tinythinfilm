@@ -26,8 +26,9 @@ function eta = admittance(n,wl,nu,polarization)
     eta0=2.6544E-3; 
 
     % Correcft dimensions for elementwise multiplcation
-    lambda = reshape(wl,[1 numel(wl)]);
-    nu = reshape(nu,[numel(nu) 1]);
+    %lambda = reshape(wl,[1 numel(wl)]);
+    lambda = reshape(wl,[1 1 numel(wl)]);
+    %    nu = reshape(nu,[numel(nu) 1]);
 
     k = @(j) 2*pi./(lambda).*n(j);
     alpha = @(j) sqrt(k(j).^2-(2*pi*nu).^2);

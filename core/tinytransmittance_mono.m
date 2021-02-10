@@ -19,7 +19,7 @@ function [T,Phi_t,Phi_in] = tinytransmittance_mono(central_wavelength,normalized
 %  http://github.com/tgoossens
     
     
-wl=wavelengths;
+wl=reshape(wavelengths,[1 1 numel(wavelengths)]);
 anglerad=deg2rad(angledeg); 
 neff=effective_index;
 cwl=central_wavelength;
@@ -66,9 +66,9 @@ eta_in=eta(1);
 
 %% Conversion functions
 d=@(alpha) 0.5*pi*alpha; %delta
-fwhm2r=@(alpha)-sqrt(cos(2*d(alpha)).^2-4*cos(2*d(alpha))+3)-cos(2*d(alpha))+2    
+fwhm2r=@(alpha)-sqrt(cos(2*d(alpha)).^2-4*cos(2*d(alpha))+3)-cos(2*d(alpha))+2    ;
 
-R = fwhm2r(normalized_fwhm)
+R = fwhm2r(normalized_fwhm);
 
 delta = alpha(nu).*h;
 
@@ -83,13 +83,13 @@ t = ts.*(1-R).*  1./(1-R*exp(1i*2*delta));
 for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wwave
-    Ain(:,j) = width*sinca(pi*width*(nu-sin(anglerad)/wl(j))); 
+    Ain(:,1,j) = width*sinca(pi*width*(nu-sin(anglerad)/wl(j))); 
     
     % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.
     domain = abs(nu).*wl(j) <=1;
     
     % Transmitted wave
-    At(:,j)=domain.*t(:,j).*Ain(:,j);
+    At(:,1,j)=domain.*t(:,j).*Ain(:,j);
     
     %%%%%%%%%% FLUXES  %%%%%%%%%%%%
     %Incident flux (explicit result)
@@ -99,7 +99,7 @@ for j=1:numel(wl)
     
      
     % Transmitted flux
-    temp=  0.5*real(eta_sub(:,j).*At(:,j).*conv_pix(conj(At(:,j))));
+    temp=  0.5*real(eta_sub(:,1,j).*At(:,1,j).*conv_pix(conj(At(:,1,j))));
     temp= temp*abs(nu(2)-nu(1)); % discretization convolution integral
     Phi_t(j)=trapz(nu,temp); 
     
