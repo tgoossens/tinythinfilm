@@ -66,5 +66,6 @@ function [T] = tinytransmittance_equivFP(n0,neff,nsub,R,width,cwl,wavelengths,an
         T = T+dx*formula;
     end
     
-    T = (1-R)^2*T/width;
+    Tsub = 1-((1-nsub)/(1+nsub))^2;
+    T = Tsub*(1-R)^2*T/width;
 end

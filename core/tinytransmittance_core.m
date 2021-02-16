@@ -25,7 +25,8 @@ width=filter.width;
 
 
 % Spatial frequency integration domain
-nu = linspace(-1/wl(1), 1/wl(1),2^floor(accuracy))';
+% Exact evaluation at -1/wl(1) would result in a divison by zero for the p-polarized calculation
+nu = linspace(-0.99/wl(1), 0.99/wl(1),2^floor(accuracy))';
 nu = reshape(nu,[numel(nu) 1 1]);
 %nu = linspace(-10/wl(1), 10/wl(1),2^floor(accuracy))';
 

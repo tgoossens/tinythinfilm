@@ -1,12 +1,17 @@
 function [T,Phi_t,Phi_in] = tinytransmittance_mono(central_wavelength,normalized_fwhm,effective_index,width,nsub,angledeg,wavelengths,polarization,pixelkernel,accuracy);
-%  TINYTRANSMITTANCE  Simulate tiny filter transmittance
-%   [T] = TINYTRANSMITTANCE_CORE_MONO(filter,angledeg,wavelengths,polarization,accuracy);
+%  TINYTRANSMITTANCE_MONO  Simulate tiny filter transmittance
+%   [T] = TINYTRANSMITTANCE_MONO(central_wavelength,normalized_fwhm,effective_index,width,nsub,angledeg,wavelengths,polarization,pixelkernel,accuracy);
 %    
 %   Inputs
-%    - filter : Struct containing the tiny filter design (See also TINYFILTER)
+%    - central_wavelength: Central wavelength of the filter
+%    - normalized_fwhm:  Lambda = FWHM / central_wavelength    
+%    - effective_index: Effective refractive index 
+%    - width: Width of the filter
+%    - nsub: Substrate refractive index
 %    - angledeg:  Incidence angle in degrees
 %    - wavelengths (Wx1): Wavelengths (same units as filter.width of filter)
 %    - polarization ('s' or 'p')    
+%    - pixelkernel: TODO 
 %    - accuracy: 2^floor(accuracy) subdivision of the spatial frequency domain.
 %   Outputs
 %    - T (Wx1):  Transmittance of the filter
@@ -18,7 +23,8 @@ function [T,Phi_t,Phi_in] = tinytransmittance_mono(central_wavelength,normalized
 %  Copyright Thomas Goossens  
 %  http://github.com/tgoossens
     
-    
+
+% Input variables
 wl=reshape(wavelengths,[1 1 numel(wavelengths)]);
 anglerad=deg2rad(angledeg); 
 neff=effective_index;
@@ -26,9 +32,6 @@ cwl=central_wavelength;
 
 % Spatial frequency integration domain
 nu = linspace(-1/wl(1), 1/wl(1),2^floor(accuracy))';
-
-%nu = linspace(-10/wl(1), 10/wl(1),2^floor(accuracy))';
-
 
 
 %% Definitions and helper ufcntions
@@ -41,21 +44,15 @@ fftpix=fft(pixelkernel(nu));
 conv_pix=@(f) conv(f,pixelkernel(nu),'same');
 
 
-%% 
 %% Definitions alpha and k
-k = 2*pi./(wl)*neff;
 
+k = 2*pi./(wl)*neff;
 alpha = @(v) sqrt(k.^2-(2*pi*v).^2);
 
 % Half wave plate
 h = cwl/(2*neff);
 
-
 %%  Calculate admittances
-
-% Complex surface admittance of filter stack
-% We will only use the transmission coefficient here
-% Admittances of each layer
 
 eta = admittance(nsub,wl,nu,polarization);
 eta_sub=eta(1);
@@ -64,20 +61,18 @@ eta = admittance(1,wl,nu,polarization);
 eta_in=eta(1);
 
 
-%% Conversion functions
+%% Convert normalized FWHM to mirror reflectance
+
 d=@(alpha) 0.5*pi*alpha; %delta
 fwhm2r=@(alpha)-sqrt(cos(2*d(alpha)).^2-4*cos(2*d(alpha))+3)-cos(2*d(alpha))+2    ;
-
 R = fwhm2r(normalized_fwhm);
 
+
+
+%% Transmission coefficient
 delta = alpha(nu).*h;
-
-
 ts=2*eta_in./(eta_sub+eta_in); 
-t = ts.*(1-R).*  exp(1i*delta)./(1-R*exp(1i*2*delta));
-
 t = ts.*(1-R).*  1./(1-R*exp(1i*2*delta));
-
 
 
 for j=1:numel(wl)
@@ -97,7 +92,6 @@ for j=1:numel(wl)
     eta_in = admittance(1,wl(j),nu_angle,polarization);
     Phi_in(j)=real(eta_in(1))/2 * width;
     
-     
     % Transmitted flux
     temp=  0.5*real(eta_sub(:,1,j).*At(:,1,j).*conv_pix(conj(At(:,1,j))));
     temp= temp*abs(nu(2)-nu(1)); % discretization convolution integral
@@ -108,10 +102,6 @@ end
 
 % Transmittance
 T=Phi_t./Phi_in;
-
-
-
-
 
 function f = sinca(x)
 % Modified sinc function because matlab sinc function already includes the factor pi.

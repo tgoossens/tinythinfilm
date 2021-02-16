@@ -1,7 +1,12 @@
+%% Example of a Tiny Fabry-Pérot filter
+% This example demonstrated how the transmittance of a tiny dielectric Fabry-Pérot filter
+% differs from the infinitely wide filter response.
+%
+% Copyright Thomas Goossens
+
+%%
+
 clear; close all;
-
-
-
 %% Create dielectric Fabry Perot filter using two materials
 
 % Target central wavelength

@@ -1,7 +1,12 @@
+% EXAMPLE MONOLAYER
+%
+% This examples demonstates the different transmittance for s,p, and unpolarized light
+% It is seen that the transmittance for  p polarized light collapses less than quickly than the s-polarized light.
+% 
+% Copyright (c) Thomas Goossens
+
+%%
 clear; close all;
-
-
-
 %% Create filter
 
 
@@ -11,7 +16,7 @@ nair=1;
 nsub=3.56 % silicon
 width = 4; % µm
 filter=tinyfilter(nair,n,nsub,thickness,width)
-
+ 
 
 %% Choose simulation options
 
