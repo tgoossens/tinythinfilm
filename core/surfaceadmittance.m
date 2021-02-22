@@ -15,8 +15,8 @@ function [Y0,r,t] = surfaceadmittance(n,h,wl,nu,polarization)
 %
 %    
 %    
-%  The equations in this function were taken from
-%  Lequime, M., and Amra, C. De l’Optique électromagnétique à l’Interférométrie-Concepts et illustrations: Concepts et illustrations. EDP Sciences, 2013
+%  The equations in this function were found on p.126
+%  Amra, C., Lequime, M., & Zerrad, M. (2021). Electromagnetic Optics of Thin-Film Coatings: Light Scattering, Giant Field Enhancement, and Planar Microcavities. Cambridge University Press.
 %    
 %  Copyright Thomas Goossens  
 %  http://github.com/tgoossens
@@ -53,22 +53,23 @@ function [Y0,r,t] = surfaceadmittance(n,h,wl,nu,polarization)
     Y = eta(N);
 
     tfactor=1;
-
     j=2;
     for j=(N-1):-1:2
+        
         tfactor = tfactor.*(cos(delta(j))-1i*Y./eta(j).* ...
                             sin(delta(j))); 
+             
+        numerator=(Y-1i*eta(j).*tan(delta(j)));    
+        denominator=(1-1i*(Y./eta(j)).*tan(delta(j)));
+        Y =  numerator./denominator; % admittance at interface j
         
-        teller=(Y-1i*eta(j).*tan(delta(j)));    
-        noemer=(1-1i*(Y./eta(j)).*tan(delta(j)));
-        Y =  teller./noemer;
+        
+   
     end
 
-
+    % Reflection and transmission coefficient
     r = (eta(1)-Y)./(eta(1)+Y);
-    t = (1+r)./tfactor;
-
-    % Pageina 108 in amra
+    t = (1+r)./tfactor; 
 
     % Y0 is the complex surface admittance
     Y0=Y;

@@ -1,3 +1,5 @@
 *.m~
 python/
+core/untested/
+core/raymodel/
 LICENSE~

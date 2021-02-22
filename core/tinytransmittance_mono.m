@@ -1,5 +1,5 @@
 function [T,Phi_t,Phi_in] = tinytransmittance_mono(central_wavelength,normalized_fwhm,effective_index,width,nsub,angledeg,wavelengths,polarization,pixelkernel,accuracy);
-%  TINYTRANSMITTANCE_MONO  Simulate tiny filter transmittance
+%  TINYTRANSMITTANCE_MONO  Simulate tiny filter transmittance for an equivalent monolayer model
 %   [T] = TINYTRANSMITTANCE_MONO(central_wavelength,normalized_fwhm,effective_index,width,nsub,angledeg,wavelengths,polarization,pixelkernel,accuracy);
 %    
 %   Inputs

@@ -9,7 +9,8 @@ function  kernel = pixel_fullwidth(width)
 %    
 %  Notes:
 %  The pixel kernel is not intended for independent usage. It is used to make TINYTRANSMITTANCE correctly integrate the incidence flux on the pixel area.
-%  Its main intention is to speedup the computation.
+%
+%  From an implementation perspectrive, this convolution approach reduces memory requirements and facilitates speed ups.
 %    
 % Copyright Thomas Goossens    
     sinca=@(x)sinc(x/pi);

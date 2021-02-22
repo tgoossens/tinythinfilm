@@ -1,6 +1,6 @@
 function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,polarization,accuracy,pixelkernel);
-%  TINYTRANSMITTANCE  Simulate tiny filter transmittance
-%   [T] = TINYTRANSMITTANCE(filter,angledeg,wavelengths,polarization,accuracy);
+%  TINYTRANSMITTANCE_CORE  Simulate tiny filter transmittance
+%   [T, Phi_t, Phi_in] = TINYTRANSMITTANCE_CORE(filter,angledeg,wavelengths,polarization,accuracy,pixelkernel);
 %    
 %   Inputs
 %    - filter : Struct containing the tiny filter design (See also TINYFILTER)
@@ -8,6 +8,7 @@ function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,p
 %    - wavelengths (Wx1): Wavelengths (same units as filter.width of filter)
 %    - polarization ('s' or 'p')    
 %    - accuracy: 2^floor(accuracy) subdivision of the spatial frequency domain.
+%    - pixelkernel: Encodes the width of the pixel and which spatial frequencies are sampled 
 %   Outputs
 %    - T (Wx1):  Transmittance of the filter
 %    - Phi_T (Wx1):  Transmitted flux [W]
@@ -28,7 +29,6 @@ width=filter.width;
 % Exact evaluation at -1/wl(1) would result in a divison by zero for the p-polarized calculation
 nu = linspace(-0.99/wl(1), 0.99/wl(1),2^floor(accuracy))';
 nu = reshape(nu,[numel(nu) 1 1]);
-%nu = linspace(-10/wl(1), 10/wl(1),2^floor(accuracy))';
 
 
 

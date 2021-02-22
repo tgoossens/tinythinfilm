@@ -1,6 +1,6 @@
 function eta = admittance(n,wl,nu,polarization) 
 % ADMITTANCE Calculate the admittance for each layer for each spatial frequency and wavelength
-%   [Y,r,t] = ADMITTANCE(n,wl,v,polarization)
+%   [eta] = ADMITTANCE(n,wl,v,polarization)
 %    
 %   Inputs
 %    - n (Nx1): Stack of refractive indices 
@@ -9,12 +9,12 @@ function eta = admittance(n,wl,nu,polarization)
 %    - polarization ('s' or 'p')    
 %    
 %   Outputs
-%    - @(j)eta : an anonymous function that gives the admittance for a given layer j
+%    - @(j)eta : an anonymous function that gives the admittance for a given layer j.  eta(j) returns a matrix of size VxW                 
 %
 %    
 %    
 %  The equations in this function were taken from
-%  Lequime, M., and Amra, C. De l’Optique électromagnétique à l’Interférométrie-Concepts et illustrations: Concepts et illustrations. EDP Sciences, 2013
+%  Amra, C., Lequime, M., & Zerrad, M. (2021). Electromagnetic Optics of Thin-Film Coatings: Light Scattering, Giant Field Enhancement, and Planar Microcavities. Cambridge University Press.
 %    
 %  Copyright Thomas Goossens  
 %  http://github.com/tgoossens

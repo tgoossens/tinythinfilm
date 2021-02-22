@@ -14,7 +14,12 @@ function [T,Phi_t,Phi_in] = tinytransmittance(filter,angledeg,wavelengths,polari
 %    - Phi_T (Wx1):  Incident flux [W]
 %    
 %    
-%  See also TINYFILTER    
+%   This function assumes that filter and pixel size are equal.    
+%    This function is equivalent to calling TINYTRANSMITTANCE_CORE with a fullwidth pixel kernel.
+%    
+%    
+%  See also TINYFILTER, TINYTRANSMITTANCE_CORE
+%    
 %  Copyright Thomas Goossens  
 %  http://github.com/tgoossens
     
