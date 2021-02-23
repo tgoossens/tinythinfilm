@@ -46,12 +46,12 @@ for a=1:numel(angles)
     Tclassic(:,a)=classictransmittance(filter,angles(a),wavelengths,polarisation);
     L=fwhm(wavelengths,Tclassic(:,1))/targetcwl;
     
-
-
-
+    % Isimplicitly also unpolarized
     [Tmono]=tinytransmittance_mono(targetcwl,L,neff,width,nsub,angles(a),wavelengths,polarisation,accuracy);
     Tm(:,a)=Tmono;
     
+    
+    % Unpolarized 
     [Ttiny_s]=tinytransmittance(filter,angles(a),wavelengths,polarisation,accuracy);
     [Ttiny_p]=tinytransmittance(filter,angles(a),wavelengths,'p',accuracy);
     T(:,a)=0.5*(Ttiny_s+Ttiny_p);

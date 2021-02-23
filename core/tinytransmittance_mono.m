@@ -1,6 +1,6 @@
-function [T,Phi_t,Phi_in] = tinytransmittance_mono(central_wavelength,normalized_fwhm,effective_index,width,nsub,angledeg,wavelengths,polarization,pixelkernel,accuracy);
+function [T,Phi_t,Phi_in] = tinytransmittance_mono(central_wavelength,normalized_fwhm,effective_index,width,nsub,angledeg,wavelengths,polarization,accuracy);
 %  TINYTRANSMITTANCE_MONO  Simulate tiny filter transmittance for an equivalent monolayer model
-%   [T] = TINYTRANSMITTANCE_MONO(central_wavelength,normalized_fwhm,effective_index,width,nsub,angledeg,wavelengths,polarization,pixelkernel,accuracy);
+%   [T] = TINYTRANSMITTANCE_MONO(central_wavelength,normalized_fwhm,effective_index,width,nsub,angledeg,wavelengths,polarization,accuracy);
 %    
 %   Inputs
 %    - central_wavelength: Central wavelength of the filter
@@ -11,7 +11,6 @@ function [T,Phi_t,Phi_in] = tinytransmittance_mono(central_wavelength,normalized
 %    - angledeg:  Incidence angle in degrees
 %    - wavelengths (Wx1): Wavelengths (same units as filter.width of filter)
 %    - polarization ('s' or 'p')    
-%    - pixelkernel: TODO 
 %    - accuracy: 2^floor(accuracy) subdivision of the spatial frequency domain.
 %   Outputs
 %    - T (Wx1):  Transmittance of the filter
@@ -40,7 +39,7 @@ nu = linspace(-1/wl(1), 1/wl(1),2^floor(accuracy))';
 k = @(n) 2*pi./(wl)*n; 
 
 % Fourier transform of the pixel kernel (so we don't recompute it for each wavelength)
-fftpix=fft(pixelkernel(nu));
+pixelkernel=pixel_fullwidth(width);
 conv_pix=@(f) conv(f,pixelkernel(nu),'same');
 
 
