@@ -6,7 +6,7 @@ function [T,Phi_t,Phi_in] = tinytransmittance(filter,angledeg,wavelengths,polari
 %    - filter : Struct containing the tiny filter design (See also TINYFILTER)
 %    - angledeg:  Incidence angle in degrees
 %    - wavelengths (Wx1): Wavelengths (same units as filter.width of filter)
-%    - polarization ('s' or 'p')    
+%    - polarization ('s' or 'p' or 'unpolarized')    
 %    - accuracy: 2^floor(accuracy) subdivision of the spatial frequency domain.
 %   Outputs
 %    - T (Wx1):  Transmittance of the filter

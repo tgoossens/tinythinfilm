@@ -34,7 +34,7 @@ filter=tinyfilter(nair,n,nsub,thickness,width);
 
 %% Choose simulation options
 
-polarisation = 's';
+polarisation = 'unpolarized';
 
 accuracy = 7;
 wavelengths=linspace(0.73,0.85,300); % µm

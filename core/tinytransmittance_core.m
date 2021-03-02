@@ -6,7 +6,7 @@ function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,p
 %    - filter : Struct containing the tiny filter design (See also TINYFILTER)
 %    - angledeg:  Incidence angle in degrees
 %    - wavelengths (Wx1): Wavelengths (same units as filter.width of filter)
-%    - polarization ('s' or 'p')    
+%    - polarization ('s' or 'p' or 'unpolarized')    
 %    - accuracy: 2^floor(accuracy) subdivision of the spatial frequency domain.
 %    - pixelkernel: Encodes the width of the pixel and which spatial frequencies are sampled 
 %   Outputs
@@ -18,6 +18,16 @@ function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,p
 %  See also TINYFILTER    
 %  Copyright Thomas Goossens  
 %  http://github.com/tgoossens
+
+    
+    if(or(polarization=='unpolarized',polarization=='unpolarised'))
+        [T_s,Phi_t_s,Phi_in_s] = tinytransmittance_core(filter,angledeg,wavelengths,'s',accuracy,pixelkernel);
+        [T_p,Phi_t_p,Phi_in_p] = tinytransmittance_core(filter,angledeg,wavelengths,'p',accuracy,pixelkernel);
+        T =  0.5*(T_s+T_p);
+        Phi_t =  0.5*(Phi_t_s+Phi_t_p);
+        Phi_in=  0.5*(Phi_in_s+Phi_in_p);
+        return;
+    end
     
     
 wl=reshape(wavelengths,[1 1 numel(wavelengths)]);

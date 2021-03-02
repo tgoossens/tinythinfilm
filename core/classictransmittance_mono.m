@@ -37,11 +37,11 @@ h = cwl/(2*neff);
 
 %% Conversion functions
 d=@(alpha) 0.5*pi*alpha; %delta
-fwhm2r=@(alpha)-sqrt(cos(2*d(alpha)).^2-4*cos(2*d(alpha))+3)-cos(2*d(alpha))+2    
+fwhm2r=@(alpha)-sqrt(cos(2*d(alpha)).^2-4*cos(2*d(alpha))+3)-cos(2*d(alpha))+2    ;
 
 
 % Convert the normalized_fwhm to equivalent mirror reflectance
-R = fwhm2r(normalized_fwhm)
+R = fwhm2r(normalized_fwhm);
 
 %%  Calculate admittances
 

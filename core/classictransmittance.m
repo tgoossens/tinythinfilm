@@ -6,7 +6,7 @@ function [T,R,t,r] = classictransmittance(filter,angledeg,wavelengths,polarizati
 %    - filter : Struct containing the tiny filter design (See also TINYFILTER)
 %    - angledeg:  Incidence angle in degrees
 %    - wavelengths (Wx1): Wavelengths (same units as filter.width of filter)
-%    - polarization ('s' or 'p')    
+%    - polarization ('s' or 'p' or 'unpolarized')    
 %
 %   Outputs
 %    - T (Wx1):  Transmittance of the filter
@@ -26,6 +26,17 @@ function [T,R,t,r] = classictransmittance(filter,angledeg,wavelengths,polarizati
 
 
 
+    if(or(polarization=='unpolarized',polarization=='unpolarised'))
+        [T_s,R_s,t_s,r_s] = classictransmittance(filter,angledeg,wavelengths,'s');
+        [T_p,R_p,t_p,r_p] = classictransmittance(filter,angledeg,wavelengths,'p');
+        T =  0.5*(T_s+T_p);
+        R =  0.5*(R_s+R_p);
+        t =  0.5*(t_s+t_p);
+        r =  0.5*(r_s+r_p);
+        
+        return;
+    end
+    
     %%  Calculate admittances
 
     % Complex surface admittance of filter stack
