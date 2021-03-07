@@ -18,15 +18,13 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 <img src="./doc/img/polarized.png" alt="Differences in polarization" width="60%" >
 
 
-# Features
-
+# Features 2D Simulation
 
 - Efficient transmittance calculation compared to numerical solvers like FDFD or Finite Element
 - Explore the effect of the width on the filter performance
 - Explore the effect of the angle of incidence of collimated light
 - Calculate transmittance for filters that are larger than the pixel
 - Simulate for s and p polarization
-- Simulate for focused light (under construction)
 
 # How to use
 
@@ -34,10 +32,11 @@ The toolbox is intented to provide quick and good transmittance estimates, not e
 
 It is compatible with MATLAB and the free alternative Octave.
 
-# Publications
-Goossens, Thomas. "Tiny thin-film filters from a different angle: Correcting angular dependency for spectral imaging.", PhD Thesis (2020).  
 
 # How to cite this work
 
+T. Goossens, Tiny thin-film filter toolbox, 2021. https://github.com/tgoossens/tinythinfilm
 
-# References
+# Publications
+Goossens, Thomas. "Tiny thin-film filters from a different angle: Correcting angular dependency for spectral imaging.", PhD Thesis (2020).  
+
