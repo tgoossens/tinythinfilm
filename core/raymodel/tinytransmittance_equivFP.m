@@ -1,34 +1,34 @@
 function [T] = tinytransmittance_equivFP(n0,neff,nsub,R,width,cwl,wavelengths,angledeg,polarization,accuracy) 
 % TINYTRANSMITTANCE_EQUIVFP
-% Simulate tiny transmittance of a monolayer using a ray based model    
+% Simulate tiny transmittance of a Fabry-Pérot using a ray based model    
 %
-% [T] = TINYTRANSMITTANCE_EQUIVFP(n0, nlayer,nsubstrate,height,width,wavelengths,angles,polarization,accuracy)
+% [T] = TINYTRANSMITTANCE_EQUIVFP(n0,neff,nsub,R,width,cwl,wavelengths,angledeg,polarization,accuracy) 
 %     
 %   Inputs
 %    - n0: Refractive index incident medium
-%    - nlayer: Refractive index monolayer
+%    - neff: effective refractive index of the cavity
 %    - nsubstrate:Refractive index substrate
 %    - R: Product of reflection coefficients
-%    - height: Thickness of the film
-%    - width: Width of the film (same units as height)
+%    - width: Width of the film
+%    - cwl: Central wavelength of the filter (same units as width)
 %    - wavelengths (Wx1): Wavelengths (same units as height)
 %    - angledeg:  Incidence angle in degrees
 %    - polarization ('s' or 'p')    
 %    - accuracy: Subdivide integration domain in 2^floor(accuracy) points
 %   Outputs
-%    - T (Wx1):  Transmittance of tiny monolayer
+%    - T (Wx1):  Ray-model estimation of the transmittance of a tiny Fabry-Pérot filter 
 %    
 %  Copyright Thomas Goossens  
-%  http://github.com/tgoossens
+%  http://github.com/tgoossens/tinythinfilm
 %    
 
 % Full thin film stack
     equivstack = [1 neff 1];
     
-% Cosineof refraction angle angle
+    % Cosineof refraction angle
     costh_n = sqrt(1-sind(angledeg).^2./equivstack.^2);
     
-    % Calculate admittances depending on polarization    
+    % Calculate characteristic admittances depending on polarization    
     if(polarization=='s')    
         eta0=n0*costh_n(1);        
         eta1=neff*costh_n(2);        
@@ -39,11 +39,6 @@ function [T] = tinytransmittance_equivFP(n0,neff,nsub,R,width,cwl,wavelengths,an
         eta2=nsub/costh_n(3);
     end
     
-    % Mirror properties
-    t01=2*eta0/(eta0+eta1)
-    t12=2*eta1/(eta1+eta2)
-    t02=2*eta0/(eta0+eta2)
-
 
     % Filter dimensions
     height=cwl/(2*neff);
@@ -56,13 +51,13 @@ function [T] = tinytransmittance_equivFP(n0,neff,nsub,R,width,cwl,wavelengths,an
     % Calculation of number of reflections (anonymous fucntion)
     th_n = @(th) asind(sind(th)/equivstack(2));
     num=@(x,th)x./(height*tand(th_n(th)));
-    M = @(x,th) floor(num(x,th)/2+1/2)
+    N = @(x,th) floor(num(x,th)/2+1/2)
     
     T = zeros(numel(wavelengths),1);
     delta = 2*pi*equivstack(2)*height*costh_n(2)./wavelengths';
     for ix=1:numel(x)
-        m = M(x(ix),angledeg);  % number of rays
-        formula=(R^(2*m)-2*R^(m)*cos(2*m*delta)+1)./(R^(2)-2*R*cos(2*delta)+1);
+        n = N(x(ix),angledeg);  % number of rays
+        formula=(R^(2*n)-2*R^(n)*cos(2*n*delta)+1)./(R^(2)-2*R*cos(2*delta)+1);
         T = T+dx*formula;
     end
     

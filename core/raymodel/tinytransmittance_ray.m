@@ -15,7 +15,7 @@ function [T] = tinytransmittance_ray(n0,nlayer,nsubstrate,height,width,wavelengt
 %    - polarization ('s' or 'p')    
 %    - accuracy: Subdivide integration domain in 2^floor(accuracy) points
 %   Outputs
-%    - T (Wx1):  Transmittance of tiny monolayer
+%    - T (Wx1):  Ray-model estimation of the transmittance of a tiny monolayer
 %    
 %  Copyright Thomas Goossens  
 %  http://github.com/tgoossens
