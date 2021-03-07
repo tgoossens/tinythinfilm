@@ -37,6 +37,6 @@ It is compatible with MATLAB and the free alternative Octave.
 
 T. Goossens, Tiny thin-film filter toolbox, 2021. https://github.com/tgoossens/tinythinfilm
 
-# Publications
+# Related work
 Goossens, Thomas. "Tiny thin-film filters from a different angle: Correcting angular dependency for spectral imaging.", PhD Thesis (2020).  
 
