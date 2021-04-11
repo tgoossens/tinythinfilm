@@ -23,6 +23,18 @@ function [T,Phi_t,Phi_in] = classictransmittance_mono(central_wavelength,normali
 %  http://github.com/tgoossens
 
     
+    
+    
+    if(or(polarization=='unpolarized',polarization=='unpolarised'))
+        [T_s,Phi_t_s,Phi_in_s] = classictransmittance_mono(central_wavelength,normalized_fwhm,effective_index,width,nsub,angledeg,wavelengths,'s',accuracy);
+        [T_p,Phi_t_p,Phi_in_p] = classictransmittance_mono(central_wavelength,normalized_fwhm,effective_index,width,nsub,angledeg,wavelengths,'p',accuracy);
+        T =  0.5*(T_s+T_p);
+        Phi_t =  0.5*(Phi_t_s+Phi_t_p);
+        Phi_in =  0.5*(Phi_t_s+Phi_t_p);
+        
+        return;
+    end
+    
 %% Renaming of some variables
 wl=wavelengths;
 anglerad=deg2rad(angledeg); 

@@ -1,6 +1,6 @@
 function filter = tinyfilter(n0,nstack,nsub,layerthickness,width)
 %  TINYFILTER  Create a struct containing filter design parametrs
-%   [filter] = SURFACEADMITTANCE(n,h,wl,v,polarization)
+%   [filter] = TINYFILTER(n0,nstack,nsub,layerthickness,width)
 %
 %   Inputs
 %    - n0: Refractive index of incident medium

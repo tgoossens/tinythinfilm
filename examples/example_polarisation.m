@@ -27,7 +27,7 @@ dl = targetcwl/(4*nl);%quarterwave
 nstack = [nh nl nh nl nh nl nh  [nl nl]  nh nl nh nl nh nl nh];
 thickness = [dh dl dh dl dh dl dh  [dl dl]  dh dl dh dl dh dl dh];
 
-width=5.5 %micron
+width=50.5 %micron
 
 
 filter=tinyfilter(nair,nstack,nsub,thickness,width);

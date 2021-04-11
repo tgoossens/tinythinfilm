@@ -38,6 +38,9 @@ width=filter.width;
 % Spatial frequency integration domain
 % Exact evaluation at -1/wl(1) would result in a divison by zero for the p-polarized calculation
 nu = linspace(-0.99/wl(1), 0.99/wl(1),2^floor(accuracy))';
+dnu = (1/(2*width));
+
+
 nu = reshape(nu,[numel(nu) 1 1]);
 
 
@@ -58,7 +61,6 @@ conv_pix=@(f) conv(f,pixelkernel(nu),'same');
 % Complex surface admittance of filter stack
 % We will only use the transmission coefficient here
 [Y0,r,t] = surfaceadmittance(filter.n,filter.h,wl,nu,polarization);
-
 % Admittances of each layer
 eta = admittance(filter.n,wl,nu,polarization);
 eta_in=eta(1);
