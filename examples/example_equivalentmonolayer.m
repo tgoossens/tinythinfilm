@@ -14,13 +14,16 @@ addpath('/home/thomas/Documents/tinyfilters/research/wavepacket')
 
 %% Create dielectric Fabry Perot filter using two materials
 
-% Target central wavelength
+% Target central wavelength (where the filter is centered)
 targetcwl = 0.800; %micron
 
 
+%% Refractive indeices of indicent medium and substrate
 nair=1;
 nsub=3.56; %silicon substarte
 
+
+%% Tiny Fabry-Pérot filter design
 nl = 1.4; % low refractive index
 nh = 2.4 % high refractive index
 
@@ -31,18 +34,17 @@ n = [nh nl nh nl nh nl nh [nl nl] nh nl nh nl nh nl nh];
 thickness = [dh dl dh dl dh dl dh [dl dl] dh dl dh dl dh dl dh];
 
 width=5.5; %micron
-
-
 filter=tinyfilter(nair,n,nsub,thickness,width);
 
 
+
+%% Calculation of the ffective refractive index (cfr. MACLEOD)
 neff=nl*sqrt(1/(1-nl/nh+nl^2/nh^2));
     
 %% Choose simulation options
 
 polarisation = 'unpolarized';
-
-accuracy = 7;
+accuracy = 7; 
 wavelengths=linspace(0.73,0.85,300); % µm
 angles = [0 10 15 20 ]; 
 
@@ -80,7 +82,7 @@ figure(1);clf;  hold on;
 for a=1:numel(angles)
     subplot(2,2,a); hold on;
     htiny=plot(wavelengths,Ttiny(:,a),'color',color{2},'linewidth',2)
-    hmono=plot(wavelengths,Tmono(:,a),':','color',color{4},'linewidth',2)
+    hmono=plot(wavelengths,Tmono(:,a),'-','color','k','linewidth',2)
     hclassic=plot(wavelengths,Tclassic(:,a),':','color','k','linewidth',1.5)
     ylabel('Transmittance')
     xlabel('Wavelength (µm)')
