@@ -40,7 +40,7 @@ function [T,Phi_t,Phi_in] = tinytransmittance_mono(central_wavelength,normalized
     cwl=central_wavelength;
 
     % Spatial frequency integration domain
-    nu = linspace(-1/wl(1), 1/wl(1),2^floor(accuracy))';
+    nu = linspace(-0.99/wl(1), 0.99/wl(1),2^floor(accuracy))';
 
 
     %% Definitions and helper ufcntions
