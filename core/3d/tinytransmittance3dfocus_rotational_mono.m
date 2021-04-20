@@ -97,45 +97,23 @@ ts=2*eta_in./(eta_sub+eta_in);
 t = ts.*(1-R).*  1./(1-R*exp(1i*2*delta));
 
 
+%% Incident field
 
-circ = @(u,radius) double(abs(u)<radius);
+field_in=wavepacket_3dfocus(coneangle_deg,cra_deg,alpha_deg,width);
 
-
-
-zi=1; % it doesn't matter for the pupil function (it is normalized out)
-% however for comparison with the equations in article i keep it in
-
-di=zi*tand(cra_deg);
-lensradius=zi*tand(coneangle_deg);
-P0 = @(x,y) circ(sqrt(x.^2+y.^2),lensradius);
-
-P = @(x,y) P0(x+di*cosd(alpha_deg),y+di*sind(alpha_deg));
-
-
-
-
-
-filteraperture = width^2 *sinca(pi*width*nu_x).*sinca(pi*width*nu_y);
-
-
-% Allocate variables (not faster)
-% Ain = zeros(numel(nu_x),numel(nu_y),numel(wl));
-% At = zeros(numel(nu_x),numel(nu_y),numel(wl));
-% Phi_in=zeros(numel(wl),1);
-% Phi_t=zeros(numel(wl),1);
+%% Simulate
 
 for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wwave
-    width_y=width;
     
-
-    pupilfunction= (P(-wl(j).*zi.*nu_x,-wl(j).*zi.*nu_y));
     %pupilfunction= (P(-wl.*zi.*nu_x,-wl.*zi.*nu_y)); % full vectorization
     %Ain(:,:,j) = conv2fft(pupilfunction,filteraperture,'same');
-    Ain(:,:,j) = conv2fft(pupilfunction,filteraperture,'same');  
+    Ain(:,:,j) = field_in(nu_x,nu_y,wl(j));
+
     
-    % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.
+    
+    % useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.
     domain = abs(nu).*wl(j) <=1;
     %domain = abs(nu).*wl <=1; 
     
