@@ -27,7 +27,7 @@ dl = targetcwl/(4*nl);%quarterwave
 nstack = [nh nl nh nl nh nl nh  [nl nl]  nh nl nh nl nh nl nh];
 thickness = [dh dl dh dl dh dl dh  [dl dl]  dh dl dh dl dh dl dh];
 
-width=50.5 %micron
+width=5.5 %micron
 
 
 filter=tinyfilter(nair,nstack,nsub,thickness,width);
@@ -85,7 +85,6 @@ for a=1:numel(angles)
     title('P polarized')
     plot(wavelengths,Tp(:,a),'color',color{a},'linewidth',2);
     plot(wavelengths,Tinf_p(:,a),':','color',color{a},'linewidth',1.5);
-
     
     subplot(133);hold on;
     title('Unpolarized (S+P)/2')

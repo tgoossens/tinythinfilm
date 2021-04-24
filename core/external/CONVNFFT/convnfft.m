@@ -1,5 +1,5 @@
-function A = convnfft_precomputedfft(A, B, Bfft, shape, dims, options)
-% CONVNFFT  FFT-BASED N-dimensional convolution. 
+function A = convnfft(A, B, shape, dims, options)
+% CONVNFFT  FFT-BASED N-dimensional convolution.
 %   C = CONVNFFT(A, B) performs the N-dimensional convolution of
 %   matrices A and B. If nak = size(A,k) and nbk = size(B,k), then
 %   size(C,k) = max([nak+nbk-1,nak,nbk]);
@@ -141,7 +141,7 @@ if GPU % GPU/Jacket FFT
             B = permute(B, swap);
         end
         A = fft(A,l);
-        B = Bfft; % precomputerd
+        B = fft(B,l);
         subs{dim} = ifun(m,n);
     end
 else % Matlab FFT
@@ -154,7 +154,6 @@ else % Matlab FFT
         l = lfftfun(m+n-1);
         A = fft(A,l,dim);
         B = fft(B,l,dim);
-        B  = fftB; % precomputed to save time
         subs{dim} = ifun(m,n);
     end
 end

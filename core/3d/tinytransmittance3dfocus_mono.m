@@ -85,9 +85,8 @@ fwhm2r=@(alpha)-sqrt(cos(2*d(alpha)).^2-4*cos(2*d(alpha))+3)-cos(2*d(alpha))+2  
 
 R = fwhm2r(normalized_fwhm);
 
+alpha = @(v) sqrt(k.^2-(2*pi*v).^2);
 delta = alpha(nu).*h;
-
-
 ts=2*eta_in./(eta_sub+eta_in); 
 
 t = ts.*(1-R).*  1./(1-R*exp(1i*2*delta));

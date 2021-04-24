@@ -43,20 +43,20 @@ function [T,R,t,r] = classictransmittance(filter,angledeg,wavelengths,polarizati
     % We will only use the transmission coefficient here
     
     for w=1:numel(wavelengths)
-        k = ((2*pi)./wavelengths(w)) * filter.n(1); 
+        k = ((2*pi)./wavelengths(w)) * filter.stack.refractiveindex(1); 
         sigma = k*sind(angledeg); nu=sigma/(2*pi);
-        [Y0,r,t] = surfaceadmittance(filter.n,filter.h,wavelengths(w),nu,polarization);
-
+        t=filter.transmission(wavelengths(w),nu,polarization);
+        r=NaN;
         % Admittances of each layer
-        eta = admittance(filter.n,wavelengths(w),nu,polarization);
+        eta = admittance(filter.stack.refractiveindex,wavelengths(w),nu,polarization);
         eta_in=eta(1);
-        eta_sub=eta(numel(filter.n));
+        eta_sub=eta(numel(filter.stack.refractiveindex));
         
         
         % Transmittance and Reflectance can be calculated form transmission and reflecction coefficients
         % Take real part to remove numerical imaginary residue
-        T(w) = real(eta_sub)./real(eta_in) .*  real(conj(t)*t);
-        R(w) = real(conj(r)*r);
+        T(w) = real(eta_sub)./real(eta_in) .*  real(conj(t).*t);
+        R(w) = NaN; % TODO
         
     end
 end

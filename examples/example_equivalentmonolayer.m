@@ -12,6 +12,15 @@ clear; close all;
 
 addpath('/home/thomas/Documents/tinyfilters/research/wavepacket')
 
+    
+%% Choose simulation options
+
+polarisation = 'unpolarized';
+accuracy = 7; 
+wavelengths=linspace(0.73,0.85,300); % µm
+angles = [0 10 15 20 ]; 
+
+
 %% Create dielectric Fabry Perot filter using two materials
 
 % Target central wavelength (where the filter is centered)
@@ -36,17 +45,17 @@ thickness = [dh dl dh dl dh dl dh [dl dl] dh dl dh dl dh dl dh];
 width=5.5; %micron
 filter=tinyfilter(nair,n,nsub,thickness,width);
 
-
-
 %% Calculation of the ffective refractive index (cfr. MACLEOD)
 neff=nl*sqrt(1/(1-nl/nh+nl^2/nh^2));
-    
-%% Choose simulation options
 
-polarisation = 'unpolarized';
-accuracy = 7; 
-wavelengths=linspace(0.73,0.85,300); % µm
-angles = [0 10 15 20 ]; 
+
+%% Equivalent filter
+% Calculate normalized FWHM from infinite filter at normal incidence
+Tclassic(:,1)=classictransmittance(filter,0,wavelengths,polarisation);
+normalized_fwhm=fwhm(wavelengths,Tclassic(:,1))/targetcwl;
+filter_equivalent=tinyfilter_equivalentmonolayer(targetcwl,normalized_fwhm,neff,width,nair,nsub);
+
+
 
 %% Run simulation for each angle
 for a=1:numel(angles)
@@ -56,11 +65,9 @@ for a=1:numel(angles)
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
     Tclassic(:,a)=classictransmittance(filter,angles(a),wavelengths,polarisation);
-    L=fwhm(wavelengths,Tclassic(:,1))/targetcwl;
-    
 
-    Tmono(:,a)=tinytransmittance_mono(targetcwl,L,neff,width,nsub,angles(a),wavelengths,polarisation,accuracy);
-    
+
+    Tmono(:,a)=tinytransmittance(filter_equivalent,angles(a),wavelengths,polarisation,accuracy);
     Ttiny(:,a)=tinytransmittance(filter,angles(a),wavelengths,polarisation,accuracy);
 
     
@@ -94,10 +101,6 @@ end
 legh=legend([htiny hmono hclassic],'Tiny Fabry-Pérot','Equivelent monolayer','Infinite filter')
 legh.Orientation='horizontal';
 legh.Position=[0.1511 0.9469 0.7625 0.0429];
-
-
-
-
 
 box on
 

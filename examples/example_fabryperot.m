@@ -12,7 +12,6 @@ clear; close all;
 % Target central wavelength
 targetcwl = 0.800; %micron
 
-
 nair=1;
 nsub=3.56; %silicon substarte
 
@@ -28,6 +27,8 @@ thickness = [dh dl dh dl dh dl dh [dl dl] dh dl dh dl dh dl dh];
 width=5.5; %micron
 
 
+
+%% Define simualtion
 filter=tinyfilter(nair,n,nsub,thickness,width);
 
 
@@ -43,7 +44,9 @@ angles = [0 5 10 15 20 ];
 %% Run simulation for each angle
 for a=1:numel(angles)
     
-
+   
+    
+    
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     

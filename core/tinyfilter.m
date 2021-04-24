@@ -1,4 +1,4 @@
-function filter = tinyfilter(n0,nstack,nsub,layerthickness,width)
+function filter = tinyfilter3d(n_incident,n_stack,n_substrate,layerthickness,width)
 %  TINYFILTER  Create a struct containing filter design parametrs
 %   [filter] = TINYFILTER(n0,nstack,nsub,layerthickness,width)
 %
@@ -16,17 +16,26 @@ function filter = tinyfilter(n0,nstack,nsub,layerthickness,width)
 %    filter=tinyfilter(1,1,[1.5 2.4 1], [10 20 10],5)
 %    
 %    Produces a struct equivalent to:
-%     filter.n=[1 1.5 2.4 1.5 1]
-%     filter.h=[NaN 10 20 10 NaN]  (NaN indicates incident and substrate medium (infinite thickness).
+%     filter.stack.refractiveindex=[1 1.5 2.4 1.5 1]
+%     filter.stack.thickness=[NaN 10 20 10 NaN]  (NaN indicates incident and substrate medium (infinite thickness).
 %     filter.width=5; %micron
+%     filter.transmission = @(wavelength,spatialfrequency,polarization)
+%     (...)
 %    
 %    
 %    Copyright Thomas Goossens
+
     
     
-    filter.n=[n0 reshape(nstack,[1 numel(nstack)]) nsub ];
-    filter.h=[NaN reshape(layerthickness,[1 numel(layerthickness)]) NaN ];
+    filter.stack.refractiveindex=[n_incident reshape(n_stack,[1 numel(n_stack)]) n_substrate ];
+    filter.stack.thickness=[NaN reshape(layerthickness,[1 numel(layerthickness)]) NaN ];
     filter.width=width;
     
+ 
+    filter.transmission = @transmission;
     
+    function t = transmission(wavelength,nu,polarization)
+        [Y0,r,t] = surfaceadmittance(filter.stack.refractiveindex,filter.stack.thickness,wavelength,nu,polarization);
+    end
+
 end

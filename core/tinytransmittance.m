@@ -1,4 +1,4 @@
-function [T,Phi_t,Phi_in] = tinytransmittance(filter,angledeg,wavelengths,polarization,accuracy);
+function [T,Phi_t,Phi_in] =tinytransmittance(filter,incidence_angle,wavelengths,polarization,accuracy)
 %  TINYTRANSMITTANCE  Simulate tiny filter transmittance
 %   [T] = TINYTRANSMITTANCE(filter,angledeg,wavelengths,polarization,accuracy);
 %    
@@ -20,8 +20,9 @@ function [T,Phi_t,Phi_in] = tinytransmittance(filter,angledeg,wavelengths,polari
 %    
 %  See also TINYFILTER, TINYTRANSMITTANCE_CORE
 %    
-%  Copyright Thomas Goossens  
+%  Copyright Thomas Goossens
 %  http://github.com/tgoossens
-    
-    [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,polarization,accuracy,pixel_fullwidth(filter.width));
+
+incident_wavepacket = wavepacket2d_collimated(incidence_angle,filter.stack.refractiveindex(1),filter.width);
+[T,Phi_t,Phi_in] = tinytransmittance_core(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixel_fullwidth(filter.width));
 end

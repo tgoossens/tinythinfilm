@@ -1,4 +1,5 @@
-function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,polarization,accuracy,pixelkernel);
+function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
+%    function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,polarization,accuracy,pixelkernel);
 %  TINYTRANSMITTANCE_CORE  Simulate tiny filter transmittance
 %   [T, Phi_t, Phi_in] = TINYTRANSMITTANCE_CORE(filter,angledeg,wavelengths,polarization,accuracy,pixelkernel);
 %    
@@ -6,7 +7,7 @@ function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,p
 %    - filter : Struct containing the tiny filter design (See also TINYFILTER)
 %    - angledeg:  Incidence angle in degrees
 %    - wavelengths (Wx1): Wavelengths (same units as filter.width of filter)
-%    - polarization ('s' or 'p' or 'unpolarized')    
+%    - polarization ('s' or 'p' or 'unpolarized')    a
 %    - accuracy: 2^floor(accuracy) subdivision of the spatial frequency domain.
 %    - pixelkernel: Encodes the width of the pixel and which spatial frequencies are sampled 
 %   Outputs
@@ -21,8 +22,8 @@ function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,p
 
     
     if(or(polarization=='unpolarized',polarization=='unpolarised'))
-        [T_s,Phi_t_s,Phi_in_s] = tinytransmittance_core(filter,angledeg,wavelengths,'s',accuracy,pixelkernel);
-        [T_p,Phi_t_p,Phi_in_p] = tinytransmittance_core(filter,angledeg,wavelengths,'p',accuracy,pixelkernel);
+        [T_s,Phi_t_s,Phi_in_s] = tinytransmittance_core(filter,incident_wavepacket,wavelengths,'s',accuracy,pixelkernel);
+        [T_p,Phi_t_p,Phi_in_p] = tinytransmittance_core(filter,incident_wavepacket,wavelengths,'p',accuracy,pixelkernel);
         T =  0.5*(T_s+T_p);
         Phi_t =  0.5*(Phi_t_s+Phi_t_p);
         Phi_in=  0.5*(Phi_in_s+Phi_in_p);
@@ -31,7 +32,6 @@ function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,p
     
     
 wl=reshape(wavelengths,[1 1 numel(wavelengths)]);
-anglerad=deg2rad(angledeg); 
 width=filter.width;
 
 
@@ -60,17 +60,18 @@ conv_pix=@(f) conv(f,pixelkernel(nu),'same');
 
 % Complex surface admittance of filter stack
 % We will only use the transmission coefficient here
-[Y0,r,t] = surfaceadmittance(filter.n,filter.h,wl,nu,polarization);
+t=filter.transmission(wl,nu,polarization);
 % Admittances of each layer
-eta = admittance(filter.n,wl,nu,polarization);
+eta = admittance(filter.stack.refractiveindex,wl,nu,polarization);
 eta_in=eta(1);
-eta_sub=eta(numel(filter.n));
+eta_sub=eta(numel(filter.stack.refractiveindex));
 
 for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wwave
-    Ain(:,1,j) = width*sinca(pi*width*(nu-filter.n(1)*sin(anglerad)/wl(j))); 
-    
+    %Ain(:,1,j) = width*sinca(pi*width*(nu-filter.stack.refractiveindex(1)*sin(anglerad)/wl(j))); 
+    incident_wavepacket(nu,wl(j));
+    Ain(:,1,j) = incident_wavepacket(nu,wl(j));
 
     
     % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.
@@ -83,10 +84,15 @@ for j=1:numel(wl)
     
     %%%%%%%%%% FLUXES  %%%%%%%%%%%%
     %Incident flux (explicit result)
-    nu_angle=filter.n(1)*sin(anglerad)/wl(j);
-    eta_in = admittance(filter.n,wl(j),nu_angle,polarization);
-    Phi_in(j)=real(eta_in(1))/2 * filter.width;
-    
+%     nu_angle=filter.stack.refractiveindex(1)*sin(anglerad)/wl(j);
+%     eta_in = admittance(filter.stack.refractiveindex(1),wl(j),nu_angle,polarization);
+%     Phi_in(j)=real(eta_in(1))/2 * filter.width;
+%     
+%     
+    % Incident flux
+    temp=  0.5*real(eta_in(:,1,j).*Ain(:,1,j).*conv_pix(conj(Ain(:,1,j))));
+    temp= temp*abs(nu(2)-nu(1)); % discretization convolution integral
+    Phi_in(j)=trapz(nu,temp); 
      
     % Transmitted flux
     temp=  0.5*real(eta_sub(:,1,j).*At(:,1,j).*conv_pix(conj(At(:,1,j))));
