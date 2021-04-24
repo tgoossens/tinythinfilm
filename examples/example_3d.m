@@ -53,15 +53,6 @@ width=5.5; %micron
 filter=tinyfilter(nair,n,nsub,thickness,width);
 normalized_fwhm=0.0130;
 effective_index=1.6;
-filter2=tinyfilter_equivalentmonolayer(targetcwl,normalized_fwhm,effective_index,5.5,nair,nsub)
-
-
-figure(1);clf;hold on;
-%angle=0;
-%plot(wavelengths,classictransmittance(filter,angle,wavelengths,'unpolarized'))
-%plot(wavelengths,classictransmittance(filter2,angle,wavelengths,'unpolarized'),'r')
-
-
 
 pixelkernel = pixel_fullwidth(width);
 
@@ -102,16 +93,13 @@ color{3}=cmap(round(0.6*s),:)
 color{4}=cmap(round(0.65*s),:)
 
 
-addpath('/home/thomas/Documents/imec/phd/scripts/fabryperotconvolution/kernels')
-
-
-
 for f =1:numel(fnumbers)
     fig=figure(f);clf;  hold on;
     fig.Position= [533 488 666 209];
 
     for a=1:numel(cradegs)
         hclassic(a)=plot(wavelengths,Tclassic(:,a,f),':','color',color{a},'linewidth',1)
+        htiny(a)=plot(wavelengths,Ttiny(:,a,f),'color',color{a},'linewidth',1)
         htiny(a)=plot(wavelengths,Ttiny(:,a,f),'color',color{a},'linewidth',1)
         
         ylabel('Transmittance')
@@ -121,6 +109,6 @@ for f =1:numel(fnumbers)
     end
     title(['Filter transmittance for f/' num2str(fnumbers(f))])
 
-    legend([htiny hclassic(1)],'CRA = 0 deg','CRA = 5 deg','CRA = 10 deg','CRA = 20 deg','Infinite filter','location','best')
+    legend([htiny  hclassic(1)],'CRA = 0 deg','CRA = 5 deg','CRA = 10 deg','CRA = 20 deg','Infinite filter','location','best')
 end
 
