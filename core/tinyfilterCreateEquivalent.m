@@ -1,7 +1,7 @@
-function filter = tinyfilter_equivalentmonolayer(central_wavelength,normalized_fwhm,effective_index,width,refractiveindex_incident,refractiveindex_substrate)
-%  TINYFILTER  Create a struct containing filter design parametrs
-%   [filter] = TINYFILTER(n0,nstack,nsub,layerthickness,width)
-%
+function filter = tinyfilterCreateEquivalent(central_wavelength,normalized_fwhm,effective_index,width,refractiveindex_incident,refractiveindex_substrate)
+%  tinyfilterCreateEquivalent  Create a struct containing filter design parametrs
+%   filter = tinyfilterCreateEquivalent(central_wavelength,normalized_fwhm,effective_index,width,refractiveindex_incident,refractiveindex_substrate)
+% 
 %   Inputs
 %    - n0: Refractive index of incident medium
 %    - nsub: Refractive index of substrate

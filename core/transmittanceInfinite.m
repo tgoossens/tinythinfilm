@@ -1,4 +1,4 @@
-function [T,R,t,r] = infinitetransmittance(filter,angledeg,wavelengths,polarization);
+function [T,R,t,r] = transmittanceInfinite(filter,angledeg,wavelengths,polarization);
 %  CLASSICTRANSMITTANCE  Simulate filter transmittance for an infinitely wide filter
 %   [T,R,t,r] = CLASSICTRANSMITTANCE(filter,angledeg,wavelengths,polarization);
 %    
@@ -27,8 +27,8 @@ function [T,R,t,r] = infinitetransmittance(filter,angledeg,wavelengths,polarizat
 
 
     if(or(polarization=='unpolarized',polarization=='unpolarised'))
-        [T_s,R_s,t_s,r_s] = infinitetransmittance(filter,angledeg,wavelengths,'s');
-        [T_p,R_p,t_p,r_p] = infinitetransmittance(filter,angledeg,wavelengths,'p');
+        [T_s,R_s,t_s,r_s] = transmittanceInfinite(filter,angledeg,wavelengths,'s');
+        [T_p,R_p,t_p,r_p] = transmittanceInfinite(filter,angledeg,wavelengths,'p');
         T =  0.5*(T_s+T_p);
         R =  0.5*(R_s+R_p);
         t =  0.5*(t_s+t_p);

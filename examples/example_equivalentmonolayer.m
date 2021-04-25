@@ -43,7 +43,7 @@ n = [nh nl nh nl nh nl nh [nl nl] nh nl nh nl nh nl nh];
 thickness = [dh dl dh dl dh dl dh [dl dl] dh dl dh dl dh dl dh];
 
 width=5.5; %micron
-filter=tinyfilter(nair,n,nsub,thickness,width);
+filter=tinyfilterCreate(nair,n,nsub,thickness,width);
 
 %% Calculation of the ffective refractive index (cfr. MACLEOD)
 neff=nl*sqrt(1/(1-nl/nh+nl^2/nh^2));
@@ -51,9 +51,9 @@ neff=nl*sqrt(1/(1-nl/nh+nl^2/nh^2));
 
 %% Equivalent filter
 % Calculate normalized FWHM from infinite filter at normal incidence
-Tinf(:,1)=infinitetransmittance(filter,0,wavelengths,polarisation);
+Tinf(:,1)=transmittanceInfinite(filter,0,wavelengths,polarisation);
 normalized_fwhm=fwhm(wavelengths,Tinf(:,1))/targetcwl;
-filter_equivalent=tinyfilter_equivalentmonolayer(targetcwl,normalized_fwhm,neff,width,nair,nsub);
+filter_equivalent=tinyfilterCreateEquivalent(targetcwl,normalized_fwhm,neff,width,nair,nsub);
 
 
 
@@ -64,11 +64,11 @@ for a=1:numel(angles)
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
-    Tinf(:,a)=infinitetransmittance(filter,angles(a),wavelengths,polarisation);
+    Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarisation);
 
 
-    Tmono(:,a)=tinytransmittance2d_collimated(filter_equivalent,angles(a),wavelengths,polarisation,accuracy);
-    Ttiny(:,a)=tinytransmittance2d_collimated(filter,angles(a),wavelengths,polarisation,accuracy);
+    Tmono(:,a)=transmittanceTiny2DCollimated(filter_equivalent,angles(a),wavelengths,polarisation,accuracy);
+    Ttiny(:,a)=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarisation,accuracy);
 
     
 end

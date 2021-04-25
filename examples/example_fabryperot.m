@@ -29,7 +29,7 @@ width=5.5; %micron
 
 
 %% Define simualtion
-filter=tinyfilter(nair,n,nsub,thickness,width);
+filter=tinyfilterCreate(nair,n,nsub,thickness,width);
 
 
 
@@ -50,10 +50,10 @@ for a=1:numel(angles)
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
-    [Ttiny]=tinytransmittance2d_collimated(filter,angles(a),wavelengths,polarisation,accuracy);
+    [Ttiny]=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarisation,accuracy);
     T(:,a)=Ttiny;
 
-    Tinf(:,a)=infinitetransmittance(filter,angles(a),wavelengths,polarisation);
+    Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarisation);
 
 end
 

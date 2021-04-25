@@ -18,7 +18,7 @@ addpath(genpath('../core'))
 %% Choose simulation options
 
 % Accuracy options
-accuracy = 8;
+accuracy = 7;
 
 % Light properties
 wavelengths=linspace(0.73,0.85,100); % µm
@@ -49,7 +49,7 @@ normalized_fwhm=0.0130;
 effective_index=1.6;
 
 % Equivalent filter
-filter=tinyfilter_equivalentmonolayer(targetcwl,normalized_fwhm,effective_index,width,nair,nsub);
+filter=tinyfilterCreateEquivalent(targetcwl,normalized_fwhm,effective_index,width,nair,nsub);
 
 %% Pixel
 pixelkernel = pixel_fullwidth(width);
@@ -68,10 +68,10 @@ for f=1:numel(fnumbers)
         azimuth_deg=0;
         incident_wavepacket =  wavepacket3d_focus(conedeg,cradeg,azimuth_deg,width);
         
-        Ttiny(:,a,f)=tinytransmittance3d_core(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel);
+        Ttiny(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel);
         
         large_wavepacket=  wavepacket3d_focus(conedeg,cradeg,azimuth_deg,100);
-        Tclassic(:,a,f)=tinytransmittance3d_core(filter,large_wavepacket,wavelengths,polarization,accuracy,pixel_fullwidth(100));
+        Tinf(:,a,f)=transmittanceTiny3D(filter,large_wavepacket,wavelengths,polarization,accuracy,pixel_fullwidth(100));
         
                 
     end
@@ -93,7 +93,7 @@ for f =1:numel(fnumbers)
     fig.Position= [533 488 666 209];
 
     for a=1:numel(cradegs)
-        hclassic(a)=plot(wavelengths,maxnorm(Tclassic(:,a,f)),':','color',color{a},'linewidth',1)
+        hclassic(a)=plot(wavelengths,maxnorm(Tinf(:,a,f)),':','color',color{a},'linewidth',1)
         htiny(a)=plot(wavelengths,maxnorm(Ttiny(:,a,f)),'color',color{a},'linewidth',1)
         
         

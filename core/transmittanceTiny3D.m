@@ -1,15 +1,31 @@
 
-function [T,Phi_t,Phi_in] = tinytransmittance3d_core(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
-
-%filter.transmission.t=@(wavelength,nu)
-%filter.stack.refractiveindex = 
-%filter.stack.thickness = 
-%filter.width =
-
+function [T,Phi_t,Phi_in] = transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
+% function [T,Phi_t,Phi_in] = transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
+%  transmittanceTiny3D  Simulate tiny filter transmittance
+%    
+%   Inputs
+%    filter - Struct containing the tiny filter design (See also TINYFILTER)
+%    incident_wavepacket -  A function @(nu,wavelength) of spatial frequency and wavelength that describes the angular spectrum of the field that enters the filter
+%                           see directory wavepackets/
+%    wavelengths (Wx1) - Wavelengths (same units as filter.width of filter)
+%    polarization - ('s' or 'p' or 'unpolarized')    
+%    accuracy - 2^floor(accuracy) subdivision of the spatial frequency domain.
+%    pixelkernel - Encodes the width of the pixel and which spatial frequencies are sampled 
+%   Outputs
+%    - T (Wx1):  Transmittance of the filter
+%    - Phi_T (Wx1):  Transmitted flux [W]
+%    - Phi_in (Wx1):  Incident flux [W]
+%    
+%  In the 3D case the spatial frequency nu is the amplitude on spatial
+%  frequency = nu = sqrt(nu_x^2+nu_y^2)
+%  
+%  See also transmittanceTiny2D, tinyfilter, tinyfilter_equivalentmonolayer
+%  Copyright Thomas Goossens  
+%  http://github.com/tgoossens
 
 if(or(polarization=='unpolarized',polarization=='unpolarised'))
-    [T_s,Phi_t_s,Phi_in_s] = tinytransmittance3d_core(filter,incident_wavepacket,wavelengths,'s',accuracy,pixelkernel);
-    [T_p,Phi_t_p,Phi_in_p] =  tinytransmittance3d_core(filter,incident_wavepacket,wavelengths,'p',accuracy,pixelkernel);
+    [T_s,Phi_t_s,Phi_in_s] = transmittanceTiny3D(filter,incident_wavepacket,wavelengths,'s',accuracy,pixelkernel);
+    [T_p,Phi_t_p,Phi_in_p] =  transmittanceTiny3D(filter,incident_wavepacket,wavelengths,'p',accuracy,pixelkernel);
     T =  0.5*(T_s+T_p);
     Phi_t =  0.5*(Phi_t_s+Phi_t_p);
     Phi_in =  0.5*(Phi_t_s+Phi_t_p);

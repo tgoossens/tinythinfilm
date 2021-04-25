@@ -1,6 +1,6 @@
-function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
-% function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
-%  TINYTRANSMITTANCE_CORE  Simulate tiny filter transmittance
+function [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
+% function [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
+%  transmittanceTiny2D  Simulate tiny filter transmittance
 %    
 %   Inputs
 %    filter - Struct containing the tiny filter design (See also TINYFILTER)
@@ -13,7 +13,7 @@ function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,incident_wavepacket,wa
 %   Outputs
 %    - T (Wx1):  Transmittance of the filter
 %    - Phi_T (Wx1):  Transmitted flux [W]
-%    - Phi_T (Wx1):  Incident flux [W]
+%    - Phi_in (Wx1):  Incident flux [W]
 %    
 %    
 %  See also TINYFILTER    
@@ -22,8 +22,8 @@ function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,incident_wavepacket,wa
 
     
     if(or(polarization=='unpolarized',polarization=='unpolarised'))
-        [T_s,Phi_t_s,Phi_in_s] = tinytransmittance_core(filter,incident_wavepacket,wavelengths,'s',accuracy,pixelkernel);
-        [T_p,Phi_t_p,Phi_in_p] = tinytransmittance_core(filter,incident_wavepacket,wavelengths,'p',accuracy,pixelkernel);
+        [T_s,Phi_t_s,Phi_in_s] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,'s',accuracy,pixelkernel);
+        [T_p,Phi_t_p,Phi_in_p] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,'p',accuracy,pixelkernel);
         T =  0.5*(T_s+T_p);
         Phi_t =  0.5*(Phi_t_s+Phi_t_p);
         Phi_in=  0.5*(Phi_in_s+Phi_in_p);
