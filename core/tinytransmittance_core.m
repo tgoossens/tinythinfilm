@@ -1,15 +1,15 @@
 function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
-%    function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,angledeg,wavelengths,polarization,accuracy,pixelkernel);
+% function [T,Phi_t,Phi_in] = tinytransmittance_core(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
 %  TINYTRANSMITTANCE_CORE  Simulate tiny filter transmittance
-%   [T, Phi_t, Phi_in] = TINYTRANSMITTANCE_CORE(filter,angledeg,wavelengths,polarization,accuracy,pixelkernel);
 %    
 %   Inputs
-%    - filter : Struct containing the tiny filter design (See also TINYFILTER)
-%    - angledeg:  Incidence angle in degrees
-%    - wavelengths (Wx1): Wavelengths (same units as filter.width of filter)
-%    - polarization ('s' or 'p' or 'unpolarized')    a
-%    - accuracy: 2^floor(accuracy) subdivision of the spatial frequency domain.
-%    - pixelkernel: Encodes the width of the pixel and which spatial frequencies are sampled 
+%    filter - Struct containing the tiny filter design (See also TINYFILTER)
+%    incident_wavepacket -  A function @(nu,wavelength) of spatial frequency and wavelength that describes the angular spectrum of the field that enters the filter
+%                           see directory wavepackets/
+%    wavelengths (Wx1) - Wavelengths (same units as filter.width of filter)
+%    polarization - ('s' or 'p' or 'unpolarized')    
+%    accuracy - 2^floor(accuracy) subdivision of the spatial frequency domain.
+%    pixelkernel - Encodes the width of the pixel and which spatial frequencies are sampled 
 %   Outputs
 %    - T (Wx1):  Transmittance of the filter
 %    - Phi_T (Wx1):  Transmitted flux [W]

@@ -51,8 +51,8 @@ neff=nl*sqrt(1/(1-nl/nh+nl^2/nh^2));
 
 %% Equivalent filter
 % Calculate normalized FWHM from infinite filter at normal incidence
-Tclassic(:,1)=classictransmittance(filter,0,wavelengths,polarisation);
-normalized_fwhm=fwhm(wavelengths,Tclassic(:,1))/targetcwl;
+Tinf(:,1)=infinitetransmittance(filter,0,wavelengths,polarisation);
+normalized_fwhm=fwhm(wavelengths,Tinf(:,1))/targetcwl;
 filter_equivalent=tinyfilter_equivalentmonolayer(targetcwl,normalized_fwhm,neff,width,nair,nsub);
 
 
@@ -64,11 +64,11 @@ for a=1:numel(angles)
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
-    Tclassic(:,a)=classictransmittance(filter,angles(a),wavelengths,polarisation);
+    Tinf(:,a)=infinitetransmittance(filter,angles(a),wavelengths,polarisation);
 
 
-    Tmono(:,a)=tinytransmittance(filter_equivalent,angles(a),wavelengths,polarisation,accuracy);
-    Ttiny(:,a)=tinytransmittance(filter,angles(a),wavelengths,polarisation,accuracy);
+    Tmono(:,a)=tinytransmittance2d_collimated(filter_equivalent,angles(a),wavelengths,polarisation,accuracy);
+    Ttiny(:,a)=tinytransmittance2d_collimated(filter,angles(a),wavelengths,polarisation,accuracy);
 
     
 end
@@ -90,7 +90,7 @@ for a=1:numel(angles)
     subplot(2,2,a); hold on;
     htiny=plot(wavelengths,Ttiny(:,a),'color',color{2},'linewidth',2)
     hmono=plot(wavelengths,Tmono(:,a),'-','color','k','linewidth',2)
-    hclassic=plot(wavelengths,Tclassic(:,a),':','color','k','linewidth',1.5)
+    hinf=plot(wavelengths,Tinf(:,a),':','color','k','linewidth',1.5)
     ylabel('Transmittance')
     xlabel('Wavelength (µm)')
 end
@@ -98,7 +98,7 @@ end
 
 
 
-legh=legend([htiny hmono hclassic],'Tiny Fabry-Pérot','Equivelent monolayer','Infinite filter')
+legh=legend([htiny hmono hinf],'Tiny Fabry-Pérot','Equivelent monolayer','Infinite filter')
 legh.Orientation='horizontal';
 legh.Position=[0.1511 0.9469 0.7625 0.0429];
 

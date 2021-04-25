@@ -50,10 +50,10 @@ for a=1:numel(angles)
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
-    [Ttiny]=tinytransmittance(filter,angles(a),wavelengths,polarisation,accuracy);
+    [Ttiny]=tinytransmittance2d_collimated(filter,angles(a),wavelengths,polarisation,accuracy);
     T(:,a)=Ttiny;
 
-    Tclassic(:,a)=classictransmittance(filter,angles(a),wavelengths,polarisation);
+    Tinf(:,a)=infinitetransmittance(filter,angles(a),wavelengths,polarisation);
 
 end
 
@@ -74,7 +74,7 @@ color{5}=cmap(round(0.66*s),:)
 figure(1);clf;  hold on;
 for a=1:numel(angles)
     htiny(a)=plot(wavelengths,T(:,a),'color',color{a},'linewidth',2)
-    hclassic=plot(wavelengths,Tclassic(:,a),':','color',color{a},'linewidth',1.5)
+    hclassic=plot(wavelengths,Tinf(:,a),':','color',color{a},'linewidth',1.5)
 end
 
 

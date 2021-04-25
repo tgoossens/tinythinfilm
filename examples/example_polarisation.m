@@ -49,12 +49,12 @@ for a=1:numel(angles)
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
-    [Ttinys]=tinytransmittance(filter,angles(a),wavelengths,'s',accuracy);
-    [Ttinyp]=tinytransmittance(filter,angles(a),wavelengths,'p',accuracy);
+    [Ttinys]=tinytransmittance2d_collimated(filter,angles(a),wavelengths,'s',accuracy);
+    [Ttinyp]=tinytransmittance2d_collimated(filter,angles(a),wavelengths,'p',accuracy);
     Ts(:,a)=Ttinys;    Tp(:,a)=Ttinyp;
 
-    Tinf_s(:,a)=classictransmittance(filter,angles(a),wavelengths,'s');
-    Tinf_p(:,a)=classictransmittance(filter,angles(a),wavelengths,'p');
+    Tinf_s(:,a)=infinitetransmittance(filter,angles(a),wavelengths,'s');
+    Tinf_p(:,a)=infinitetransmittance(filter,angles(a),wavelengths,'p');
 
 
 end

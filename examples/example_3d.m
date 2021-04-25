@@ -18,7 +18,7 @@ addpath(genpath('../core'))
 %% Choose simulation options
 
 % Accuracy options
-accuracy = 6;
+accuracy = 8;
 
 % Light properties
 wavelengths=linspace(0.73,0.85,100); % µm
@@ -31,22 +31,27 @@ cradegs=[0 5 10 20]; % chief ray angles
 
 %% Create dielectric Fabry Perot filter using two materials
 
-% Target central wavelength
-targetcwl = 0.800; %micron
-
-
-nair=1;
-nsub=3.56; %silicon substarte
-
 
 width=5.5; %micron
 
+%% Define equivlent monolayer filter
+% Target central wavelength
+targetcwl = 0.800; %micron
 
-filter=tinyfilter(nair,n,nsub,thickness,width);
+% Incident medium and substrate
+nair=1;
+nsub=3.56; %silicon substarte
+
+% Normalized bandwith
 normalized_fwhm=0.0130;
+
+% Effective refractive index
 effective_index=1.6;
 
+% Equivalent filter
 filter=tinyfilter_equivalentmonolayer(targetcwl,normalized_fwhm,effective_index,width,nair,nsub);
+
+%% Pixel
 pixelkernel = pixel_fullwidth(width);
 
 
@@ -75,9 +80,6 @@ end
 
 
 %% Plot transmittance
-% There there is a drop in transmittance and an increase in FWHM
-% 
-
 cmap = hot;
 s=size(cmap,1);
 color{1}=cmap(1,:);
@@ -85,15 +87,15 @@ color{2}=cmap(round(0.4*s),:);
 color{3}=cmap(round(0.6*s),:)
 color{4}=cmap(round(0.65*s),:)
 
-
+maxnorm = @(x) x/max(x);
 for f =1:numel(fnumbers)
     fig=figure(f);clf;  hold on;
     fig.Position= [533 488 666 209];
 
     for a=1:numel(cradegs)
-        hclassic(a)=plot(wavelengths,Tclassic(:,a,f),':','color',color{a},'linewidth',1)
-        htiny(a)=plot(wavelengths,Ttiny(:,a,f),'color',color{a},'linewidth',1)
-        htiny(a)=plot(wavelengths,Ttiny(:,a,f),'color',color{a},'linewidth',1)
+        hclassic(a)=plot(wavelengths,maxnorm(Tclassic(:,a,f)),':','color',color{a},'linewidth',1)
+        htiny(a)=plot(wavelengths,maxnorm(Ttiny(:,a,f)),'color',color{a},'linewidth',1)
+        
         
         ylabel('Transmittance')
         xlabel('Wavelength (µm)')
