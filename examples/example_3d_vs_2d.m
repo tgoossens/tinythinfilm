@@ -12,7 +12,7 @@ addpath(genpath('../core'))
 %% Choose simulation options
 
 % Accuracy options
-accuracy = 8;
+accuracy = 6;
 hiaccuracy = 8; % for the large filter
 
 % Light properties
