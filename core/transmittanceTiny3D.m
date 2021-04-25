@@ -72,8 +72,6 @@ t = filter.transmission(wl,nu,polarization);
 
 %% Simulate
 
-
-
 for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wave

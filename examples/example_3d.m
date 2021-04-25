@@ -18,7 +18,8 @@ addpath(genpath('../core'))
 %% Choose simulation options
 
 % Accuracy options
-accuracy = 7;
+accuracy = 6;
+hiaccuracy = 8; % for the large filter
 
 % Light properties
 wavelengths=linspace(0.73,0.85,100); % µm
@@ -71,7 +72,7 @@ for f=1:numel(fnumbers)
         Ttiny(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel);
         
         large_wavepacket=  wavepacket3d_focus(conedeg,cradeg,azimuth_deg,100);
-        Tinf(:,a,f)=transmittanceTiny3D(filter,large_wavepacket,wavelengths,polarization,accuracy,pixel_fullwidth(100));
+        Tinf(:,a,f)=transmittanceTiny3D(filter,large_wavepacket,wavelengths,polarization,hiaccuracy,pixel_fullwidth(100));
         
                 
     end
