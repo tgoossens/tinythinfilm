@@ -93,8 +93,8 @@ for f =1:numel(fnumbers)
     fig.Position= [533 488 666 209];
 
     for a=1:numel(cradegs)
-        hclassic(a)=plot(wavelengths,maxnorm(Tinf(:,a,f)),':','color',color{a},'linewidth',1)
-        htiny(a)=plot(wavelengths,maxnorm(Ttiny(:,a,f)),'color',color{a},'linewidth',1)
+        hclassic(a)=plot(wavelengths,Tinf(:,a,f),':','color',color{a},'linewidth',1)
+        htiny(a)=plot(wavelengths,Ttiny(:,a,f),'color',color{a},'linewidth',1)
         
         
         ylabel('Transmittance')
