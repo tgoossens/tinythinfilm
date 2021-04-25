@@ -67,11 +67,10 @@ for f=1:numel(fnumbers)
         
         % Run simulation focusde light for equivalent monolayer
         azimuth_deg=0;
-        incident_wavepacket =  wavepacket3d_focus(conedeg,cradeg,azimuth_deg,width);
-        
+        incident_wavepacket =  wavepacket3DLens(conedeg,cradeg,azimuth_deg,width);
         Ttiny(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel);
         
-        large_wavepacket=  wavepacket3d_focus(conedeg,cradeg,azimuth_deg,100);
+        large_wavepacket=  wavepacket3DLens(conedeg,cradeg,azimuth_deg,100);
         Tinf(:,a,f)=transmittanceTiny3D(filter,large_wavepacket,wavelengths,polarization,hiaccuracy,pixel_fullwidth(100));
         
                 
