@@ -38,14 +38,6 @@ targetcwl = 0.800; %micron
 nair=1;
 nsub=3.56; %silicon substarte
 
-nl = 1.4; % low refractive index
-nh = 2.4; % high refractive index
-
-dh = targetcwl/(4*nh);%quarterwave 
-dl = targetcwl/(4*nl);%quarterwave 
-
-n = [nh nl nh nl nh nl nh [nl nl] nh nl nh nl nh nl nh];
-thickness = [dh dl dh dl dh dl dh [dl dl] dh dl dh dl dh dl dh];
 
 width=5.5; %micron
 
@@ -54,6 +46,7 @@ filter=tinyfilter(nair,n,nsub,thickness,width);
 normalized_fwhm=0.0130;
 effective_index=1.6;
 
+filter=tinyfilter_equivalentmonolayer(targetcwl,normalized_fwhm,effective_index,width,nair,nsub);
 pixelkernel = pixel_fullwidth(width);
 
 
@@ -70,10 +63,10 @@ for f=1:numel(fnumbers)
         azimuth_deg=0;
         incident_wavepacket =  wavepacket3d_focus(conedeg,cradeg,azimuth_deg,width);
         
-        Ttiny(:,a,f)=tinytransmittance3d_core(filter2,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel);
+        Ttiny(:,a,f)=tinytransmittance3d_core(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel);
         
         large_wavepacket=  wavepacket3d_focus(conedeg,cradeg,azimuth_deg,100);
-        Tclassic(:,a,f)=tinytransmittance3d_core(filter2,large_wavepacket,wavelengths,polarization,accuracy,pixel_fullwidth(100));
+        Tclassic(:,a,f)=tinytransmittance3d_core(filter,large_wavepacket,wavelengths,polarization,accuracy,pixel_fullwidth(100));
         
                 
     end
