@@ -1,5 +1,9 @@
 %% Example of difference between 2D and 3D simulation for collimated light at oblique incidence
 %
+%  At normal incidence the transmittance for the 3D filter is lower due to
+%  additional diffraction in the extra dimension.
+%  Remember that a 2D simulation supposed the 3th dimension to be infinite.
+%
 % Copyright Thomas Goossens
 
 clear; close all;
@@ -12,8 +16,8 @@ addpath(genpath('../core'))
 %% Choose simulation options
 
 % Accuracy options
-accuracy = 6;
-hiaccuracy = 8; % for the large filter
+accuracy = 7;
+
 
 % Light properties
 wavelengths=linspace(0.73,0.85,100); % µm
