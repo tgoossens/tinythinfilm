@@ -50,11 +50,7 @@ nu = reshape(nu,[numel(nu) 1 1]);
 % Wavenumber
 k = @(n) 2*pi./(wl)*n; 
 
-% Fourier transform of the pixel kernel (so we don't recompute it for each wavelength)
-fftpix=fft(pixelkernel(nu));
 conv_pix=@(f) conv(f,pixelkernel(nu),'same');
-% To be implemented: convolution using FFT
-
 
 %%  Calculate admittances 
 

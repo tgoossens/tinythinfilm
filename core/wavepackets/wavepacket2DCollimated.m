@@ -4,7 +4,7 @@ function wavepacket =  wavepacket2DCollimated(incidence_angle_deg,incident_refra
 %  Wavepacket (angular spectrum) of a plane wave entering the filter at
 %  oblique incidence
 %
-%  wavepacket =   wavepacket2DCollimated(coneangle_deg,cra_deg,azimuth_deg,filterwidth)
+%  wavepacket =   wavepacket2DCollimated(incidence_angle_deg,incident_refractiveindex,filterwidth)
 %     
 %   Inputs
 %     incidence_angle_deg - Incidence angle of the plane wave with respect

@@ -43,7 +43,7 @@ targetcwl = 0.800; %micron
 nair=1;
 nsub=3.56; %silicon substarte
 
-% Normalized bandwith
+% Normalized bandwidth
 normalized_fwhm=0.0130;
 
 % Effective refractive index
