@@ -5,8 +5,8 @@ function filter = tinyfilterCreate(n_incident,n_stack,n_substrate,layerthickness
 %   Inputs
 %    - n0: Refractive index of incident medium
 %    - nsub: Refractive index of substrate
-%    - n (Nx1) : Refractive indices of thin-film layers instack
-%    - h (Nx1) : Thicknesses of thin-film layers in stack
+%    - n (Nx1) : Refractive indices of thin-film layers going from top layer to the layer on top of the subtrate.
+%    - h (Nx1) : Thicknesses of thin-film layers in stack 
 %    - width: Width of the filter (same unit as h)
 %    
 %   Outputs
