@@ -1,10 +1,10 @@
-%% Example of a Tiny Fabry-Pérot filter with fully reflective boundaries
-% This example demonstrates how the transmittance of a tiny dielectric
-% Fabry-Pérot filter with perfectly reflective boundaries
-% differs from the infinitely wide filter response.
+%% Comparison of Tiny filter models with FDFD simulations for a thin-filmfilter sandwiched between two perfectly reflective boundaries
 %
-% The result shows that at larger angles multiple peaks occur.
-% This corresponds 
+% The model including the reflective boundaries approximates the FDFD
+% simulation well (especially the bimodality). The tiny wave optics model
+% based on aperture diffraction does not apply to this case.
+
+
 % Copyright Thomas Goossens
 
 %%
@@ -16,7 +16,7 @@ clear; close all;
 angles = [0 10 15 20];
 FDFD={};
 for a=1:numel(angles)
-    FDFD =load(['./reflective_power_5500_' num2str(angles(a)) '.mat']); 
+    FDFD =load(['./data/reflective_power_5500_' num2str(angles(a)) '.mat']); 
     Tfdfd(:,a)=FDFD.power.filter2.transmitted./FDFD.power.filter2.incident;
     wavelengths_fdfd=FDFD.wls /1000;%to micron
 end
@@ -66,8 +66,8 @@ for a=1:numel(angles)
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
-    [Ttinyrefl(:,a)]=transmittanceTiny2DReflectiveBoundaries(filter,angles(a),wavelengths,polarization);
-    [Ttiny(:,a)]=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarization,accuracy);
+    Ttinyrefl(:,a)=transmittanceTiny2DReflectiveBoundaries(filter,angles(a),wavelengths,polarization);
+    Ttiny(:,a)=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarization,accuracy);
     Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarization);
     
     
@@ -84,16 +84,17 @@ fig=figure(1);clf;  hold on;
 fig.Position=[385 355 1215 383];
 for a=1:numel(angles)
     subplot(2,2,a); hold on;
-    hinf(a)=plot(wavelengths,Tinf(:,a),':','color','k','linewidth',1.5)
-    htinyrefl(a)=plot(wavelengths,Ttinyrefl(:,a),'color','r','linewidth',2)
     hfdfd(a)=plot(wavelengths_fdfd,Tfdfd(:,a),'.-','color','k','linewidth',1,'markersize',10) 
+    htiny(a)=plot(wavelengths,Ttiny(:,a),'color',[1 0.8 0.5],'linewidth',2)    
+    htinyrefl(a)=plot(wavelengths,Ttinyrefl(:,a),'color','r','linewidth',2) 
+    hinf(a)=plot(wavelengths,Tinf(:,a),':','color','k','linewidth',1.5)
     
     ylabel('Transmittance')
     xlabel('Wavelength (µm)')
     title([num2str(angles(a)) ' deg'])
     box on
 end
-legend([htiny(1) htinyrefl(1) hfdfd(1) hinf(1)],'Tiny Diffraction','Tiny Reflective','Numerical (FDFD)','Infinite filter')
+legend([ hfdfd(1) htinyrefl(1) htiny(1) hinf(1)],'Numerical (FDFD)','Tiny Reflective','Tiny Diffractive','Infinite filter','location','best')
 
 
 
