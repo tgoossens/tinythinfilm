@@ -17,7 +17,7 @@ function eta = admittance(n,wl,nu,polarization)
 %  Amra, C., Lequime, M., & Zerrad, M. (2021). Electromagnetic Optics of Thin-Film Coatings: Light Scattering, Giant Field Enhancement, and Planar Microcavities. Cambridge University Press.
 %    
 %  Copyright Thomas Goossens  
-%  http://github.com/tgoossens
+%  http://github.com/tgoossens/tinythinfilm
 
 
 

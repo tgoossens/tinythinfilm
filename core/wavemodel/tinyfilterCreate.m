@@ -25,8 +25,10 @@ function filter = tinyfilterCreate(n_incident,n_stack,n_substrate,layerthickness
 %    
 %    Copyright Thomas Goossens
 
+    %% Checks
+    assert(numel(layerthickness) == numel(n_stack));
     
-    
+    % Create struct
     filter.stack.refractiveindex=[n_incident reshape(n_stack,[1 numel(n_stack)]) n_substrate ];
     filter.stack.thickness=[NaN reshape(layerthickness,[1 numel(layerthickness)]) NaN ];
     filter.width=width;
