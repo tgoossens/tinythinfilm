@@ -4,3 +4,5 @@ core/untested/
 core/raymodel/
 LICENSE~
 octave-workspace
+*.asv
+*.mat
