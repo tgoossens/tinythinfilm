@@ -32,6 +32,8 @@ The toolbox is intented to provide quick and good transmittance estimates, not e
 
 It is compatible with MATLAB and the free alternative Octave.
 
+# Validations with FDFD
+See directory 'Validations'. 
 
 # How to cite this work
 
