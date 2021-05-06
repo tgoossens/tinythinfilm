@@ -8,8 +8,19 @@
 % Copyright Thomas Goossens
 
 %%
-
 clear; close all;
+
+
+
+%% Load FDFD simulations
+angles = [0 10 15 20];
+FDFD={};
+for a=1:numel(angles)
+    FDFD =load(['./reflective_power_5500_' num2str(angles(a)) '.mat']); 
+    Tfdfd(:,a)=FDFD.power.filter2.transmitted./FDFD.power.filter2.incident;
+    wavelengths_fdfd=FDFD.wls /1000;%to micron
+end
+
 %% Create dielectric Fabry Perot filter using two materials
 
 % Target central wavelength
@@ -40,11 +51,11 @@ filter=tinyfilterCreate(nair,n,nsub,thickness,width);
 
 %% Choose simulation options
 
-polarization = 'unpolarized';
+polarization = 's';
 
 accuracy = 8;
 wavelengths=linspace(0.66,0.75,300); % µm
-angles = [0 10 20 30];
+
 
 %% Run simulation for each angle
 for a=1:numel(angles)
@@ -73,16 +84,16 @@ fig=figure(1);clf;  hold on;
 fig.Position=[385 355 1215 383];
 for a=1:numel(angles)
     subplot(2,2,a); hold on;
-    hclassic=plot(wavelengths,Tinf(:,a),':','color','k','linewidth',1.5)
+    hinf(a)=plot(wavelengths,Tinf(:,a),':','color','k','linewidth',1.5)
     htinyrefl(a)=plot(wavelengths,Ttinyrefl(:,a),'color','r','linewidth',2)
-    htiny(a)=plot(wavelengths,Ttiny(:,a),'color','k','linewidth',2)
+    hfdfd(a)=plot(wavelengths_fdfd,Tfdfd(:,a),'.-','color','k','linewidth',1,'markersize',10) 
     
     ylabel('Transmittance')
     xlabel('Wavelength (µm)')
     title([num2str(angles(a)) ' deg'])
     box on
 end
-legend([htiny(1) htinyrefl(1) hclassic(1)],'Tiny Diffraction','Tiny Reflective','Infinite filter')
+legend([htiny(1) htinyrefl(1) hfdfd(1) hinf(1)],'Tiny Diffraction','Tiny Reflective','Numerical (FDFD)','Infinite filter')
 
 
 
