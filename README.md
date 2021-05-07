@@ -20,13 +20,18 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 
 # 2D Simulation
 
+## Aperture diffraction approximation
 - Efficient transmittance calculation compared to numerical solvers like FDFD or Finite Element
 - Explore the effect of the width on the filter performance
 - Explore the effect of the angle of incidence of collimated light
 - Calculate transmittance for filters that are larger than the pixel
 - Simulate for s and p polarization
 
-# 3D Simulation (Not yet validated)
+# Experimental
+## Perfectly reflecting boundaries approximation (Experimental)
+Estimate filter response for perfectly reflective boundaries.
+
+## 3D Simulation (Not yet validated)
 These scripts are a generalization of the equations developed and validated for the 2D case. Numerical and experimental validation for the focused light cases
 is still lacking.
 
