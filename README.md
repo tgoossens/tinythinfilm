@@ -7,7 +7,7 @@ This trend has mainly been driven by the need for developing compact and lightwe
 The pixel-integrated thin-film filters are used to select specific wavelengths. The spatial width, however, strongly affects the angular sensitivity of thin-film filters.
 This is problematic when the sensors are used with an imaging lens and needs to be taken into account at the design stage.
 
-This toolbox aims to provide filter and camera designers with quick estimates of the expected filter transmittance.
+This toolbox aims to provide filter and camera designers with quick estimates of the expected filter transmittance. Or alternatively, better understand measured responses of filter arrays.
 
 
 <div>
@@ -18,7 +18,7 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 <img src="./doc/img/polarized.png" alt="Differences in polarization" width="60%" >
 
 
-# Features 2D Simulation
+# 2D Simulation
 
 - Efficient transmittance calculation compared to numerical solvers like FDFD or Finite Element
 - Explore the effect of the width on the filter performance
@@ -26,12 +26,21 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 - Calculate transmittance for filters that are larger than the pixel
 - Simulate for s and p polarization
 
+# 3D Simulation (Not yet validated)
+These scripts are a generalization of the equations developed and validated for the 2D case. Numerical and experimental validation for the focused light cases
+is still lacking.
+
+- Focused on and off-axis light for a thin-lens
+- Collimated light 
+
 # How to use
 
 The toolbox is intented to provide quick and good transmittance estimates, not exact results.
 
 It is compatible with MATLAB and the free alternative Octave.
 
+# Validations with FDFD
+See directory 'Validations'. 
 
 # How to cite this work
 
