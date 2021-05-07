@@ -27,10 +27,11 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 - Calculate transmittance for filters that are larger than the pixel
 - Simulate for s and p polarization
 
+# Experimental
 ## Perfectly reflecting boundaries approximation (Experimental)
 Estimate filter response for perfectly reflective boundaries.
 
-# 3D Simulation (Not yet validated)
+## 3D Simulation (Not yet validated)
 These scripts are a generalization of the equations developed and validated for the 2D case. Numerical and experimental validation for the focused light cases
 is still lacking.
 
