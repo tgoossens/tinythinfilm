@@ -3,8 +3,10 @@
 % Fabry-Pérot filter with perfectly reflective boundaries
 % differs from the infinitely wide filter response.
 %
-% The result shows that at larger angles multiple peaks occur.
-% This corresponds 
+% The result shows that at larger angles multiple peaks occur because
+% multiple eigenmodes exist. This corresponds to a discretization of the
+% spatial frequency domain .
+%
 % Copyright Thomas Goossens
 
 %%
@@ -28,7 +30,6 @@ extra=0.1;
 n = [nh nl nh nl nh nl nh nl nh (nl) nl   nh nl nh nl nh nl nh nl nh];
 thickness = [dh dl dh dl dh dl dh dl dh (dl) dl   dh dl dh dl dh dl dh dl dh];
 
-neff=nl/sqrt((1-nl/nh+nl^2./nh^2));
 width=5.5 %micron
 
 
@@ -64,11 +65,6 @@ end
 
 
 %% Plot transmittance
-% There there is a drop in transmittance and an increase in FWHM
-%
-
-
-
 fig=figure(1);clf;  hold on;
 fig.Position=[385 355 1215 383];
 for a=1:numel(angles)

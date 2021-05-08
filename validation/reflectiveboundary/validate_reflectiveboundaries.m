@@ -64,7 +64,7 @@ for w=1:numel(widths)
     filter=tinyfilterCreate(nair,n,nsub,thickness,width);   
     
     %% Simulate
-    disp(['Simulate tiny filter: width ' num2str(width) ' µm -' num2str(angles(a)) ' deg']);
+    disp(['Simulate tiny filter: width ' num2str(width) ' µm - ' num2str(angles(a)) ' deg']);
     
     Ttinyrefl(:,a,w)=transmittanceTiny2DReflectiveBoundaries(filter,angles(a),wavelengths,polarization);
     Ttiny(:,a)=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarization,accuracy);
