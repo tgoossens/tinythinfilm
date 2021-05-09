@@ -27,6 +27,10 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 - Calculate transmittance for filters that are larger than the pixel
 - Simulate for s and p polarization
 
+## Superfast Ray-Optics approximation
+
+
+
 # Experimental
 ## Perfectly reflecting boundaries approximation (Experimental)
 Estimate filter response for perfectly reflective boundaries.
