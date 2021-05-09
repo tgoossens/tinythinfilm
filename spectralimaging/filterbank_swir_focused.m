@@ -48,11 +48,12 @@ nair=1;
 
 
 % Simulation parameters
-polarization = 'unpolarized'
+polarization = 'unpolarized';
+fastapproximation=true;
 accuracy=9
 
 angledeg = [0 10 15 20];
-fnumber=6;
+fnumber=2.8;
 coneangle_deg = atand(1./(2*fnumber));
 alpha_deg=0; % azimuth
 
@@ -63,18 +64,22 @@ tic
 for a=1:numel(angledeg)
     
     for c=1:nbFilters
+        
         disp(['CRA ' num2str(angledeg(a)) ' deg - Filter ' num2str(c)]),
-
         % Define equivalent monolayer filter
         filter=tinyfilterCreateEquivalent(cwl(c),nFWHM,neff,width,nair,nsub);
         
         % Define incident light
         wavepacket2d = wavepacket2DCollimated(angledeg(a),nair,filterwidth);
-
+        
         % Calculate transmittance for the tiny wave, tiny ray and infinite
         % filter case
-                    Tray(:,c,a)=transmittanceTinyRayFocused(nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,10,angledeg(a),polarization,accuracy);
+        Tray(:,c,a)=transmittanceTinyRayFocused(nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
+        
+        wavepacket_lens = wavepacket3DLens(coneangle_deg,angledeg(a),0,filter.width);
+        %Twave(:,c,a)=transmittanceTiny3D(filter,wavepacket_lens,wavelengths,polarization,6,pixel_fullwidth(filter.width));
         Tinf(:,c,a)=transmittanceInfinite(filter,angledeg(a),wavelengths,polarization);
+        toc
     end
     
 end
@@ -88,9 +93,10 @@ figure(2);clf;hold on;
 for a=1:numel(angledeg)
    subplot(numel(angledeg),1,a); hold on;
    plot(wavelengths,Tray(:,:,a),'k')
-   %plot(wavelengths,Twave(:,:,a),'r')    
+   plot(wavelengths,Twave(:,:,a),'r')    
        title(['f/' num2str(fnumber) ' - CRA ' num2str(angledeg(a)) ' deg'])
        ylim([0 1])
+
     xlabel('Wavelength (nm)')
     ylabel('Transmittance(%)')
 end
