@@ -29,7 +29,7 @@ clear;
 
 
 %% Define filters
-nbFilters = 16;
+nbFilters = 1;
 nbWavelengths=2^9;
 
 wavelengths=linspace(1000,1700,nbWavelengths);
@@ -64,21 +64,25 @@ tic
 for a=1:numel(angledeg)
     
     for c=1:nbFilters
-        
+        tic
         disp(['CRA ' num2str(angledeg(a)) ' deg - Filter ' num2str(c)]),
         % Define equivalent monolayer filter
         filter=tinyfilterCreateEquivalent(cwl(c),nFWHM,neff,width,nair,nsub);
-        
-        % Define incident light
-        wavepacket2d = wavepacket2DCollimated(angledeg(a),nair,filterwidth);
         
         % Calculate transmittance for the tiny wave, tiny ray and infinite
         % filter case
         Tray(:,c,a)=transmittanceTinyRayFocused(nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
         
+        
+        largewidth=20*width;
+
+        Tinf(:,c,a)=transmittanceTinyRayFocused(nair,neff,nsub,1-pi*nFWHM,largewidth,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
+        
+        % Wave optics
+        accuracy_wave=8;
         wavepacket_lens = wavepacket3DLens(coneangle_deg,angledeg(a),0,filter.width);
-        %Twave(:,c,a)=transmittanceTiny3D(filter,wavepacket_lens,wavelengths,polarization,6,pixel_fullwidth(filter.width));
-        Tinf(:,c,a)=transmittanceInfinite(filter,angledeg(a),wavelengths,polarization);
+               Twave(:,c,a)=transmittanceTiny3D(filter,wavepacket_lens,wavelengths,polarization,accuracy_wave,pixel_fullwidth(filter.width));
+
         toc
     end
     
@@ -88,20 +92,23 @@ toc
 
 %% Compare WAVE and RAY optics prediction of  filter transmittances 
 % The ray and wave optics models match each other very well.
-
+maxnorm = @(x)x/max(x);
+maxnorm = @(x)x;
 figure(2);clf;hold on;
 for a=1:numel(angledeg)
    subplot(numel(angledeg),1,a); hold on;
-   plot(wavelengths,Tray(:,:,a),'k')
-   plot(wavelengths,Twave(:,:,a),'r')    
+   hray(a)=plot(wavelengths,maxnorm(Tray(:,:,a)),'k')
+   hinf(a)=plot(wavelengths,maxnorm(Tinf(:,:,a)),'k:')
+   
+   hwave(a)= plot(wavelengths,maxnorm(Twave(:,:,a)),'r')    
        title(['f/' num2str(fnumber) ' - CRA ' num2str(angledeg(a)) ' deg'])
        ylim([0 1])
 
     xlabel('Wavelength (nm)')
     ylabel('Transmittance(%)')
 end
-
-
+legend([hinf(1) hray(1) hwave(1)],'Infinite filter','Tiny Ray','Tiny Wave','location','north')
+return
 %%%%% REFLECTANCE MEASUREMENT %%%%%
 
 
