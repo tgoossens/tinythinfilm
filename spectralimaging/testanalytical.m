@@ -70,7 +70,7 @@ for a=1:numel(angledeg)
         
         % Define incident light
         wavepacket2d = wavepacket2DCollimated(angledeg(a),nair,filterwidth);
-
+        Twave(:,c,a)=transmittanceTiny2DCollimated(filter,angledeg(a),wavelengths,polarization,accuracy)
         % Calculate transmittance for the tiny wave, tiny ray and infinite
         % filter case
         
@@ -92,6 +92,7 @@ figure(2);clf;hold on;
 for a=1:numel(angledeg)
    subplot(numel(angledeg),1,a); hold on;
    plot(wavelengths,Tray(:,:,a),'k')
+   plot(wavelengths,Twave(:,:,a),'b')
    plot(wavelengths,Trayanalytical(:,:,a),'r.')    
    
        title(['f/' num2str(fnumber) ' - CRA ' num2str(angledeg(a)) ' deg'])

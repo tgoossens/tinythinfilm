@@ -25,6 +25,10 @@ function [T] = transmittanceTinyRayEquivalent(n0,neff,nsub,R,width,cwl,wavelengt
 %    
 
 
+ if ~exist('flag_fastapproximation','var')
+     % Default value:
+      flag_fastapproximation=false;
+ end
 
 
 if(or(polarization=='unpolarized',polarization=='unpolarised'))
@@ -35,19 +39,15 @@ if(or(polarization=='unpolarized',polarization=='unpolarised'))
 end
 
 
- if ~exist('flag_fastapproximation','var')
-     % Default value:
-      flag_fastapproximation=false;;
- end
 % Full thin film stack
-    equivstack = [1 neff 1];
+    equivstack = [1 neff nsub];
     
     % Cosineof refraction angle
     costh_n = sqrt(1-sind(angledeg).^2./equivstack.^2);
     
     % Calculate characteristic admittances depending on polarization    
     if(polarization=='s')    
-        eta0=n0*costh_n(1);        
+        eta0=n0*costh_n(1);
         eta1=neff*costh_n(2);        
         eta2=nsub*costh_n(3);
     elseif(polarization=='p')   
@@ -74,9 +74,10 @@ end
     N = @(x,th) floor(num(x,th)/2+1/2);
     
     T = zeros(numel(wavelengths),1);
-    delta = -pi+2*pi*equivstack(2)*height*costh_n(2)./wavelengths';
+    delta =(2*pi*equivstack(2)*height*costh_n(2)./wavelengths') - pi; % (because of continous approximation, see supplementary material)
     
     if(flag_fastapproximation)
+        % Analytical approximaation
         M = floor(min(width*neff/(cwl*tand(angledeg/neff)),1e7));
         T=  Tsub.*(1-R).^2 .* (1+ (R.^(2*M)-1)./log(R.^(2*M))-2*(log(R).*(R.^M .*cos(2*M*delta)-1)+2*delta.*R.^M.*sin(2*M.*delta))./(4*M.*delta.^2+M.*log(R).^2))./(1-2*R*cos(2*delta)+R.^2);
     

@@ -80,8 +80,8 @@ for a=1:numel(angledeg)
         
         % Wave optics
         accuracy_wave=8;
-        %        wavepacket_lens = wavepacket3DLens(coneangle_deg,angledeg(a),0,filter.width);
-        %               Twave(:,c,a)=transmittanceTiny3D(filter,wavepacket_lens,wavelengths,polarization,accuracy_wave,pixel_fullwidth(filter.width));
+        wavepacket_lens = wavepacket3DLens(coneangle_deg,angledeg(a),0,filter.width);
+        Twave(:,c,a)=transmittanceTiny3D(filter,wavepacket_lens,wavelengths,polarization,accuracy_wave,pixel_fullwidth(filter.width));
 
         toc
     end

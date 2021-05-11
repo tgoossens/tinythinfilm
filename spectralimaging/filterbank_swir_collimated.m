@@ -74,7 +74,7 @@ for a=1:numel(angledeg)
         % Calculate transmittance for the tiny wave, tiny ray and infinite
         % filter case
         Twave(:,c,a)=transmittanceTiny2DCollimated(filter,angledeg(a),wavelengths,polarization,accuracy);
-        Tray(:,c,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,angledeg(a),polarization,accuracy);
+        Tray(:,c,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,angledeg(a),polarization,accuracy,true);
         Tinf(:,c,a)=transmittanceInfinite(filter,angledeg(a),wavelengths,polarization);
     end
     
