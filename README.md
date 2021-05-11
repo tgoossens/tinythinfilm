@@ -26,10 +26,12 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 - Simulate for s and p polarization
 
 ## Filters across multiple pixels
+The filters deposited on the pixels can be larger than the individual pixels. Not every pixel will observe the same transmittance.
+See Examples.
 <img src="./doc/img/filtersacrossmultiplepixels.png" alt="Filters across multiple pixels" width="70%" >
 
 
-## Fast Ray-Optics approximation
+## Fast Ray-Optics Approximation
 The toolbox implements an analytical solution to the equivalent monolayer model that predicts the tiny filter transmittance much faster than the wave-optics approach.
 Only for small pixels, where diffraction becomes relevant, 
 
@@ -37,7 +39,7 @@ Only for small pixels, where diffraction becomes relevant,
 
 ## Simulate without knowing the filter design
 Using an equivalent monolayer model, the behavior of a filter can be predicted without knowing its actual filter design.
-See article for more explanation and 'Examples' for an example usage.
+See linked article for more explanation and 'Examples' for an example usage.
 
 ## Perfectly reflecting boundaries approximation (Experimental)
 Estimate filter response for perfectly reflective boundaries.
