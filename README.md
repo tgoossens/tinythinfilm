@@ -20,9 +20,10 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 
 # 2D Simulation Features
 ## Simulate angle-dependent transmittance of a filter of finite spatial width
+Based on an aperture-diffraction model, the toolbox allows
 - Efficient transmittance calculation compared to numerical solvers like FDFD or Finite Element
-- Explore the effect of the width on the filter performance
-- Explore the effect of the angle of incidence of collimated light
+- Exploration of the effect of the width on the filter performance
+- Exploration of the effect of the angle of incidence of collimated light
 - Simulate for s and p polarization
 
 ## Filters across multiple pixels
@@ -44,8 +45,10 @@ Only for small pixels, where diffraction becomes relevant, there will be importa
 
 
 ## Perfectly reflecting boundaries approximation (Experimental)
-Estimate filter response for perfectly reflective boundaries.
-This is mainly meant as an exploratory limit case to better understand some of the discrepancies of the diffraction model for small pixels (Check for example the Validation 'filterarray' for the 2 µm pixel).
+Estimate filter response for perfectly reflective boundaries. Because only a finite number of spatial modes can exist, multiple shifted peaks occur.
+This is mainly meant as an exploratory limit case to better understand some of the discrepancies of the diffraction model for small pixels. Check for example the Validation 'filterarray' for the 2 µm pixel, where at normal incidence a peak shift occors and at 20 degrees multiple peaks are observed. It is the hypothesis that for these small pixels the filter acts partially as a waveguide.
+
+
 
 
 # 3D Simulation Features (Not yet validated)
