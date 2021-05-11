@@ -19,7 +19,7 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 
 
 # 2D Simulation Features
-## Main Features
+## Simulate angle-dependent transmittance of a filter of finite spatial width
 - Efficient transmittance calculation compared to numerical solvers like FDFD or Finite Element
 - Explore the effect of the width on the filter performance
 - Explore the effect of the angle of incidence of collimated light
