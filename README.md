@@ -15,33 +15,37 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 <img src="./doc/img/tinyfabry.png" alt="Tiny Fabry-Pérot transmittance" width="45%" >
 </div>
 
-<img src="./doc/img/polarized.png" alt="Differences in polarization" width="60%" >
+<!-- <img src="./doc/img/polarized.png" alt="Differences in polarization" width="60%" > -->
 
 
-# 2D Simulation
-
-## Aperture diffraction approximation
+# 2D Simulation Features
+## Main Features
 - Efficient transmittance calculation compared to numerical solvers like FDFD or Finite Element
 - Explore the effect of the width on the filter performance
 - Explore the effect of the angle of incidence of collimated light
-- Calculate transmittance for filters that are larger than the pixel
 - Simulate for s and p polarization
 
 ## Filters across multiple pixels
 <img src="./doc/img/filtersacrossmultiplepixels.png" alt="Filters across multiple pixels" width="70%" >
 
-## Superfast Ray-Optics approximation
 
+## Fast Ray-Optics approximation
+The toolbox implements an analytical solution to the equivalent monolayer model that predicts the tiny filter transmittance much faster than the wave-optics approach.
+Only for small pixels, where diffraction becomes relevant, 
 
+<img src="./doc/img/raymodel.png" alt="Differences in polarization" width="60%" >
 
-# Experimental
+## Simulate without knowing the filter design
+Using an equivalent monolayer model, the behavior of a filter can be predicted without knowing its actual filter design.
+See article for more explanation and 'Examples' for an example usage.
+
 ## Perfectly reflecting boundaries approximation (Experimental)
 Estimate filter response for perfectly reflective boundaries.
 This limit case is meant as an exploratory limit case to understand some of the discrepancies of the diffraction model for small pixels.
 
 See also 'Validation' and 'examples' 
 
-## 3D Simulation (Not yet validated)
+# 3D Simulation Features (Not yet validated)
 These scripts are a generalization of the equations developed and validated for the 2D case. Numerical and experimental validation for the focused light cases
 is still lacking.
 
@@ -56,6 +60,10 @@ It is compatible with MATLAB and the free alternative Octave.
 
 # Validations with FDFD
 See directory 'Validations'. 
+
+# Example Gallery
+All aspects of the toolbox are illustrated using relevant examples.
+See directory 'examples'.
 
 # How to cite this work
 
