@@ -45,7 +45,7 @@ Only for small pixels, where diffraction becomes relevant, there will be importa
 
 ## Perfectly reflecting boundaries approximation (Experimental)
 Estimate filter response for perfectly reflective boundaries.
-This limit case is meant as an exploratory limit case to understand some of the discrepancies of the diffraction model for small pixels (Check for example the Validation 'filterarray' for the 2 µm pixel).
+This is mainly meant as an exploratory limit case to better understand some of the discrepancies of the diffraction model for small pixels (Check for example the Validation 'filterarray' for the 2 µm pixel).
 
 
 # 3D Simulation Features (Not yet validated)
