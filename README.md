@@ -31,21 +31,22 @@ See Examples.
 <img src="./doc/img/filtersacrossmultiplepixels.png" alt="Filters across multiple pixels" width="70%" >
 
 
-## Fast Ray-Optics Approximation
-The toolbox implements an analytical solution to the equivalent monolayer model that predicts the tiny filter transmittance much faster than the wave-optics approach.
-Only for small pixels, where diffraction becomes relevant, 
-
-<img src="./doc/img/raymodel.png" alt="Differences in polarization" width="60%" >
-
-## Simulate without knowing the filter design
+## Simulate without knowing the filter design using an equivalent model
 Using an equivalent monolayer model, the behavior of a filter can be predicted without knowing its actual filter design.
 See linked article for more explanation and 'Examples' for an example usage.
 
+
+## Fast Ray-Optics Approximation
+The toolbox implements an analytical solution to the equivalent monolayer model that predicts the tiny filter transmittance much faster than the wave-optics approach.
+Only for small pixels, where diffraction becomes relevant, there will be important differences at normal incidence.
+
+<img src="./doc/img/raymodel.png" alt="Differences in polarization" width="60%" >
+
+
 ## Perfectly reflecting boundaries approximation (Experimental)
 Estimate filter response for perfectly reflective boundaries.
-This limit case is meant as an exploratory limit case to understand some of the discrepancies of the diffraction model for small pixels.
+This limit case is meant as an exploratory limit case to understand some of the discrepancies of the diffraction model for small pixels (Check for example the Validation 'filterarray' for the 2 µm pixel).
 
-See also 'Validation' and 'examples' 
 
 # 3D Simulation Features (Not yet validated)
 These scripts are a generalization of the equations developed and validated for the 2D case. Numerical and experimental validation for the focused light cases
