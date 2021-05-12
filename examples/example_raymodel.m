@@ -55,8 +55,8 @@ filter=tinyfilterCreate(nair,n,nsub,thickness,filterwidth);
 polarisation = 'unpolarized';
 
 accuracy = 6;
-wavelengths=linspace(0.73,0.85,300); % µm
-angles = [0 10 15 20 ]; 
+wavelengths=linspace(0.65,0.85,300); % µm
+angles = [0 10 15 20 25 30 ]; 
 
 %% Run simulation for each angle
 for a=1:numel(angles)
@@ -75,7 +75,7 @@ for a=1:numel(angles)
     % -- Ray model --
     %  1. Calculate equivalent monolayer parameters
     normalized_fwhm=fwhm(wavelengths,Tinf(:,1))/targetcwl;  %Normalized FWHM
-    R=1-pi*normalized_fwhm; % Corresponding mirror reflectance
+    R=fwhm2reflectance(normalized_fwhm); % Corresponding mirror reflectance
     % 2. Calculate the transmittance
     Tray(:,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,R,filterwidth,targetcwl,wavelengths,angles(a)+eps,'s',accuracy,true);
         
@@ -86,7 +86,7 @@ end
 fig=figure(1);clf;  hold on;
 fig.Position=[385 355 1215 383];
 for a=1:numel(angles)
-    subplot(2,2,a); hold on;
+    subplot(2,3,a); hold on;
     hinf=plot(wavelengths,Tinf(:,a),':','color','k','linewidth',1.5)
     htiny(a)=plot(wavelengths,Ttiny(:,a),'color','k','linewidth',2)
     hray(a)=plot(wavelengths,Tray(:,a),'-','color',[1 0.2 0.2],'linewidth',2)
@@ -96,7 +96,7 @@ for a=1:numel(angles)
     title([num2str(angles(a)) ' deg'])
     box on
 end
-legend([htiny(1) hray(1) hinf(1)],'Tiny Wave model','Tiny Ray Model','Infinite filter')
+legend([htiny(1) hray(1) hinf(1)],'Tiny Wave model','Tiny Ray Model','Infinite filter','location','best')
 
 
 
