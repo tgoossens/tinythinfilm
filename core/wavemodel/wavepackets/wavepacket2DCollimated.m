@@ -20,6 +20,7 @@ function wavepacket =  wavepacket2DCollimated(incidence_angle_deg,incident_refra
 %  http://github.com/tgoossens/tinythinfilm
     wavepacket = @field;
     function wavepacket_in = field(filterwidth,nu,wavelength)    
+        filterwidth=filterwidth(1); % Use first dimension of potential 3D filter
         wavepacket_in=filterwidth*sinca(pi*filterwidth*(nu-incident_refractiveindex*sind(incidence_angle_deg)./wavelength));
     end
     
