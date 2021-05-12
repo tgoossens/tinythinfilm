@@ -40,7 +40,7 @@ cradeg=chiefray_deg;
 
 gamma = @(phideg) real(acos( (tand(cradeg+eps).^2-tand(conedeg).^2 +tand(phideg+eps).^2)./(2*tand(cradeg+eps).*tand(phideg+eps))));
 
-dA = @(phideg) 2*gamma(phideg)*tand(phideg)./cosd(phideg).^2;
+dA = anglesIdealLens(conedeg,cradeg);
 
 
 % Sample to maximal angle in the distribution (according to geometrical
@@ -56,7 +56,7 @@ temp(isnan(temp))=0;
 
 % The derivaiton of the formula was in radians so the final integration
 % needs to be done in the radian domain.
-T= trapz(deg2rad(phi_samples),temp,2)/(pi*tand(conedeg).^2);
+T= trapz(deg2rad(phi_samples),temp,2);
 
 
 
