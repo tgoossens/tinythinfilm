@@ -79,7 +79,7 @@ for px=3:6
     
     % Define pixel kernel
     i=px-3;
-    pixel=pixel2D([width-i*width,2*width-i*width]);
+    pixel=pixel2D('range',[width-i*width, 2*width-i*width]);
     
     % Simulate Tiny Filter
     Ttiny(:,a,px-2)=transmittanceTiny2D(filter,wavepacket,wavelengths,polarization,accuracy,pixel);
