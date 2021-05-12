@@ -12,7 +12,7 @@ clear; close all;
 
 
 %% Load FDFD simulations
-angles = [0 10 15];
+angles = [0 10 15 20];
 
 widths = [3000];%nm
 

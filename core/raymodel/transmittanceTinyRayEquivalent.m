@@ -56,9 +56,10 @@ end
         eta2=nsub/costh_n(3);
     end
         
-    % Transmittance between incident medium and substrate (in absence of
+    % Transmission coefficient between incident medium and substrate (in absence of
     % monolayer)
-    Tsub = 1-((eta0-eta2)/(eta0+eta2))^2;         
+    tsub =  2*eta0./(eta0+eta2);
+
     
     % Filter dimensions
     height=cwl/(2*neff);
@@ -79,7 +80,7 @@ end
     if(flag_fastapproximation)
         % Analytical approximaation
         M = floor(min(width*neff/(cwl*tand(angledeg/neff)),1e7));
-        T=  Tsub.*(1-R).^2 .* (1+ (R.^(2*M)-1)./log(R.^(2*M))-2*(log(R).*(R.^M .*cos(2*M*delta)-1)+2*delta.*R.^M.*sin(2*M.*delta))./(4*M.*delta.^2+M.*log(R).^2))./(1-2*R*cos(2*delta)+R.^2);
+        T=  (real(eta2)/real(eta0))*(conj(tsub)*tsub).*(1-R).^2 .* (1+ (R.^(2*M)-1)./log(R.^(2*M))-2*(log(R).*(R.^M .*cos(2*M*delta)-1)+2*delta.*R.^M.*sin(2*M.*delta))./(4*M.*delta.^2+M.*log(R).^2))./(1-2*R*cos(2*delta)+R.^2);
     
     else
         for ix=1:numel(x)
@@ -87,7 +88,7 @@ end
             formula=(R^(2*n)-2*R^(n)*cos(2*n*delta)+1)./(R^(2)-2*R*cos(2*delta)+1);
             T = T+dx*formula;
         end
-        T = Tsub*(1-R)^2*T/width;
+        T = (real(eta2)/real(eta0))*(conj(tsub)*tsub)*(1-R)^2*T/width;
     end
 
 

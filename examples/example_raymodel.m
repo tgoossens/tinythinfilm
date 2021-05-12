@@ -54,7 +54,7 @@ filter=tinyfilterCreate(nair,n,nsub,thickness,filterwidth);
 
 polarisation = 'unpolarized';
 
-accuracy = 9;
+accuracy = 6;
 wavelengths=linspace(0.73,0.85,300); % µm
 angles = [0 10 15 20 ]; 
 
@@ -77,7 +77,7 @@ for a=1:numel(angles)
     normalized_fwhm=fwhm(wavelengths,Tinf(:,1))/targetcwl;  %Normalized FWHM
     R=1-pi*normalized_fwhm; % Corresponding mirror reflectance
     % 2. Calculate the transmittance
-    Tray(:,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,R,filterwidth,targetcwl,wavelengths,angles(a)+eps,'s',accuracy);
+    Tray(:,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,R,filterwidth,targetcwl,wavelengths,angles(a)+eps,'s',accuracy,true);
         
 end
 
