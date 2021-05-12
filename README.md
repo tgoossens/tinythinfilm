@@ -1,4 +1,4 @@
-# Tiny Thin Film
+# Tiny Thin Film filter Toolbox
 Calculate the transmittance of pixel-integrated thin-film filters.
 
 Thin-film filter deposition technology has advanced to the stage where filters can be made so tiny that they can be integrated onto separate pixels of image sensors.
