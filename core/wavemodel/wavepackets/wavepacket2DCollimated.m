@@ -1,5 +1,5 @@
  
-function wavepacket =  wavepacket2DCollimated(incidence_angle_deg,incident_refractiveindex,filterwidth)
+function wavepacket =  wavepacket2DCollimated(incidence_angle_deg,incident_refractiveindex)
 % wavepacket2DCollimated
 %  Wavepacket (angular spectrum) of a plane wave entering the filter at
 %  oblique incidence
@@ -11,16 +11,15 @@ function wavepacket =  wavepacket2DCollimated(incidence_angle_deg,incident_refra
 %                           to the normal vector of the surface.
 %     incident_refractiveindex - Refractive index of the incident medium
 %    
-%     filterwidth - Width of the filter
 %
 %   Outputs
-%     wavepacket - An anonymous function @(nu,wavelength) which
+%     wavepacket - An anonymous function @(filterwidth,nu,wavelength) which
 %                  represents the angular spectrum at specified wavelengths
 %
 %  Copyright Thomas Goossens  
 %  http://github.com/tgoossens/tinythinfilm
     wavepacket = @field;
-    function wavepacket_in = field(nu,wavelength)    
+    function wavepacket_in = field(filterwidth,nu,wavelength)    
         wavepacket_in=filterwidth*sinca(pi*filterwidth*(nu-incident_refractiveindex*sind(incidence_angle_deg)./wavelength));
     end
     

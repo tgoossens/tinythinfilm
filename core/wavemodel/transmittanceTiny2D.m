@@ -1,4 +1,4 @@
-function [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
+function [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixel)
 % function [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
 %  transmittanceTiny2D  Simulate tiny filter transmittance
 %    
@@ -22,8 +22,8 @@ function [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,wavel
 
     
     if(or(polarization=='unpolarized',polarization=='unpolarised'))
-        [T_s,Phi_t_s,Phi_in_s] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,'s',accuracy,pixelkernel);
-        [T_p,Phi_t_p,Phi_in_p] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,'p',accuracy,pixelkernel);
+        [T_s,Phi_t_s,Phi_in_s] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,'s',accuracy,pixel);
+        [T_p,Phi_t_p,Phi_in_p] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,'p',accuracy,pixel);
         T =  0.5*(T_s+T_p);
         Phi_t =  0.5*(Phi_t_s+Phi_t_p);
         Phi_in=  0.5*(Phi_in_s+Phi_in_p);
@@ -50,7 +50,9 @@ nu = reshape(nu,[numel(nu) 1 1]);
 % Wavenumber
 k = @(n) 2*pi./(wl)*n; 
 
-conv_pix=@(f) conv(f,pixelkernel(nu),'same');
+%% Convolution function pixel kernel
+kernel = pixel.kernel;
+conv_pix=@(f) conv(f,kernel(nu),'same');
 
 %%  Calculate admittances 
 
@@ -66,8 +68,7 @@ for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wwave
     %Ain(:,1,j) = width*sinca(pi*width*(nu-filter.stack.refractiveindex(1)*sin(anglerad)/wl(j))); 
-    incident_wavepacket(nu,wl(j));
-    Ain(:,1,j) = incident_wavepacket(nu,wl(j));
+    Ain(:,1,j) = incident_wavepacket(filter.width,nu,wl(j));
 
     
     % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.

@@ -37,7 +37,7 @@ filter=tinyfilterCreate(nair,n,nsub,thickness,width);
 
 polarisation = 'unpolarized';
 
-accuracy = 9;
+accuracy = 6;
 wavelengths=linspace(0.73,0.85,300); % µm
 angles = [0 5 10 15 20 ]; 
 

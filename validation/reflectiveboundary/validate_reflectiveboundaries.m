@@ -1,8 +1,9 @@
-%% Comparison of Tiny filter models with FDFD simulations for a thin-film filter sandwiched two other thin-film filters 
+%% Comparison of Tiny filter models with FDFD simulations for a thin-film filter sandwiched between two perfectly reflective boundaries (Silver)
 %
-%  Only the the transmittance of the central filter (filter2) is analyzed
+% For the 2 µm pixel, a peak shift at normal incidence is observed and
+% predicted. Also the  multiple peaks at larger angles are predicted,
+% although imperfectly. Some peaks are not predicted.
 %
-
 
 % Copyright Thomas Goossens
 

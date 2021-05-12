@@ -1,5 +1,5 @@
 
-function [T,Phi_t,Phi_in] = transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
+function [T,Phi_t,Phi_in] = transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixel)
 % function [T,Phi_t,Phi_in] = transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
 %  transmittanceTiny3D  Simulate tiny filter transmittance
 %    
@@ -24,11 +24,11 @@ function [T,Phi_t,Phi_in] = transmittanceTiny3D(filter,incident_wavepacket,wavel
 %  http://github.com/tgoossens
 
 if(or(polarization=='unpolarized',polarization=='unpolarised'))
-    [T_s,Phi_t_s,Phi_in_s] = transmittanceTiny3D(filter,incident_wavepacket,wavelengths,'s',accuracy,pixelkernel);
-    [T_p,Phi_t_p,Phi_in_p] =  transmittanceTiny3D(filter,incident_wavepacket,wavelengths,'p',accuracy,pixelkernel);
+    [T_s,Phi_t_s,Phi_in_s] = transmittanceTiny3D(filter,incident_wavepacket,wavelengths,'s',accuracy,pixel);
+    [T_p,Phi_t_p,Phi_in_p] =  transmittanceTiny3D(filter,incident_wavepacket,wavelengths,'p',accuracy,pixel);
     T =  0.5*(T_s+T_p);
     Phi_t =  0.5*(Phi_t_s+Phi_t_p);
-    Phi_in =  0.5*(Phi_t_s+Phi_t_p);
+    Phi_in =  0.5*(Phi_in_s+Phi_in_p);
     return;
 end
 
@@ -49,9 +49,9 @@ nu = sqrt(nu_x.^2+nu_y.^2);
 k = @(n) 2*pi./(wl)*n;
 
 % Fourier transform of the pixel kernel (so we don't recompute it for each wavelength)
-fftpix=fft(pixelkernel(nu_x));
-pixelkernel_x = pixelkernel(nu_x);
-pixelkernel_y = pixelkernel(nu_y);
+
+pixelkernel_x = pixel.kernel.x(nu_x);
+pixelkernel_y = pixel.kernel.y(nu_y);
 
 %
 %%  Calculate admittances
@@ -76,7 +76,7 @@ for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wave
     
-    Ain(:,:,j) = incident_wavepacket(nu_x,nu_y,wl(j));
+    Ain(:,:,j) = incident_wavepacket(filter.width,nu_x,nu_y,wl(j));
     
     % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.
     domain = abs(nu).*wl(j) <=1;
