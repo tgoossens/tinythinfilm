@@ -29,6 +29,6 @@ function [T,Phi_t,Phi_in] =transmittanceTiny2DCollimated(filter,incidence_angle_
 %  Copyright Thomas Goossens
 %  http://github.com/tgoossens
 
-incident_wavepacket = wavepacket2DCollimated(incidence_angle_deg,filter.stack.refractiveindex(1),filter.width);
+incident_wavepacket = wavepacket2DCollimated(incidence_angle_deg,filter.stack.refractiveindex(1));
 [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixel_fullwidth(filter.width));
 end

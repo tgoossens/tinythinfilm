@@ -66,8 +66,7 @@ for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wwave
     %Ain(:,1,j) = width*sinca(pi*width*(nu-filter.stack.refractiveindex(1)*sin(anglerad)/wl(j))); 
-    incident_wavepacket(nu,wl(j));
-    Ain(:,1,j) = incident_wavepacket(nu,wl(j));
+    Ain(:,1,j) = incident_wavepacket(filter.width,nu,wl(j));
 
     
     % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.

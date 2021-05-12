@@ -56,7 +56,7 @@ pixelkernel = pixel_fullwidth(filterwidth);
     for a=1:numel(angles)
         angle=angles(a);
         
-
+        
         %% Simulate
         
         
@@ -66,10 +66,10 @@ pixelkernel = pixel_fullwidth(filterwidth);
         Tinf(:,a) = transmittanceInfinite(filter,angle,wavelengths,polarization);
         
         Ttiny2D(:,a)=transmittanceTiny2DCollimated(filter,angle,wavelengths,polarization,accuracy);
-       
+        
         disp(['Simulate tiny filter 3D collimated: angle = ' num2str(angle) ' deg']);
         azimuth_deg=0;
-        wavepacket3D=  wavepacket3DCollimated(angle,azimuth_deg,nair,filterwidth);
+        wavepacket3D=  wavepacket3DCollimated(angle,azimuth_deg,nair);
         Ttiny3D(:,a)=transmittanceTiny3D(filter,wavepacket3D,wavelengths,polarization,accuracy,pixelkernel);
         
 

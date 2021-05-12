@@ -76,7 +76,7 @@ for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wave
     
-    Ain(:,:,j) = incident_wavepacket(nu_x,nu_y,wl(j));
+    Ain(:,:,j) = incident_wavepacket(filter.width,nu_x,nu_y,wl(j));
     
     % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.
     domain = abs(nu).*wl(j) <=1;

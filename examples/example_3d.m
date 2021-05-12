@@ -51,7 +51,8 @@ effective_index=1.6;
 
 % Equivalent filter
 filter=tinyfilterCreateEquivalent(targetcwl,normalized_fwhm,effective_index,width,nair,nsub);
-
+filterlarge=filter;         
+filterlarge.width=100;
 %% Pixel
 pixelkernel = pixel_fullwidth(width);
 
@@ -67,11 +68,13 @@ for f=1:numel(fnumbers)
         
         % Run simulation focusde light for equivalent monolayer
         azimuth_deg=0;
-        incident_wavepacket =  wavepacket3DLens(conedeg,cradeg,azimuth_deg,width);
+        incident_wavepacket =  wavepacket3DLens(conedeg,cradeg,azimuth_deg);
+        
         Ttiny(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel);
         
-        large_wavepacket=  wavepacket3DLens(conedeg,cradeg,azimuth_deg,100);
-        Tinf(:,a,f)=transmittanceTiny3D(filter,large_wavepacket,wavelengths,polarization,hiaccuracy,pixel_fullwidth(100));
+
+
+        Tinf(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,hiaccuracy,pixel_fullwidth(100));
         
                 
     end
