@@ -75,14 +75,14 @@ for px=3:6
 
     %    Ttiny(:,a,px-2)=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarization,accuracy);
     % Define incident light
-    wavepacket=wavepacket2DCollimated(angles(a),nair,filter.width);
+    wavepacket=wavepacket2DCollimated(angles(a),nair);
     
     % Define pixel kernel
     i=px-3;
-    pixelkernel=pixel_partialwidth(width-i*width,2*width-i*width);
-
+    pixel=pixel2D([width-i*width,2*width-i*width]);
+    
     % Simulate Tiny Filter
-    Ttiny(:,a,px-2)=transmittanceTiny2D(filter,wavepacket,wavelengths,polarization,accuracy,pixelkernel);
+    Ttiny(:,a,px-2)=transmittanceTiny2D(filter,wavepacket,wavelengths,polarization,accuracy,pixel);
     Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarization);
     
 end

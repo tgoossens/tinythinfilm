@@ -10,11 +10,13 @@ function wavepacket =  wavepacket3DCollimated(incidence_angle_deg,azimuth_angle_
 %     incidence_angle_deg - Incidence angle w.r.t. to normal (zenith)
 %     azimuth_angle_deg - Azimuth angle with respect to x-axis
 %     incident_refractiveindex - Refractive index of incident medium
-%     filterwidth - With of the filter (in both x and y)
 %
 %   Outputs
-%     wavepacket - An anonymous function @(nu_x,nu_y,wavelength) which
-%                  represents the angular spectrum at specified wavelengths
+%     wavepacket - An anonymous function @(filterwidth,nu_x,nu_y,wavelength) which
+%                  represents the angular spectrum at specified
+%                  wavelengths. Filterwidth is either a single value or a
+%                  pair (x,y) value.
+
 %
 %  Coordinate system
 %     (x,y) parallel with filter surface

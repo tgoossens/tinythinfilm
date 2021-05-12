@@ -49,8 +49,7 @@ filterwidth=5.5; %micron
 filter=tinyfilterCreateEquivalent(targetcwl,normalized_fwhm,effective_index,filterwidth,nair,nsub);
 
 %% Pixel
-pixelkernel = pixel_fullwidth(filterwidth);
-
+pixel=pixel3D(filterwidth,filterwidth);
 
 %% Run simulation for each fnumber and chief ray angle
     for a=1:numel(angles)
@@ -70,7 +69,7 @@ pixelkernel = pixel_fullwidth(filterwidth);
         disp(['Simulate tiny filter 3D collimated: angle = ' num2str(angle) ' deg']);
         azimuth_deg=0;
         wavepacket3D=  wavepacket3DCollimated(angle,azimuth_deg,nair);
-        Ttiny3D(:,a)=transmittanceTiny3D(filter,wavepacket3D,wavelengths,polarization,accuracy,pixelkernel);
+        Ttiny3D(:,a)=transmittanceTiny3D(filter,wavepacket3D,wavelengths,polarization,accuracy,pixel);
         
 
 
