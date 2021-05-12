@@ -24,7 +24,7 @@ function pixel = pixel2D(varargin)
  p.addParameter('range',[],@isnumeric);
  p.parse(varargin{:});
 
-
+ 
 width = p.Results.width;
 range= p.Results.range;
 
@@ -40,7 +40,8 @@ elseif(not(isnan(range)))
 end
 
 % Select only along one dimension for the 2D pixel
-pixel.kernel=pixel_3d.kernel.x;
+pixel.kernel.x=pixel_3d.kernel.x;
+pixel.range.x=pixel_3d.range.x;
 
 
 end

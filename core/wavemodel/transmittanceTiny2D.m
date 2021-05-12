@@ -51,7 +51,7 @@ nu = reshape(nu,[numel(nu) 1 1]);
 k = @(n) 2*pi./(wl)*n; 
 
 %% Convolution function pixel kernel
-kernel = pixel.kernel;
+kernel = pixel.kernel.x;
 conv_pix=@(f) conv(f,kernel(nu),'same');
 
 %%  Calculate admittances 

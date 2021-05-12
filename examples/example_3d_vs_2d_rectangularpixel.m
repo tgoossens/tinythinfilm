@@ -70,8 +70,6 @@ pixelsquare=pixel3D('width',filterwidth);
         
         %% Simulate
         
-        
-        
         disp(['Simulate tiny filter 2D collimated: angle = ' num2str(angle) ' deg']);
         
         Tinf(:,a) = transmittanceInfinite(filter_rectangular,angle,wavelengths,polarization);
