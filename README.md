@@ -19,11 +19,11 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 
 
 # 2D Simulation Features
-## Simulate angle-dependent transmittance of a filter of finite spatial width
+## Fast simulation of transmittance of a filter of finite spatial width
 Based on an aperture-diffraction model, the toolbox allows
 - Efficient transmittance calculation compared to numerical solvers like FDFD or Finite Element
-- Exploration of the effect of the width on the filter performance
-- Exploration of the effect of the angle of incidence of collimated light
+- Exploration of the effect of the pixel and filter width
+- Exploration of the effect of the angle of incidence 
 - Simulate for s and p polarization
 
 ## Filters across multiple pixels
