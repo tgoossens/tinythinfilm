@@ -41,6 +41,8 @@ cradeg=chiefray_deg;
 gamma = @(phideg) real(acos( (tand(cradeg+eps).^2-tand(conedeg).^2 +tand(phideg+eps).^2)./(2*tand(cradeg+eps).*tand(phideg+eps))));
 
 dA = anglesIdealLens(conedeg,cradeg);
+load lens.mat
+dA = anglesVignettedLens(conedeg,cradeg,lens.exitpupil,lens.P,lens.h);
 
 
 % Sample to maximal angle in the distribution (according to geometrical
