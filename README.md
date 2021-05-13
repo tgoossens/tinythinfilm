@@ -56,7 +56,8 @@ These scripts are a generalization of the equations developed and validated for 
 is still lacking.
 
  ##  Very fast Ray Optics approximation
-- Very fast Ray Optics approximations for lenses with vignetting
+- Focused light from ideal circular lens
+- Focused light from lenses with vignetting
 
  ## Wave optics
 - Light focused from circular apertures: on and off-axis
