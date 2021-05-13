@@ -75,7 +75,6 @@ t = filter.transmission(wl,nu,polarization);
 for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wave
-    
     Ain(:,:,j) = incident_wavepacket(filter.width,nu_x,nu_y,wl(j));
     
     % Useful integration domain;. This conditions corresponds to ignore incidence angles larger than 90 degres.
@@ -112,7 +111,12 @@ T=Phi_t./Phi_in;
     end
 
     function c = conv_pix(f)
-    % The pixel kernel is separable so we can do 2 sequential 1D convolutions.
+        numzero = sum(~(f(:)==0));
+        if(numzero==0)
+            c =  f;
+            return
+        end
+        % The pixel kernel is separable so we can do 2 sequential 1D convolutions.
         c =conv2fft( conv2fft(f,pixelkernel_x,'same') ,pixelkernel_y,'same');
     end
 end

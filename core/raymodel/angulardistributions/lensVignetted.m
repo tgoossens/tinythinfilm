@@ -6,7 +6,7 @@ function  lens  = lensVignetted(exitpupil_distance,vignetcircle_radius,vignetcir
 
 % Return variable
 lens.angulardistribution = @angularDistribution;
-lens.name='Vignetted lens'
+lens.name='Vignetted lens';
 
 
     function dA = angularDistribution(coneangle_deg,chiefray_deg,incidenceangle_deg)
