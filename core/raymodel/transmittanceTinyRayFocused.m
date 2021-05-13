@@ -1,4 +1,4 @@
-function [T] = transmittanceTinyRayFocused(n0,neff,nsub,R,width,cwl,wavelengths,coneangle_deg,chiefray_deg,polarization,accuracy,flag_fastapproximation) 
+function [T] = transmittanceTinyRayFocused(lens,n0,neff,nsub,R,width,cwl,wavelengths,coneangle_deg,chiefray_deg,polarization,accuracy,flag_fastapproximation) 
 % transmittanceTinyRayEquivalent
 % Simulate tiny transmittance of a Fabry-Pérot using a ray based model
 % illuminted by focused light characterized by the half cone angle and
@@ -38,11 +38,10 @@ conedeg = coneangle_deg;
 cradeg=chiefray_deg;
 
 
-gamma = @(phideg) real(acos( (tand(cradeg+eps).^2-tand(conedeg).^2 +tand(phideg+eps).^2)./(2*tand(cradeg+eps).*tand(phideg+eps))));
+%gamma = @(phideg) real(acos( (tand(cradeg+eps).^2-tand(conedeg).^2 +tand(phideg+eps).^2)./(2*tand(cradeg+eps).*tand(phideg+eps))));
 
-dA = anglesIdealLens(conedeg,cradeg);
-load lens.mat
-dA = anglesVignettedLens(conedeg,cradeg,lens.exitpupil,lens.P,lens.h);
+%dA = anglesIdealLens(conedeg,cradeg);
+dA = lens.angulardistribution;
 
 
 % Sample to maximal angle in the distribution (according to geometrical
@@ -52,7 +51,7 @@ phi_samples = linspace(0,ceil(atand(tand(cradeg)+tand(conedeg))),100); % radians
 %%
 
 for p=1:numel(phi_samples)
-    temp(:,p)=dA(phi_samples(p))*transmittanceTinyRayEquivalent(n0,neff,nsub,R,width,cwl,wavelengths,phi_samples(p),polarization,accuracy,flag_fastapproximation);
+    temp(:,p)=dA(conedeg,cradeg,phi_samples(p))*transmittanceTinyRayEquivalent(n0,neff,nsub,R,width,cwl,wavelengths,phi_samples(p),polarization,accuracy,flag_fastapproximation);
 end
 temp(isnan(temp))=0;
 
