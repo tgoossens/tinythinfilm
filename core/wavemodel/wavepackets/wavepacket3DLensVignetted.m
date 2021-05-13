@@ -48,10 +48,21 @@ function wavepacket =  wavepacket3DLensVignetted(coneangle_deg,cra_deg,azimuth_d
         
         % The pupil function of the lens is the product of the two pupils,
         % this is equivalent to an INTERSECTION or logical AND operatio.
-        P0lens = @(x,y) circ(sqrt(x.^2+y.^2),lensradius) .*Pvignet(x,y);;
+        P0 = @(x,y) circ(sqrt(x.^2+y.^2),lensradius);
+        P0lens = @(x,y) P0(x,y) .*Pvignet(x,y);
+        
         P = @(x,y) P0lens(x+di*cosd(azimuth_deg),y+di*sind(azimuth_deg));
+%         
+%         figure;hold on
+%         subplot(121)
+%         spy(P0(-wavelength.*zi.*nu_x,-wavelength.*zi.*nu_y),'r');
+%         spy(Pvignet(-wavelength.*zi.*nu_x,-wavelength.*zi.*nu_y),'b');
+%         subplot(122)
+%         spy(P0lens(-wavelength.*zi.*nu_x,-wavelength.*zi.*nu_y),'r');
+%         
         filteraperture = filterwidth_x.*filterwidth_y.*sinca(pi*filterwidth_x*nu_x).*sinca(pi*filterwidth_y*nu_y);
         pupilfunction= (P(-wavelength.*zi.*nu_x,-wavelength.*zi.*nu_y));
+        
         numzero = sum(~(pupilfunction(:)==0));
         if(numzero==0)
             wavepacket_in =  pupilfunction;

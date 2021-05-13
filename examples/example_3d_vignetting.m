@@ -22,11 +22,11 @@ accuracy = 6;
 hiaccuracy = 8; % for the large filter
 
 % Light properties
-wavelengths=linspace(0.73,0.85,1); % µm
+wavelengths=linspace(0.73,0.85,100); % µm
 polarization = 'unpolarized';
 
 % Lens properties
-fnumbers=[2.8 1.4];
+fnumbers=[1.4];
 cradegs=[0 5 10 20]; % chief ray angles
 
 
@@ -78,7 +78,8 @@ for f=1:numel(fnumbers)
         Tray(:,a,f) = transmittanceTinyRayFocused(lensVignetted(eo16.exitpupil,eo16.P,eo16.h),nair,effective_index,nsub,fwhm2reflectance(normalized_fwhm),width,targetcwl,wavelengths,conedeg,cradeg,polarization,accuracy,true);
 
 
-        Tinf(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,hiaccuracy,largepixel);
+       wavepacketIdealLens =  wavepacket3DLens(conedeg,cradeg,azimuth_deg);
+        Tinf(:,a,f)=transmittanceTiny3D(filter,wavepacketIdealLens,wavelengths,polarization,hiaccuracy,pixel);
         
                 
     end
@@ -94,7 +95,7 @@ color{2}=cmap(round(0.4*s),:);
 color{3}=cmap(round(0.6*s),:)
 color{4}=cmap(round(0.65*s),:)
 
-maxnorm = @(x) x/max(x);
+maxnorm = @(x) x;
 count=1;
 
   fig=figure(f);clf;  hold on;
