@@ -33,7 +33,7 @@ See Examples.
 
 
 ## Simulate without knowing the filter design using an equivalent model
-Using an equivalent monolayer model, the behavior of a filter can be predicted without knowing its actual filter design.
+Using an equivalent monolayer model, the behavior of a filter can be predicted <b>without knowing its actual filter design</b>.
 See linked article for more explanation and 'Examples' for an example usage.
 
 
