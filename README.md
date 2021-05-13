@@ -55,8 +55,12 @@ This is mainly meant as an exploratory limit case to better understand some of t
 These scripts are a generalization of the equations developed and validated for the 2D case. Numerical and experimental validation for the focused light cases
 is still lacking.
 
-- Focused on and off-axis light for a thin-lens
-- Collimated light 
+ ##  Very fast Ray Optics approximation
+- Very fast Ray Optics approximations for lenses with vignetting
+
+ ## Wave optics
+- Light focused from circular apertures: on and off-axis
+- Plane wave in 3D space
 
 # How to use
 
