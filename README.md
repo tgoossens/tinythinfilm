@@ -33,7 +33,7 @@ See Examples.
 
 
 ## Simulate without knowing the filter design using an equivalent model
-Using an equivalent monolayer model, the behavior of a filter can be predicted without knowing its actual filter design.
+Using an equivalent monolayer model, the behavior of a filter can be predicted <b>without knowing its actual filter design</b>.
 See linked article for more explanation and 'Examples' for an example usage.
 
 
@@ -56,7 +56,8 @@ These scripts are a generalization of the equations developed and validated for 
 is still lacking.
 
  ##  Very fast Ray Optics approximation
-- Very fast Ray Optics approximations for lenses with vignetting
+- Focused light from ideal circular lens
+- Focused light from lenses with vignetting
 
  ## Wave optics
 - Light focused from circular apertures: on and off-axis
