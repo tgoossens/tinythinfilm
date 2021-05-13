@@ -39,7 +39,7 @@ nFWHM=10/1100
 width=15000; %nm
 
 
-filterwidth=width;
+filterwidth=width;angledeg=0;
 
 neff=1.7;
 nsub=1;
@@ -53,6 +53,7 @@ fastapproximation=true;
 accuracy=9
 
 angledeg = [0 10 15 20];
+
 fnumber=2.8;
 coneangle_deg = atand(1./(2*fnumber));
 alpha_deg=0; % azimuth
@@ -71,12 +72,12 @@ for a=1:numel(angledeg)
         
         % Calculate transmittance for the tiny wave, tiny ray and infinite
         % filter case
-        Tray(:,c,a)=transmittanceTinyRayFocused(nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
+        Tray(:,c,a)=transmittanceTinyRayFocused(lensIdeal(),nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
         
         
-        largewidth=20*width;
+        largewidth=50*width;
 
-        Tinf(:,c,a)=transmittanceTinyRayFocused(nair,neff,nsub,1-pi*nFWHM,largewidth,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
+        Tinf(:,c,a)=transmittanceTinyRayFocused(lensIdeal(),nair,neff,nsub,1-pi*nFWHM,largewidth,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
         
         % Wave optics
         accuracy_wave=8;
@@ -101,7 +102,7 @@ for a=1:numel(angledeg)
    hray(a)=plot(wavelengths,maxnorm(Tray(:,:,a)),'k')
    hinf(a)=plot(wavelengths,maxnorm(Tinf(:,:,a)),'k:')
    
-   hwave(a)= plot(wavelengths,maxnorm(Twave(:,:,a)),'r')    
+   %hwave(a)= plot(wavelengths,maxnorm(Twave(:,:,a)),'r')    
        title(['f/' num2str(fnumber) ' - CRA ' num2str(angledeg(a)) ' deg'])
        ylim([0 1])
 

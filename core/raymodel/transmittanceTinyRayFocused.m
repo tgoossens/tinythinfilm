@@ -7,6 +7,8 @@ function [T] = transmittanceTinyRayFocused(lens,n0,neff,nsub,R,width,cwl,wavelen
 % [T] = transmittanceTinyRayFocused(n0,neff,nsub,R,width,cwl,wavelengths,coneangle_deg,chiefray_deg,polarization,accuracy,flag_fastapproximation) 
 %     
 %   Inputs
+%    - lens: a struct containing at least the field
+%    'lens.angulardistribution  = @(coneangle,chiefray,incidenceangle)
 %    - n0: Refractive index incident medium
 %    - neff: effective refractive index of the cavity
 %    - nsubstrate:Refractive index substrate
@@ -19,7 +21,8 @@ function [T] = transmittanceTinyRayFocused(lens,n0,neff,nsub,R,width,cwl,wavelen
 %    - polarization ('s' or 'p')    
 %    - accuracy: Subdivide integration domain in 2^floor(accuracy) points
 %    - flag_fastapproximation: Calculate the transmittance using an
-%    analytical approxmiation that evaluates faster. By default false.
+%    analytical approxmiation that evaluates faster. By default false. But
+%    it works really well, you should try it ;)
 %   Outputs
 %    - T (Wx1):  Ray-model estimation of the transmittance of a tiny Fabry-Pérot filter 
 %    

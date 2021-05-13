@@ -69,7 +69,7 @@ for a=1:numel(angledeg)
         filter=tinyfilterCreateEquivalent(cwl(c),nFWHM,neff,width,nair,nsub);
         
         % Define incident light
-        wavepacket2d = wavepacket2DCollimated(angledeg(a),nair,filterwidth);
+        wavepacket2d = wavepacket2DCollimated(angledeg(a),nair);
 
         % Calculate transmittance for the tiny wave, tiny ray and infinite
         % filter case

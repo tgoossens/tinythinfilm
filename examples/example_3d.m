@@ -54,8 +54,8 @@ filter=tinyfilterCreateEquivalent(targetcwl,normalized_fwhm,effective_index,widt
 filterlarge=filter;         
 filterlarge.width=100;
 %% Pixel
-pixel = pixel3D(width,width);
-largepixel = pixel3D(100,100);
+pixel = pixel3D('width',width);
+largepixel = pixel3D('width',100);
 
 
 %% Run simulation for each fnumber and chief ray angle
