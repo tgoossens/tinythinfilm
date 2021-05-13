@@ -1,4 +1,4 @@
-# Tiny Thin Film
+# Tiny Thin Film Filter Toolbox
 Calculate the transmittance of pixel-integrated thin-film filters.
 
 Thin-film filter deposition technology has advanced to the stage where filters can be made so tiny that they can be integrated onto separate pixels of image sensors.
@@ -19,7 +19,7 @@ This toolbox aims to provide filter and camera designers with quick estimates of
 
 
 # 2D Simulation Features
-## Fast simulation of transmittance of a filter of finite spatial width
+## Fast simulation of pixel-integrated thin-film filter transmittance
 Based on an aperture-diffraction model, the toolbox allows
 - Efficient transmittance calculation compared to numerical solvers like FDFD or Finite Element
 - Exploration of the effect of the pixel and filter width
