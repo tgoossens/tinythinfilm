@@ -12,12 +12,10 @@ function pixel = pixel3D(varargin)
 %  Outputs:
 %    pixel , 
 %        kernel: anonymous function which can be evaluated as kernel(nu)
-%    
+%                This kernel depends how different spatial frequencies are
+%                weighted to effectively impose the finite pixel width. 
 %    
 % Copyright Thomas Goossens    
-
-% Kernel for X direction
-% If the boundaries are th esame, we can use an 
 
 %% Variable arguments
  varargin = ieParamFormat(varargin);

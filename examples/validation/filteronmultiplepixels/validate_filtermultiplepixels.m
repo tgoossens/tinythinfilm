@@ -54,6 +54,7 @@ neff=nl/sqrt((1-nl/nh+nl^2./nh^2));
 
 %% Choose simulation options
 
+% FDFD simulation was for s-polarized light
 polarization = 's';
 
 accuracy = 8;
@@ -73,13 +74,13 @@ for px=3:6
     disp(['Simulate tiny filter: width ' num2str(width) ' µm - ' num2str(angles(a)) ' deg']);
     
 
-    %    Ttiny(:,a,px-2)=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarization,accuracy);
     % Define incident light
     wavepacket=wavepacket2DCollimated(angles(a),nair);
     
     % Define pixel kernel
     i=px-3;
     pixel=pixel2D('range',[width-i*width, 2*width-i*width]);
+
     
     % Simulate Tiny Filter
     Ttiny(:,a,px-2)=transmittanceTiny2D(filter,wavepacket,wavelengths,polarization,accuracy,pixel);
@@ -90,17 +91,13 @@ end
 
 
 %% Plot transmittance
-% There there is a drop in transmittance and an increase in FWHM
-%
-
-
 fig=figure(w);clf;  hold on;
 count=1;
 for a=1:numel(angles)
-for px=3:6
-    i=px-2;
-    fig.Position= [468 215 1105 731];
-
+    for px=3:6
+        i=px-2;
+        fig.Position= [468 215 1105 731];
+        
         subplot(4,4,count); hold on;
         htiny(a)=plot(wavelengths,Ttiny(:,a,i),'color',[1 0.1 0.5],'linewidth',2)
         hfdfd(a)=plot(wavelengths_fdfd,Tfdfd(:,a,i),'.-','color','k','linewidth',1,'markersize',8)
@@ -116,8 +113,9 @@ for px=3:6
         count=count+1;
         ylim([0 1])
     end
-    %    legend([ hfdfd(1) htiny(1)   hinf(1)],'Numerical (FDFD)','Tiny Diffractive','Infinite filter','location','best')
     
+    legh=legend([hfdfd(1) htiny(1) hinf(1)],'FDFD simulation','Tiny Wave model','Infinite filter')
+    legh.Orientation='horizontal'
 end
 
 
