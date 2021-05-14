@@ -1,4 +1,3 @@
-
 function wavepacket =  wavepacket3DLensVignetted(coneangle_deg,cra_deg,azimuth_deg,vignetting_radius,vignetting_sensitivity,exitpupil_distance) 
 % wavepacket3DLensVignetted
 %  Wavepacket (angular spectrum) of light focused from a circular aperture (lens) onto a square filter of
