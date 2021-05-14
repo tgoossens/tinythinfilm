@@ -80,21 +80,8 @@ pixel.kernel.y=chooseKernel(range_y);
 pixel.range.x=range_x;
 pixel.range.y=range_y;
 
-    function kernel = customRangeKernel(startpos,endpos)
-        kernel = @K;
-        function k = K(nu)
-            
-            k = 1i *(exp(-2*pi*1i*nu*endpos)-exp(-2*pi*1i*nu*startpos))./(2*pi*nu);
-            
-            % When zero, return the asymptotic limit
-            k(nu==0) =  (endpos-startpos);
-        end
-    end
 
 
-    function kernel = createCenteredKernel(width)
-        kernel = @(nu) width*sinc_nopi(pi*width*nu);
-    end
 
     function kernel=  chooseKernel(range)
         
@@ -108,4 +95,21 @@ pixel.range.y=range_y;
             kernel=customRangeKernel(range(1),range(2));
         end
     end
+
+    function kernel = customRangeKernel(startpos,endpos)
+        kernel = @K;
+        function k = K(nu)
+            
+            k = 1i *(exp(2*pi*1i*nu*endpos)-exp(2*pi*1i*nu*startpos))./(2*pi*nu);
+            
+            % When zero, return the asymptotic limit
+            k(nu==0) =  (endpos-startpos);
+        end
+    end
+
+
+    function kernel = createCenteredKernel(width)
+        kernel = @(nu) width*sinc_nopi(pi*width*nu);
+    end
+
 end
