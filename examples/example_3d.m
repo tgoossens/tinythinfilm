@@ -72,8 +72,6 @@ for f=1:numel(fnumbers)
         incident_wavepacket =  wavepacket3DLens(conedeg,cradeg,azimuth_deg);
         
         Ttiny(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixel);
-        
-
 
         Tinf(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,hiaccuracy,largepixel);
         

@@ -67,7 +67,6 @@ eta_sub=eta(numel(filter.stack.refractiveindex));
 for j=1:numel(wl)
     %%%%%%%%%% WAVE AMPLITUDES %%%%%%%%%%%%
     % Incident wwave
-    %Ain(:,1,j) = width*sinca(pi*width*(nu-filter.stack.refractiveindex(1)*sin(anglerad)/wl(j))); 
     Ain(:,1,j) = incident_wavepacket(filter.width,nu,wl(j));
 
     
@@ -80,12 +79,6 @@ for j=1:numel(wl)
 
     
     %%%%%%%%%% FLUXES  %%%%%%%%%%%%
-    %Incident flux (explicit result)
-%     nu_angle=filter.stack.refractiveindex(1)*sin(anglerad)/wl(j);
-%     eta_in = admittance(filter.stack.refractiveindex(1),wl(j),nu_angle,polarization);
-%     Phi_in(j)=real(eta_in(1))/2 * filter.width;
-%     
-%     
     % Incident flux
     temp=  0.5*real(eta_in(:,1,j).*Ain(:,1,j).*conv_pix(conj(Ain(:,1,j))));
     temp= temp*abs(nu(2)-nu(1)); % discretization convolution integral
@@ -105,10 +98,6 @@ T=Phi_t./Phi_in;
 
 
 
-function f = sinca(x)
-% Modified sinc function because matlab sinc function already includes the factor pi.
-% This makes notation consistent with definitions in the publications.    
-    f=sinc(x/pi); 
-end
+
 end
 

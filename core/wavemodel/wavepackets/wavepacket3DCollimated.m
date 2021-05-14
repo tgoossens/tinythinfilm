@@ -44,15 +44,11 @@ angle_y = incidence_angle_deg*sind(azimuth_angle_deg);
         end
         
         % We can make use of separability
-        wavepacket_in_x=filterwidth_x*sinca(pi*filterwidth_x*(nu_x-incident_refractiveindex*sind(angle_x)./wavelength));
-        wavepacket_in_y=filterwidth_y*sinca(pi*filterwidth_y*(nu_y-incident_refractiveindex*sind(angle_y)./wavelength));
+        wavepacket_in_x=filterwidth_x*sinc_nopi(pi*filterwidth_x*(nu_x-incident_refractiveindex*sind(angle_x)./wavelength));
+        wavepacket_in_y=filterwidth_y*sinc_nopi(pi*filterwidth_y*(nu_y-incident_refractiveindex*sind(angle_y)./wavelength));
         wavepacket_in = wavepacket_in_x .* wavepacket_in_y;
     end
 
-    function f = sinca(x)
-        % Modified sinc function because matlab sinc function already includes the factor pi.
-        % This makes notation consistent with definitions in the publications.
-        f=sinc(x/pi);
-    end
+  
 
 end
