@@ -9,6 +9,8 @@ This is problematic when the sensors are used with an imaging lens and needs to 
 
 This toolbox aims to provide filter and camera designers with quick estimates of the expected filter transmittance. Or alternatively, better understand measured responses of filter arrays.
 
+It is designed to be compatible with MATLAB and the free alternative Octave for most features.
+
 
 <div>
 <img src="./doc/img/pixelfilters.png" alt="Pixel integrated thin-film filters" width="45%" >
@@ -64,18 +66,18 @@ is still lacking.
 - Light focused from circular apertures: on and off-axis
 - Plane wave in 3D space
 
-# How to use
-
-The toolbox is intented to provide quick and good transmittance estimates, not exact results.
-
-It is compatible with MATLAB and the free alternative Octave.
-
-# Validations with FDFD
-See directory 'Validations'. 
-
 # Example Gallery
 All aspects of the toolbox are illustrated using relevant examples.
 See directory 'examples'.
+
+## Example scripts
+Many examples showing how the code can be used for 2D and 3D simulations with collimated, focused light, vignetted lenses etc.
+
+## FDFD Validations
+Some numerical validations are provided based on Finite Difference Frequency Domain calculations (using the MaxwellFDFD toolbox).
+
+## Spectral imaging
+Example scripts to efficiently simulate the effect on measured spectra using spectral cameras with pixel-integrated thin-film filters.
 
 # How to cite this work
 
