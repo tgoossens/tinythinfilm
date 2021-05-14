@@ -95,22 +95,16 @@ for j=1:numel(wl)
     temp=  0.5*real(eta_in(:,:,j).*Ain(:,:,j).*conv_pix(conj(Ain(:,:,j))));
     temp= temp*abs(nu_x(2)-nu_y(1))*abs(nu_y(2)-nu_y(1)); % discretization convolution integral
     Phi_in(j)=trapz(nu_y,trapz(nu_x,temp,1),2);
-    
+        
 end
 
 
 % Transmittance
 T=Phi_t./Phi_in;
 
-
-
-    function f = sinca(x)
-        % Modified sinc function because matlab sinc function already includes the factor pi.
-        % This makes notation consistent with definitions in the publications.
-        f=sinc(x/pi);
-    end
-
     function c = conv_pix(f)
+        % If it only has zero elements, conv2fft will complain for some
+        % reason (i.E. inplaceprod)
         numzero = sum(~(f(:)==0));
         if(numzero==0)
             c =  f;

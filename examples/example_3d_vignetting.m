@@ -18,7 +18,7 @@ addpath(genpath('../core'))
 %% Choose simulation options
 
 % Accuracy options
-accuracy = 6;
+accuracy = 7;
 hiaccuracy = 8; % for the large filter
 
 % Light properties
@@ -26,16 +26,19 @@ wavelengths=linspace(0.73,0.85,100); % µm
 polarization = 'unpolarized';
 
 % Lens properties
-fnumbers=[1.4];
-cradegs=[0 5 10 20]; % chief ray angles
+fnumbers=[2.8 1.4];
+cradegs=[10 20]; % chief ray angles
 
 
-%% Create dielectric Fabry Perot filter using two materials
 
 
-width=5.5; %micron
+
 
 %% Define equivlent monolayer filter
+
+% Width
+width=3.56 %micron
+
 % Target central wavelength
 targetcwl = 0.800; %micron
 
@@ -44,10 +47,10 @@ nair=1;
 nsub=3.56; %silicon substarte
 
 % Normalized bandwidth
-normalized_fwhm=0.0130;
+normalized_fwhm=0.0114;
 
 % Effective refractive index
-effective_index=1.6;
+effective_index=1.7;
 
 % Equivalent filter
 filter=tinyfilterCreateEquivalent(targetcwl,normalized_fwhm,effective_index,width,nair,nsub);
@@ -74,13 +77,15 @@ for f=1:numel(fnumbers)
         incident_wavepacket =  wavepacket3DLens(conedeg,cradeg,azimuth_deg);
         incident_wavepacket =  wavepacket3DLensVignetted(conedeg,cradeg,azimuth_deg,eo16.P,eo16.h,eo16.exitpupil);      
         
-        Ttiny(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixel);
-        Tray(:,a,f) = transmittanceTinyRayFocused(lensVignetted(eo16.exitpupil,eo16.P,eo16.h),nair,effective_index,nsub,fwhm2reflectance(normalized_fwhm),width,targetcwl,wavelengths,conedeg,cradeg,polarization,accuracy,true);
+        Twave(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixel);
+        lensvignet=lensVignetted(eo16.exitpupil,eo16.P,eo16.h);
+        Tray(:,a,f) = transmittanceTinyRayFocused(lensvignet,nair,effective_index,nsub,fwhm2reflectance(normalized_fwhm),width,targetcwl,wavelengths,conedeg,cradeg,polarization,accuracy,true);
 
 
-       wavepacketIdealLens =  wavepacket3DLens(conedeg,cradeg,azimuth_deg);
-        Tinf(:,a,f)=transmittanceTiny3D(filter,wavepacketIdealLens,wavelengths,polarization,hiaccuracy,pixel);
-        
+        wavepacketIdealLens =  wavepacket3DLens(conedeg,cradeg,azimuth_deg);
+        %Tinf(:,a,f)=transmittanceTiny3D(filter,wavepacketIdealLens,wavelengths,polarization,hiaccuracy,pixel);
+        Trayideal(:,a,f)=transmittanceTinyRayFocused(lensIdeal,nair,effective_index,nsub,fwhm2reflectance(normalized_fwhm),width,targetcwl,wavelengths,conedeg,cradeg,polarization,accuracy,true);
+        Tinf(:,a,f)=transmittanceTinyRayFocused(lensvignet,nair,effective_index,nsub,fwhm2reflectance(normalized_fwhm),100,targetcwl,wavelengths,conedeg,cradeg,polarization,accuracy,true);
                 
     end
 end
@@ -95,30 +100,33 @@ color{2}=cmap(round(0.4*s),:);
 color{3}=cmap(round(0.6*s),:)
 color{4}=cmap(round(0.65*s),:)
 
-maxnorm = @(x) x;
+maxnorm = @(x) x/max(x)
 count=1;
 
   fig=figure(f);clf;  hold on;
-    fig.Position= [533 488 666 209];
+  fig.Position=[752 154 1021 466];  
 for f =1:numel(fnumbers)
     
   
 
     for a=1:numel(cradegs)
         subplot(numel(fnumbers),numel(cradegs),count); hold on;
-        hclassic(a)=plot(wavelengths,maxnorm(Tinf(:,a,f)),':','color','k','linewidth',1)
-        htiny(a)=plot(wavelengths,maxnorm(Ttiny(:,a,f)),'color','r','linewidth',1)
+        hinf(a)=plot(wavelengths,maxnorm(Tinf(:,a,f)),':','color','k','linewidth',1)
+        hwave(a)=plot(wavelengths,maxnorm(Twave(:,a,f)),'color','r','linewidth',1)
         hray(a)=plot(wavelengths,maxnorm(Tray(:,a,f)),'color','b','linewidth',1)
+%        hrayideal(a)=plot(wavelengths,maxnorm(Trayideal(:,a,f)),'color','m','linewidth',1)
         
         
         ylabel('Transmittance')
         xlabel('Wavelength (µm)')
         xlim([0.72 0.82])
         ylim([0 1])
+        
+        title(['f/' num2str(fnumbers(f)) ' - chief ray = ' num2str(cradegs(a)) ' deg'])
         count=count+1;
     end
-    title(['Filter transmittance for f/' num2str(fnumbers(f))])
+    
 
-    legend([htiny(1) hray(1) hclassic(1)],'Tiny Wave','Tiny Ray','Infinite filter','location','best')
+    legend([hwave(1) hray(1) hinf(1)],'Tiny Wave','Tiny Ray','Infinite filter','location','best')
 end
 
