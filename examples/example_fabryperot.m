@@ -42,19 +42,27 @@ wavelengths=linspace(0.73,0.85,300); % µm
 angles = [0 5 10 15 20 ]; 
 
 %% Run simulation for each angle
+
+figure(5);clf;
+
 for a=1:numel(angles)
     
-   
+    
     
     
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
+    subplot(2,2,a);
+    displaySetup2D(filter,'wavepacket',wavepacket2DCollimated(angles(a),nair));
+    title(['Incidence angle: ' num2str(angles(a)) ' deg'])
+    pause(0.01);
+    
     [Ttiny]=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarisation,accuracy);
     T(:,a)=Ttiny;
-
+    
     Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarisation);
-
+    
 end
 
 

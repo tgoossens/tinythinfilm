@@ -48,14 +48,14 @@ wavelengths=linspace(0.66,0.75,300); % µm
 angles = [0 10 20 30];
 
 %% Run simulation for each angle
+
+
 for a=1:numel(angles)
-    
-    
-    
+
     
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
-    
+
     [Ttinyrefl(:,a)]=transmittanceTiny2DReflectiveBoundaries(filter,angles(a),wavelengths,polarization);
     [Ttiny(:,a)]=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarization,accuracy);
     Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarization);

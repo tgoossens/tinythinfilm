@@ -62,6 +62,11 @@ largepixel = pixel3D('width',100);
 
 
 %% Run simulation for each fnumber and chief ray angle
+
+fig=figure(5);clf;  
+fig.WindowState='maximized'
+count=1;
+
 for f=1:numel(fnumbers)
     for a=1:numel(cradegs)
         cradeg=cradegs(a);
@@ -77,16 +82,26 @@ for f=1:numel(fnumbers)
         incident_wavepacket =  wavepacket3DLens(conedeg,cradeg,azimuth_deg);
         incident_wavepacket =  wavepacket3DLensVignetted(conedeg,cradeg,azimuth_deg,eo16.P,eo16.h,eo16.exitpupil);      
         
+        % Visualize
+        subplot(numel(fnumbers),numel(cradegs),count)
+        displaySetup3D(filter,'wavepacket',incident_wavepacket,'pixel',pixel);
+        title(['f/' num2str(fnumbers(f)) ' - chief ray = ' num2str(cradegs(a)) ' deg'])
+        pause(0.1);
+        
         Twave(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixel);
         lensvignet=lensVignetted(eo16.exitpupil,eo16.P,eo16.h);
+        
+
         Tray(:,a,f) = transmittanceTinyRayFocused(lensvignet,nair,effective_index,nsub,fwhm2reflectance(normalized_fwhm),width,targetcwl,wavelengths,conedeg,cradeg,polarization,accuracy,true);
 
 
+        
+
         wavepacketIdealLens =  wavepacket3DLens(conedeg,cradeg,azimuth_deg);
-        %Tinf(:,a,f)=transmittanceTiny3D(filter,wavepacketIdealLens,wavelengths,polarization,hiaccuracy,pixel);
-        Trayideal(:,a,f)=transmittanceTinyRayFocused(lensIdeal,nair,effective_index,nsub,fwhm2reflectance(normalized_fwhm),width,targetcwl,wavelengths,conedeg,cradeg,polarization,accuracy,true);
+                Trayideal(:,a,f)=transmittanceTinyRayFocused(lensIdeal,nair,effective_index,nsub,fwhm2reflectance(normalized_fwhm),width,targetcwl,wavelengths,conedeg,cradeg,polarization,accuracy,true);
         Tinf(:,a,f)=transmittanceTinyRayFocused(lensvignet,nair,effective_index,nsub,fwhm2reflectance(normalized_fwhm),100,targetcwl,wavelengths,conedeg,cradeg,polarization,accuracy,true);
-                
+               
+        count=count+1;
     end
 end
 

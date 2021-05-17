@@ -62,8 +62,14 @@ wavelengths=linspace(0.66,0.75,300); % µm
 
 
 %% Run simulation for each angle
+
+fig=figure(5);clf;  
+fig.WindowState='maximized'
+count=1;
+for a=1:numel(angles)
 for px=3:6
-    for a=1:numel(angles)
+    
+    
     
         
     width=widths(w)/1000; %nm->micron
@@ -81,11 +87,19 @@ for px=3:6
     i=px-3;
     pixel=pixel2D('range',[-2*width+i*width, -width+i*width]);
 
+    subplot(numel(angles),4,count);
+    displaySetup2D(filter,'wavepacket',wavepacket,'pixel',pixel);
+    
+
+
+    pause(0.1);
+    
     
     % Simulate Tiny Filter
     Ttiny(:,a,px-2)=transmittanceTiny2D(filter,wavepacket,wavelengths,polarization,accuracy,pixel);
     Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarization);
     
+    count=count+1;
 end
 end
 

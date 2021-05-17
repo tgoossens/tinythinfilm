@@ -29,7 +29,7 @@ clear;
 
 
 %% Define filters
-nbFilters = 1;
+nbFilters = 60;
 nbWavelengths=2^9;
 
 wavelengths=linspace(1000,1700,nbWavelengths);
@@ -54,13 +54,13 @@ accuracy=9
 
 angledeg = [0 10 15 20];
 
-fnumber=2.8;
+fnumber=1.4;
 coneangle_deg = atand(1./(2*fnumber));
 alpha_deg=0; % azimuth
 
 %%
 %%%%%%%%%% 2. SIMULATION OF TRANSMITTANCES %%%%%%%%%
-
+eo16=load('lens-eo16.mat').lens;
 tic
 for a=1:numel(angledeg)
     
@@ -73,17 +73,20 @@ for a=1:numel(angledeg)
         % Calculate transmittance for the tiny wave, tiny ray and infinite
         % filter case
         Tray(:,c,a)=transmittanceTinyRayFocused(lensIdeal(),nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
-        
+
+        Trayvignet(:,c,a)=transmittanceTinyRayFocused(lensVignetted(eo16.exitpupil,eo16.P,eo16.h),nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
         
         largewidth=50*width;
 
         Tinf(:,c,a)=transmittanceTinyRayFocused(lensIdeal(),nair,neff,nsub,1-pi*nFWHM,largewidth,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
         
+        
+        
         % Wave optics
         accuracy_wave=8;
         wavepacket_lens = wavepacket3DLens(coneangle_deg,angledeg(a),0);
         pixel=pixel3D('width',filterwidth);
-        Twave(:,c,a)=transmittanceTiny3D(filter,wavepacket_lens,wavelengths,polarization,accuracy_wave,pixel);
+        %Twave(:,c,a)=transmittanceTiny3D(filter,wavepacket_lens,wavelengths,polarization,accuracy_wave,pixel);
 
         toc
     end
@@ -99,8 +102,10 @@ maxnorm = @(x)x;
 figure(2);clf;hold on;
 for a=1:numel(angledeg)
    subplot(numel(angledeg),1,a); hold on;
-   hray(a)=plot(wavelengths,maxnorm(Tray(:,:,a)),'k')
-   hinf(a)=plot(wavelengths,maxnorm(Tinf(:,:,a)),'k:')
+   
+   plot(wavelengths,maxnorm(Tray(:,:,a)),'k')
+   plot(wavelengths,maxnorm(Trayvignet(:,:,a)),'m')
+   plot(wavelengths,maxnorm(Tinf(:,:,a)),'k:')
    
    %hwave(a)= plot(wavelengths,maxnorm(Twave(:,:,a)),'r')    
        title(['f/' num2str(fnumber) ' - CRA ' num2str(angledeg(a)) ' deg'])
@@ -109,8 +114,8 @@ for a=1:numel(angledeg)
     xlabel('Wavelength (nm)')
     ylabel('Transmittance(%)')
 end
-legend([hinf(1) hray(1) hwave(1)],'Infinite filter','Tiny Ray','Tiny Wave','location','north')
-return
+%legend([hinf(1) hray(1) hwave(1)],'Infinite filter','Tiny Ray','Tiny Wave','location','north')
+
 %%%%% REFLECTANCE MEASUREMENT %%%%%
 
 
@@ -137,11 +142,13 @@ for a=1:numel(angledeg)
 
     % Matrix containing filter responses for a specific angle
     Bray = Tray(:,:,a);
+    Brayvignet = Trayvignet(:,:,a); 
 %    Bwave = Twave(:,:,a);    
     Binf = Tinf(:,:,a); 
     
     % Apply Flat Fielding
     dray(:,a)= (Bray'*R)  ./ (Bray'*white);
+    drayvignet(:,a)= (Brayvignet'*R)  ./ (Brayvignet'*white); 
     %dwave(:,a)= (Bwave'*R)  ./ (Bwave'*white);
     dinf(:,a)= (Binf'*R)./(Binf'*white);
 end
@@ -159,6 +166,7 @@ fig.Position=[610 87 988 721];
 for a=1:numel(angledeg)
     subplot(numel(angledeg),1,a); hold on;
     plot(cwl,dray(:,a),'r.-')
+    plot(cwl,drayvignet(:,a),'m.-')   
 %    plot(cwl,dwave(:,a),'b.-')
     plot(cwl,dinf(:,a),'k.-')
     plot(wavelengths,R,'k:')

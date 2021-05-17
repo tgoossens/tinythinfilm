@@ -30,6 +30,8 @@ function wavepacket =  wavepacket3DLens(coneangle_deg,cra_deg,azimuth_deg)
             filterwidth_y=filterwidth_x;
         end
         
+
+        
         
         circ = @(u,radius) double(abs(u)<radius);
 
@@ -40,6 +42,8 @@ function wavepacket =  wavepacket3DLens(coneangle_deg,cra_deg,azimuth_deg)
         lensradius=zi*tand(coneangle_deg);
         P0 = @(x,y) circ(sqrt(x.^2+y.^2),lensradius);
         P = @(x,y) P0(x+di*cosd(azimuth_deg),y+di*sind(azimuth_deg));
+        
+        
         filteraperture = filterwidth_x.*filterwidth_y.*sinca(pi*filterwidth_x*nu_x).*sinca(pi*filterwidth_y*nu_y);
         pupilfunction= (P(-wavelength.*zi.*nu_x,-wavelength.*zi.*nu_y));
         wavepacket_in = conv2fft(pupilfunction,filteraperture,'same');  

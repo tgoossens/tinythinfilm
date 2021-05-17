@@ -59,6 +59,12 @@ largepixel = pixel3D('width',100);
 
 
 %% Run simulation for each fnumber and chief ray angle
+
+fig=figure(5);clf;  
+fig.WindowState='maximized'
+count=1;
+
+
 for f=1:numel(fnumbers)
     for a=1:numel(cradegs)
         cradeg=cradegs(a);
@@ -66,16 +72,26 @@ for f=1:numel(fnumbers)
 
         %% Simulate
         disp(['Simulate tiny filter: f/' num2str(fnumbers(f)) ' - CRA = ' num2str(cradeg) ' deg']);
-        
         % Run simulation focusde light for equivalent monolayer
         azimuth_deg=0;
         incident_wavepacket =  wavepacket3DLens(conedeg,cradeg,azimuth_deg);
+        
+        
+        % Visualize
+        subplot(numel(fnumbers),numel(cradegs),count)
+        displaySetup3D(filter,'wavepacket',incident_wavepacket,'pixel',pixel);
+        title(['f/' num2str(fnumbers(f)) ' - chief ray = ' num2str(cradegs(a)) ' deg'])
+        pause(0.1);
+        
+        
+        
+      
         
         Ttiny(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixel);
 
         Tinf(:,a,f)=transmittanceTiny3D(filter,incident_wavepacket,wavelengths,polarization,hiaccuracy,largepixel);
         
-                
+        count=count+1;
     end
 end
 

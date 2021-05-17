@@ -33,7 +33,9 @@ function wavepacket =  wavepacket3DLensVignetted(coneangle_deg,cra_deg,azimuth_d
             filterwidth_x=filterwidth;
             filterwidth_y=filterwidth_x;
         end
-
+        
+        % Circ function
+        circ = @(u,radius) double(abs(u)<radius);
 
         % Height of pupil above imaging plane
         zi= exitpupil_distance; 
