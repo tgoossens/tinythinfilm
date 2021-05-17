@@ -1,9 +1,14 @@
-%% Comparison of Tiny filter models with FDFD simulations for a thin-film filter sandwiched two other thin-film filters 
+%% FDFD validation for the case of a filter spanning multiple pixels
+% (see geometry.png)
 %
-%  Only the the transmittance of the central filter (filter2) is analyzed
+% A single filter spans 4 pixels and has different filters.
 %
-
-
+% From the FDFD simulations it follows that each pixel has a transmittance
+% with a different angular dependency. The tiny filter model approximatites
+% the transmittances very well.
+%
+%
+%
 % Copyright Thomas Goossens
 
 %%
@@ -16,13 +21,12 @@ angles = [0 10 15 20];
 
 widths = [3000];%nm
 
-w=1;
 
 for px=3:6
     i=px-2;
     for a=1:numel(angles)
 
-        FDFD =load(['./data/power_' num2str(widths(w)) '_' num2str(angles(a)) '.mat']);
+        FDFD =load(['./data/power_' num2str(widths) '_' num2str(angles(a)) '.mat']);
         Tfdfd(:,a,i)=FDFD.power.pixel{px}.transmitted./FDFD.power.pixel{px}.incident;
         wavelengths_fdfd=FDFD.wls /1000;%to micron
     end
@@ -62,45 +66,42 @@ wavelengths=linspace(0.66,0.75,300); % µm
 
 
 %% Run simulation for each angle
+% Loop over the four pixels and simulate the transmittance for 
 
-fig=figure(5);clf;  
+fig=figure(5);clf;
 fig.WindowState='maximized'
 count=1;
 for a=1:numel(angles)
-for px=3:6
-    
-    
-    
+    for px=3:6
+
         
-    width=widths(w)/1000; %nm->micron
-    filterwidth=4*width;
-    filter=tinyfilterCreate(nair,n,nsub,thickness,filterwidth);   
-    
-    %% Simulate
-    disp(['Simulate tiny filter: width ' num2str(width) ' µm - ' num2str(angles(a)) ' deg']);
-    
-
-    % Define incident light
-    wavepacket=wavepacket2DCollimated(angles(a),nair);
-    
-    % Define pixel kernel
-    i=px-3;
-    pixel=pixel2D('range',[-2*width+i*width, -width+i*width]);
-
-    subplot(numel(angles),4,count);
-    displaySetup2D(filter,'wavepacket',wavepacket,'pixel',pixel);
-    
-
-
-    pause(0.1);
-    
-    
-    % Simulate Tiny Filter
-    Ttiny(:,a,px-2)=transmittanceTiny2D(filter,wavepacket,wavelengths,polarization,accuracy,pixel);
-    Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarization);
-    
-    count=count+1;
-end
+        width=widths/1000; %nm->micron
+        filterwidth=4*width;
+        filter=tinyfilterCreate(nair,n,nsub,thickness,filterwidth);
+        
+        %% Simulate
+        disp(['Simulate tiny filter: width ' num2str(width) ' µm - ' num2str(angles(a)) ' deg']);
+        
+        
+        % Define incident light
+        wavepacket=wavepacket2DCollimated(angles(a),nair);
+        
+        % Define pixel kernel
+        i=px-3;
+        pixel=pixel2D('range',[-2*width+i*width, -width+i*width]);
+        
+        % Visualize
+        subplot(numel(angles),4,count);
+        displaySetup2D(filter,'wavepacket',wavepacket,'pixel',pixel);
+        title(['Pixel ' num2str(px) ' - ' num2str(angles(a)) ' deg' ])
+        pause(0.1);
+        
+        % Simulate Tiny Filter
+        Ttiny(:,a,px-2)=transmittanceTiny2D(filter,wavepacket,wavelengths,polarization,accuracy,pixel);
+        Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarization);
+        
+        count=count+1;
+    end
 end
 
 
