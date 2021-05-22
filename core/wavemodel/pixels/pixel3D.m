@@ -34,7 +34,7 @@ range_x= p.Results.rangex;
 range_y= p.Results.rangey;
 
 % Pixel size can only be set in one way, no redundancies
-conditions(1)=~isnan(width);
+conditions(1)=~sum(isnan(width));
 conditions(end+1)=and(xor(~isnan(width_x),~isempty(range_x)),xor(~isnan(width_y),~isempty(range_y))); % You can define both a range and width for the same axis.
 
 

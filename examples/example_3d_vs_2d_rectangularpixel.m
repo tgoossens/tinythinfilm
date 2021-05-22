@@ -64,6 +64,8 @@ pixel=pixel3D('width x',filterwidth, 'width y',largewidth_y);
 pixelsquare=pixel3D('width',filterwidth);
 
 %% Run simulation for each fnumber and chief ray angle
+
+figure(1);
     for a=1:numel(angles)
         angle=angles(a);
         
@@ -79,6 +81,12 @@ pixelsquare=pixel3D('width',filterwidth);
         disp(['Simulate tiny filter 3D collimated: angle = ' num2str(angle) ' deg']);
         azimuth_deg=0;
         wavepacket3D=  wavepacket3DCollimated(angle,azimuth_deg,nair);
+        
+        
+        % Display setup
+        displaySetup3D(filter_rectangular,'wavepacket',wavepacket3D,'pixel',pixel)
+       
+        
         Ttiny3D(:,a)=transmittanceTiny3D(filter_rectangular,wavepacket3D,wavelengths,polarization,accuracy,pixel);
         Ttiny3D_square(:,a)=transmittanceTiny3D(filter_square,wavepacket3D,wavelengths,polarization,accuracy,pixelsquare);
         

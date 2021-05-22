@@ -106,7 +106,7 @@ end
 
 
 %% Plot transmittance
-fig=figure(w);clf;  hold on;
+fig=figure(1);clf;  hold on;
 count=1;
 for a=1:numel(angles)
     for px=3:6

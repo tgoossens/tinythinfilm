@@ -19,7 +19,7 @@ addpath('/home/thomas/Documents/tinyfilters/research/wavepacket')
 % Target central wavelength (where the filter is centered)
 targetcwl = 0.800; %micron
 
-filterwidth=2
+filterwidth=5.5
 %% Refractive indeices of indicent medium and substrate
 nair=1;
 nsub=5.56; %silicon substrate
@@ -35,14 +35,15 @@ filter=tinyfilterCreateEquivalent(targetcwl,normalized_fwhm,neff,filterwidth,nai
 
 pixel=pixel3D('rangex',[0 0.5*filterwidth],'range y',[0 0.5*filterwidth])
 pixel=pixel3D('width x',filterwidth,'range y',[0 0.5*filterwidth])
-pixel=pixel3D('width',filterwidth);
+
 
 load lens-eo16.mat
 wavepacket=wavepacket2DCollimated(30,nair)
 wavepacket=wavepacket3DLensVignetted(20,20,0,lens.P,lens.h,lens.exitpupil)
-wavepacket=wavepacket3DLens(20,30,0);
-wavepacket=wavepacket3DCollimated(45,40,nair);
-displaySetup3D(filter,'pixel',pixel,'wavepacket',wavepacket)
+%wavepacket=wavepacket3DLens(20,10,0);
+
+wavepacket=wavepacket3DCollimated(0,0,nair);
+displaySetup3D(filter,'pixel',pixel,'wavepacket',wavepacket,'wavelength',targetcwl)
 box on;
 
 

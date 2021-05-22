@@ -1,4 +1,4 @@
-function [outputArg1,outputArg2] = displaySetup(filter,varargin)
+function displaySetup3D(filter,varargin)
 %DISPLAYSETUP Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -7,6 +7,7 @@ function [outputArg1,outputArg2] = displaySetup(filter,varargin)
  p = inputParser;
  p.addParameter('pixel', pixel3D('width',filter.width));
  p.addParameter('wavepacket', NaN)
+ p.addParameter('wavelength', 0.4,@isnumeric)
 
 
  p.parse(varargin{:});
@@ -36,7 +37,7 @@ plotcube([pixelwidth_x pixelwidth_y pixelthickness],[pixelrange_x(1) pixelrange_
 %% Plot wavepacket 3D
 % %% Plot wavepacket 3D
 
-wl=0.4;
+wl=0.8;
 
 %nu_x = @(th,phi) (1./l).*sin(th).*cos(phi);
 %nu_y = @(th,phi) (1./l).*sin(th).*sin(phi);
@@ -67,6 +68,7 @@ s.EdgeColor = 'none';
 %s.FaceAlpha=0.5000;
 %%
 axis equal
+box on
 xlabel('X')
 ylabel('Y')
 zlabel('Z')

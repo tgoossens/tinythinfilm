@@ -27,11 +27,7 @@ thickness = [dh dl dh dl dh dl dh [dl dl] dh dl dh dl dh dl dh];
 width=5.5; %micron
 
 
-
-%% Define simualtion
 filter=tinyfilterCreate(nair,n,nsub,thickness,width);
-
-
 
 %% Choose simulation options
 
@@ -39,18 +35,16 @@ polarisation = 'unpolarized';
 
 accuracy = 6;
 wavelengths=linspace(0.73,0.85,300); % µm
-angles = [0 5 10 15 20 ]; 
+angles = [0 10 15 20 ]; 
 
 %% Run simulation for each angle
 
 figure(5);clf;
 
 for a=1:numel(angles)
+
     
-    
-    
-    
-    %% Simulate
+    % Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
     subplot(2,2,a);
@@ -96,7 +90,7 @@ line( [0.7617   0.7790],[ 0.5684    0.4888],'color','k')
 text(0.73,0.2092,sprintf('Transmittance for\ntiny filter'))
 line( [ 0.7608    0.7729],[  0.1969    0.1255],'color','k')
 
-legend([htiny],'0^\circ','5^\circ','10^\circ','15^\circ','20^\circ')
+legend([htiny],'0^\circ','10^\circ','15^\circ','20^\circ')
 
 
 

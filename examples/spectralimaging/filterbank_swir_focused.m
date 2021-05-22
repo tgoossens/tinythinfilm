@@ -29,15 +29,16 @@ clear;
 
 
 %% Define filters
-nbFilters = 60;
+nbFilters = 25;
 nbWavelengths=2^9;
 
 wavelengths=linspace(1000,1700,nbWavelengths);
 
 cwl = linspace(1100,1650,nbFilters);
 nFWHM=10/1100
+nFWHM=nFWHM/2;
 width=15000; %nm
-
+%width=5000
 
 filterwidth=width;angledeg=0;
 
@@ -52,7 +53,7 @@ polarization = 'unpolarized';
 fastapproximation=true;
 accuracy=9
 
-angledeg = [0 10 15 20];
+angledeg = [0 10 15];
 
 fnumber=1.4;
 coneangle_deg = atand(1./(2*fnumber));
@@ -83,9 +84,9 @@ for a=1:numel(angledeg)
         
         
         % Wave optics
-        accuracy_wave=8;
-        wavepacket_lens = wavepacket3DLens(coneangle_deg,angledeg(a),0);
-        pixel=pixel3D('width',filterwidth);
+        %accuracy_wave=6;
+        %wavepacket_lens = wavepacket3DLens(coneangle_deg,angledeg(a),0);
+        %pixel=pixel3D('width',filterwidth);
         %Twave(:,c,a)=transmittanceTiny3D(filter,wavepacket_lens,wavelengths,polarization,accuracy_wave,pixel);
 
         toc
@@ -107,7 +108,7 @@ for a=1:numel(angledeg)
    plot(wavelengths,maxnorm(Trayvignet(:,:,a)),'m')
    plot(wavelengths,maxnorm(Tinf(:,:,a)),'k:')
    
-   %hwave(a)= plot(wavelengths,maxnorm(Twave(:,:,a)),'r')    
+   %plot(wavelengths,maxnorm(Twave(:,:,a)),'r')    
        title(['f/' num2str(fnumber) ' - CRA ' num2str(angledeg(a)) ' deg'])
        ylim([0 1])
 
@@ -177,7 +178,7 @@ for a=1:numel(angledeg)
     
 end
 
-legh=legend('Tiny Ray model','Tiny Wave model','Infinite filter','Ground truth')
+legh=legend('Tiny Ray model','Tiny Ray Vignet','Infinite filter','Ground truth')
 legh.Orientation='horizontal';
 legh.Location='north';
 %%

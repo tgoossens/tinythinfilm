@@ -73,12 +73,14 @@ for a=1:numel(angles)
     Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarization);
     
     % -- Ray model --
+
     %  1. Calculate equivalent monolayer parameters
     normalized_fwhm=fwhm(wavelengths,Tinf(:,1))/targetcwl;  %Normalized FWHM
     R=fwhm2reflectance(normalized_fwhm); % Corresponding mirror reflectance
+
     % 2. Calculate the transmittance
-    Tray(:,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,R,filterwidth,targetcwl,wavelengths,angles(a)+eps,polarization,accuracy,false);
-    Tray_analytical(:,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,R,filterwidth,targetcwl,wavelengths,angles(a)+eps,polarization,accuracy,true);   
+    Tray(:,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,R,filterwidth,targetcwl,wavelengths,angles(a)+eps,polarization,'accuracy',accuracy,'fastapproximation',false);
+    Tray_analytical(:,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,R,filterwidth,targetcwl,wavelengths,angles(a)+eps,polarization,'accuracy',accuracy);   
         
 end
 

@@ -26,7 +26,7 @@ wavelengths=linspace(0.73,0.85,100); % µm
 polarization = 'unpolarized';
 
 % Lens properties
-fnumbers=[2.8 8]; 
+fnumbers=[2.8]; 
 cradegs=[0 5 10 20]; % chief ray angles
 
 
