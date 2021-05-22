@@ -36,6 +36,10 @@ if ~exist('flag_fastapproximation','var')
     flag_fastapproximation=false;
 end
 
+
+%% Pixelrange
+pixelrange = [-0.5 0.5]*width; %to be updated with pixel in the future
+
 %%  Calculate transmittance
 % The angular distribution gives part of the aperture that contributes for each
 % incidence angle.  The transmittance is calculated for for each incidence
@@ -52,7 +56,9 @@ dA = lens.angulardistribution;
 phi_samples = linspace(0,ceil(atand(tand(cradeg)+tand(conedeg))),100); % radians
 
 for p=1:numel(phi_samples)
-    transmittance=transmittanceTinyRayEquivalent(n0,neff,nsub,R,width,cwl,wavelengths,phi_samples(p),polarization,accuracy,flag_fastapproximation);
+    % Directly calling core function is much fast because there is no fancy
+    % varinarg overhead
+    transmittance=transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,width,cwl,wavelengths,phi_samples(p),polarization,accuracy,pixelrange,flag_fastapproximation);
     T(:,p)=dA(conedeg,cradeg,phi_samples(p))*transmittance;
 end
 T(isnan(T))=0;
