@@ -80,6 +80,7 @@ Some numerical validations are provided based on Finite Difference Frequency Dom
 Example scripts to efficiently simulate the effect on measured spectra using spectral cameras with pixel-integrated thin-film filters.
 
 # How to cite this work
+T. Goossens, Pixel-integrated thin-film filter simulation and scaling trade-offs, arXiv:2106.01147
 
 T. Goossens, Tiny thin-film filter toolbox, 2021. https://github.com/tgoossens/tinythinfilm
 
