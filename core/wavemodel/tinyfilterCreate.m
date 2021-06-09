@@ -33,6 +33,7 @@ function filter = tinyfilterCreate(n_incident,n_stack,n_substrate,layerthickness
     filter.stack.thickness=[NaN reshape(layerthickness,[1 numel(layerthickness)]) NaN ];
     filter.width=width;
     filter.transmission = @transmission;
+    filter.name = "Multi-layer thin-film stack"
     
     function t = transmission(wavelength,nu,polarization)
         [Y0,r,t] = surfaceadmittance(filter.stack.refractiveindex,filter.stack.thickness,wavelength,nu,polarization);
