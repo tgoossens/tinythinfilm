@@ -9,20 +9,17 @@ function [T] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cw
 %    - neff: effective refractive index of the cavity
 %    - nsubstrate:Refractive index substrate
 %    - R: Product of reflection coefficients
-%    - width: Width of the film
+%    - filterwidth: Width of the film
 %    - cwl: Central wavelength of the filter (same units as width)
 %    - wavelengths (Wx1): Wavelengths (same units as height)
 %    - angledeg:  Incidence angle in degrees
 %    - polarization ('s' or 'p')
-%
-%  Variable inputs
 %    - 'accuracy': Subdivide integration domain in 2^floor(accuracy) points
+%     - 'pixelrange' Range of the pixel (centered around the axis of the
+%     filter). See also pixel2D for information.
 %    - 'fastapproximation': Calculate the transmittance using an
 %                              analytical approxmiation that evaluates faster. By default false.
 %                              This approximation is very good for narrowband filters
-%     - 'pixel' a pixel (see pixel2D) to change size of pixel relative to
-%               filter size. By default the pixel will have the same size
-%               as the filter. The pixel can not be outside of the filter
 %   Outputs
 %    - T (Wx1):  Ray-model estimation of the transmittance of a tiny Fabry-Pérot filter
 %
@@ -33,7 +30,7 @@ function [T] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cw
 % No inputparser because this makes things superslow
 %% Polarization recursion
 % If upolarized, recursively do the separate polarizations and average out
-% the transmittancesx
+% the transmittances
 if(or(polarization=='unpolarized',polarization=='unpolarised'))
     [T_s] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,'s',accuracy,pixelrange,flag_fastapproximation);
     [T_p] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,'p',accuracy,pixelrange,flag_fastapproximation);
@@ -93,6 +90,8 @@ T = zeros(numel(wavelengths),1);
 
 delta =(2*pi*equivstack(2)*height*costh_n(2)./wavelengths') ; %
 
+%% Refracted angle
+theta_refracted =th_n(angledeg);
 
 % Analytical approximation
 if(flag_fastapproximation)
@@ -101,12 +100,10 @@ if(flag_fastapproximation)
     
     % Maximum number of interfering rays, Bounded to avoid numerical
     % problems when M=infinity at normal incidence
-    M1 = floor(min(pixel_start*neff/(cwl*tand(angledeg/neff)),1e7));
-    M2 = floor(min(pixel_end*neff/(cwl*tand(angledeg/neff)),1e7));
+    M1 = floor(min(pixel_start*neff/(cwl*tand(theta_refracted)),1e7));
+    M2 = floor(min(pixel_end*neff/(cwl*tand(theta_refracted)),1e7));
     
     % Analytical equation
-    %    Tm= @(M) (real(eta2)/real(eta0))*(conj(tsub)*tsub).*(1-R).^2 .* (1+ (R.^(2*M)-1)./log(R.^(2*M))-2*(log(R).*(R.^M .*cos(2*M*delta_ct)-1)+2*delta_ct.*R.^M.*sin(2*M.*delta_ct))./(4*M.*delta_ct.^2+M.*log(R).^2))./(1-2*R*cos(2*delta_ct)+R.^2);
-    
     denominator=((M2-M1).*(4*delta_ct.^2+log(R).^2));
     part2=-(R.^(2*M1)-R.^(2*M2))./(2*log(R).*(M2-M1));
     part3= (2*R.^(M1) .*(2*delta_ct.*sin(2*M1*delta)+cos(2*M1*delta_ct).*log(R)))./denominator;

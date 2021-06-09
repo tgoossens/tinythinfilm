@@ -56,14 +56,11 @@ polarization = 'unpolarized';
 
 accuracy = 8;
 wavelengths=linspace(0.65,0.85,300); % µm
-angles = [0 10 15 20 25 30  35 40 45]; 
+angles = [0 10 15 20 25 30]; 
 
 %% Run simulation for each angle
 for a=1:numel(angles)
-    
-   
-    
-    
+
     %% Simulate
     disp(['Simulate tiny filter: ' num2str(angles(a)) ' deg']);
     
@@ -77,7 +74,7 @@ for a=1:numel(angles)
     %  1. Calculate equivalent monolayer parameters
     normalized_fwhm=fwhm(wavelengths,Tinf(:,1))/targetcwl;  %Normalized FWHM
     R=fwhm2reflectance(normalized_fwhm); % Corresponding mirror reflectance
-
+    
     % 2. Calculate the transmittance
     Tray(:,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,R,filterwidth,targetcwl,wavelengths,angles(a)+eps,polarization,'accuracy',accuracy,'fastapproximation',false);
     Tray_analytical(:,a)=transmittanceTinyRayEquivalent(nair,neff,nsub,R,filterwidth,targetcwl,wavelengths,angles(a)+eps,polarization,'accuracy',accuracy);   
@@ -89,7 +86,7 @@ end
 fig=figure(1);clf;  hold on;
 fig.Position=[320 168 1273 670];
 for a=1:numel(angles)
-    subplot(3,3,a); hold on;
+    subplot(2,3,a); hold on;
     hinf=plot(wavelengths,Tinf(:,a),':','color','k','linewidth',1.5)
     htiny(a)=plot(wavelengths,Ttiny(:,a),'color','k','linewidth',2)
     hray(a)=plot(wavelengths,Tray(:,a),'-','color',[1 0.2 0.2],'linewidth',2)
