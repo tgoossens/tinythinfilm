@@ -27,12 +27,13 @@ Based on an aperture-diffraction model, the toolbox allows
 - Exploration of the effect of the pixel and filter width
 - Exploration of the effect of the angle of incidence 
 - Simulate for s and p polarization
-
+- 
+<!-- 
 ## Filters across multiple pixels
 The filters deposited on the pixels can be larger than the individual pixels. Not every pixel will observe the same transmittance.
 See Examples.
 <img src="./doc/img/filtersacrossmultiplepixels.png" alt="Filters across multiple pixels" width="70%" >
-
+-->
 
 ## Simulate without knowing the filter design using an equivalent model
 Using an equivalent monolayer model, the behavior of a filter can be predicted <b>without knowing its actual filter design</b>.
