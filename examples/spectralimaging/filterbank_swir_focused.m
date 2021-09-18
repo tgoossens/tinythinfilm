@@ -29,14 +29,14 @@ clear;
 
 
 %% Define filters
-nbFilters = 25;
+nbFilters = 16;
 nbWavelengths=2^9;
 
 wavelengths=linspace(1000,1700,nbWavelengths);
 
 cwl = linspace(1100,1650,nbFilters);
 nFWHM=10/1100
-nFWHM=nFWHM/2;
+
 width=15000; %nm
 %width=5000
 
@@ -55,7 +55,7 @@ accuracy=9
 
 angledeg = [0 10 15];
 
-fnumber=1.4;
+fnumber=2.8;
 coneangle_deg = atand(1./(2*fnumber));
 alpha_deg=0; % azimuth
 
@@ -64,15 +64,7 @@ alpha_deg=0; % azimuth
 eo16=load('lens-eo16.mat').lens;
 tic
 for a=1:numel(angledeg)
-    
-    for c=1:nbFilters
-        tic
-        disp(['CRA ' num2str(angledeg(a)) ' deg - Filter ' num2str(c)]),
-        % Define equivalent monolayer filter
-        filter=tinyfilterCreateEquivalent(cwl(c),nFWHM,neff,width,nair,nsub);
-        
-        % Calculate transmittance for the tiny wave, tiny ray and infinite
-        % filter case
+        for c=1:nbFilters
         Tray(:,c,a)=transmittanceTinyRayFocused(lensIdeal(),nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
 
         Trayvignet(:,c,a)=transmittanceTinyRayFocused(lensVignetted(eo16.exitpupil,eo16.P,eo16.h),nair,neff,nsub,1-pi*nFWHM,width,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
@@ -80,14 +72,22 @@ for a=1:numel(angledeg)
         largewidth=50*width;
 
         Tinf(:,c,a)=transmittanceTinyRayFocused(lensIdeal(),nair,neff,nsub,1-pi*nFWHM,largewidth,cwl(c),wavelengths,coneangle_deg,angledeg(a),polarization,accuracy,fastapproximation);
-        
+        end
         
         
         % Wave optics
         %accuracy_wave=6;
         %wavepacket_lens = wavepacket3DLens(coneangle_deg,angledeg(a),0);
         %pixel=pixel3D('width',filterwidth);
-        %Twave(:,c,a)=transmittanceTiny3D(filter,wavepacket_lens,wavelengths,polarization,accuracy_wave,pixel);
+        %Twave(:,c,a)=transmittanceTiny3D(filte
+    for c=1:nbFilters
+        tic
+        disp(['CRA ' num2str(angledeg(a)) ' deg - Filter ' num2str(c)]),
+        % Define equivalent monolayer filter
+        filter=tinyfilterCreateEquivalent(cwl(c),nFWHM,neff,width,nair,nsub);
+        
+        % Calculate transmittance for the tiny wave, tiny ray and infinite
+        % filter caser,wavepacket_lens,wavelengths,polarization,accuracy_wave,pixel);
 
         toc
     end

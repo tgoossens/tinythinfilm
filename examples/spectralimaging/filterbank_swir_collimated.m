@@ -107,6 +107,8 @@ clear R;
 cyclespernm=0.01;
 R = 1+sin(2*pi*wavelengths*cyclespernm)';
 
+
+
 %% Simulate flat fielding
 % Flatfielding is a common procedure in spectral imaging to obtain
 % reflectance values. It is obtained by measuring two images: an image of a

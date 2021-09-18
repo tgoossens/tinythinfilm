@@ -1,4 +1,4 @@
-function [T] = transmittanceTinyRayEquivalent(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,polarization,varargin)
+function [T,Tcoh] = transmittanceTinyRayEquivalent(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,polarization,varargin)
 % transmittanceTinyRayEquivalent
 % Simulate tiny transmittance of a Fabry-Pérot using a ray based model
 %
@@ -55,12 +55,13 @@ end
 if(or(polarization=='unpolarized',polarization=='unpolarised'))
     % Go immediately to the efficient implementation to avoid overhead of
     % inputparser
-    [T_s] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,'s',accuracy,pixelrange,flag_fastapproximation);
-    [T_p] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,'p',accuracy,pixelrange,flag_fastapproximation);
+    [T_s,Tcoh_s] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,'s',accuracy,pixelrange,flag_fastapproximation);
+    [T_p,Tcoh_p] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,'p',accuracy,pixelrange,flag_fastapproximation);
     T =  0.5*(T_s+T_p);
+    Tcoh = 0.5*(Tcoh_s+Tcoh_p);
 else
     
-    T = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,polarization,accuracy,pixelrange,flag_fastapproximation)
+    [T,Tcoh] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,polarization,accuracy,pixelrange,flag_fastapproximation)
 end
 
 

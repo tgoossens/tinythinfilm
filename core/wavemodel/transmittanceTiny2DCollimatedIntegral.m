@@ -1,4 +1,4 @@
-function [T,Phi_t,Phi_in] =transmittanceTiny2DCollimated(filter,incidence_angle_deg,wavelengths,polarization,accuracy)
+function [T,Phi_t,Phi_in] =transmittanceTiny2DCollimatedIntegral(filter,incidence_angle_deg,wavelengths,polarization,accuracy)
 %  transmittanceTiny2DCollimated  Simulate tiny filter transmittance
 %   [T] = transmittanceTiny2DCollimated(filter,angledeg,wavelengths,polarization,accuracy);
 %    
@@ -32,5 +32,5 @@ function [T,Phi_t,Phi_in] =transmittanceTiny2DCollimated(filter,incidence_angle_
 incident_wavepacket = wavepacket2DCollimated(incidence_angle_deg,filter.stack.refractiveindex(1));
 pixel = pixel2D('width',filter.width);
 
-[T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,incidence_angle_deg,wavelengths,polarization,accuracy,pixel);
+[T,Phi_t,Phi_in] = transmittanceTiny2DIntegral(filter,incident_wavepacket,incidence_angle_deg,wavelengths,polarization,accuracy,pixel);
 end

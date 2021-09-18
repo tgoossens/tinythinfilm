@@ -33,10 +33,9 @@ filter=tinyfilterCreate(nair,n,nsub,thickness,width);
 
 polarisation = 'unpolarized';
 
-accuracy = 6;
+accuracy = 6
 wavelengths=linspace(0.73,0.85,300); % µm
 angles = [0 10 15 20 ]; 
-
 %% Run simulation for each angle
 
 figure(5);clf;
@@ -52,8 +51,8 @@ for a=1:numel(angles)
     title(['Incidence angle: ' num2str(angles(a)) ' deg'])
     pause(0.01);
     
-    [Ttiny]=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarisation,accuracy);
-    T(:,a)=Ttiny;
+    
+    T(:,a)=transmittanceTiny2DCollimated(filter,angles(a),wavelengths,polarisation,accuracy);
     
     Tinf(:,a)=transmittanceInfinite(filter,angles(a),wavelengths,polarisation);
     

@@ -1,4 +1,4 @@
-function [T] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,polarization,accuracy,pixelrange,flag_fastapproximation)
+function [T,Tcoh] = transmittanceTinyRayEquivalent_core(n0,neff,nsub,R,filterwidth,cwl,wavelengths,angledeg,polarization,accuracy,pixelrange,flag_fastapproximation)
 % transmittanceTinyRayEquivalent
 % Simulate tiny transmittance of a Fabry-Pérot using a ray based model
 %
@@ -85,7 +85,7 @@ num=@(x,th)x./(height*tand(th_n(th)));
 N = @(x,th) floor(num(x,th)/2+1/2);
 
 T = zeros(numel(wavelengths),1);
-
+tcoh=T;
 % Phase thickness
 
 delta =(2*pi*equivstack(2)*height*costh_n(2)./wavelengths') ; %
@@ -109,6 +109,7 @@ if(flag_fastapproximation)
     part3= (2*R.^(M1) .*(2*delta_ct.*sin(2*M1*delta)+cos(2*M1*delta_ct).*log(R)))./denominator;
     part4= -(2*R.^(M2) .*(2*delta_ct.*sin(2*M2*delta_ct)+cos(2*M2*delta_ct).*log(R)))./denominator;
     T=(real(eta2)/real(eta0))*(conj(tsub)*tsub).*(1-R).^2 .*(1+part2+part3+part4) ./(1-2*R*cos(2*delta_ct)+R.^2);;
+    Tcoh=T; % DELETE
     
 else
     % Numerical summation of the different contributions (with different
@@ -116,9 +117,17 @@ else
     for ix=1:numel(x)
         n = min(N(x(ix),angledeg),1e7);  % Number of interfering rays is limited to avoid division by zero when n=Inf
         formula=(R^(2*n)-2*R^(n)*cos(2*n*delta)+1)./(R^(2)-2*R*cos(2*delta)+1);
+        
+
+        part1=(R^n*exp(1i*2*n*delta)-1)./(R*exp(1i*2*delta)-1);
+        
+        tcoh = tcoh+dx*part1;
         T = T+dx*formula;
+        
     end
-    T = (real(eta2)/real(eta0))*(conj(tsub)*tsub)*(1-R)^2*T/filterwidth;
+    
+    Tcoh =  (real(eta2)/real(eta0)) *(conj(tsub)*tsub)*(1-R)^2 * 1./filterwidth^2  *conj(tcoh).*tcoh   ;
+    T =      (real(eta2)/real(eta0))*(conj(tsub)*tsub)*(1-R)^2*T/filterwidth;
 end
 
 

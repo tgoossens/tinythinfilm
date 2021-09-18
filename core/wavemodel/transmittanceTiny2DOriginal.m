@@ -1,4 +1,4 @@
-function [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,angle_deg,wavelengths,polarization,accuracy,pixel)
+function [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixel)
 % function [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,polarization,accuracy,pixelkernel)
 %  transmittanceTiny2D  Simulate tiny filter transmittance
 %    
@@ -22,8 +22,8 @@ function [T,Phi_t,Phi_in] = transmittanceTiny2D(filter,incident_wavepacket,angle
 
     
     if(or(polarization=='unpolarized',polarization=='unpolarised'))
-        [T_s,Phi_t_s,Phi_in_s] = transmittanceTiny2D(filter,incident_wavepacket,angle_deg,wavelengths,'s',accuracy,pixel);
-        [T_p,Phi_t_p,Phi_in_p] = transmittanceTiny2D(filter,incident_wavepacket,angle_deg,wavelengths,'p',accuracy,pixel);
+        [T_s,Phi_t_s,Phi_in_s] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,'s',accuracy,pixel);
+        [T_p,Phi_t_p,Phi_in_p] = transmittanceTiny2D(filter,incident_wavepacket,wavelengths,'p',accuracy,pixel);
         T =  0.5*(T_s+T_p);
         Phi_t =  0.5*(Phi_t_s+Phi_t_p);
         Phi_in=  0.5*(Phi_in_s+Phi_in_p);
@@ -38,7 +38,7 @@ width=filter.width;
 % Spatial frequency integration domain
 % Exact evaluation at -1/wl(1) would result in a divison by zero for the p-polarized calculation
 nu = linspace(-0.99/wl(1), 0.99/wl(1),2^floor(accuracy))';
-
+dnu = (1/(2*width));
 
 
 nu = reshape(nu,[numel(nu) 1 1]);
@@ -80,8 +80,10 @@ for j=1:numel(wl)
     
     %%%%%%%%%% FLUXES  %%%%%%%%%%%%
     % Incident flux
-    nu_angle= sind(angle_deg)/wl(j);
-     Phi_in(j)=0.5*interp1(nu,eta_in(:,1,j),nu_angle) *width; 
+   % temp=  0.5*real(eta_in(:,1,j).*Ain(:,1,j).*conv_pix(conj(Ain(:,1,j))));
+    %temp= temp*abs(nu(2)-nu(1)); % discretization convolution integral
+   % Phi_in(j)=trapz(nu,temp); 
+     Phi_in(j)=0.5*interp1(nu,eta_in(:,1,j),0) *width; 
      
     % Transmitted flux
     temp=  0.5*real(eta_sub(:,1,j).*At(:,1,j).*conv_pix(conj(At(:,1,j))));

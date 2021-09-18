@@ -28,9 +28,9 @@ h = central_wavelength/(2*effective_index);
 
 
 filter.stack.refractiveindex=[refractiveindex_incident effective_index refractiveindex_substrate];
-filter.stack.thickness=[NaN h NaN ];
+filter.stack.thickness=[NaN h NaN];
 filter.width=width;
-filter.name = "Equivalent monolayer model"
+filter.name = "Equivalent monolayer model";
 filter.equivalentlayer.central_wavelength = central_wavelength;
 filter.equivalentlayer.normalized_fwhm = normalized_fwhm;
 

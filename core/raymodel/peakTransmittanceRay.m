@@ -1,4 +1,4 @@
-function Tpeak = peakTransmittanceRay(central_wavelength,mirror_reflectance,effective_index,filterwidth,angle_deg)
+function [Tpeak,Tpeak2] = peakTransmittanceRay(central_wavelength,mirror_reflectance,effective_index,filterwidth,angle_deg)
 %peakTransmittanceRay Calculate the relative drop in peak transmittance for
 %a given equivalent tiny monolayer
 %
@@ -28,5 +28,7 @@ M = min(1e7,effective_index*filterwidth./(central_wavelength*tand(angle_refracte
 
 % Peak value formula as derived in the article
 Tpeak = 1+ (1-mirror_reflectance.^M).*(3-mirror_reflectance.^M)./(log(mirror_reflectance.^(2*M)));
+R=mirror_reflectance;
+Tpeak2 = 1+ (R^2-2*R.*M*(1-R))./(M.^2*(1-R)^2);
 end
 
