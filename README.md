@@ -83,8 +83,6 @@ Example scripts to efficiently simulate the effect on measured spectra using spe
 # How to cite this work
 T. Goossens, "Filter width affects the transmittance of patterned all-dielectric Fabry–Perot filters," Opt. Lett. 46, 5926-5929 (2021)
 
-T. Goossens, Tiny thin-film filter toolbox, 2021. https://github.com/tgoossens/tinythinfilm
-
 # Related work
 Goossens, Thomas. "Tiny thin-film filters from a different angle: Correcting angular dependency for spectral imaging.", PhD Thesis (2020).  
 
