@@ -19,6 +19,10 @@ It is designed to be compatible with MATLAB and the free alternative Octave for 
 
 <!-- <img src="./doc/img/polarized.png" alt="Differences in polarization" width="60%" > -->
 
+# How to cite this work
+T. Goossens, "Filter width affects the transmittance of patterned all-dielectric Fabry–Perot filters," Opt. Lett. 46, 5926-5929 (2021)
+
+Please drop me a message if you have used the software. It is always fun to know where it is used. 
 
 # 2D Simulation Features
 ## Fast simulation of pixel-integrated thin-film filter transmittance
@@ -80,8 +84,6 @@ Some numerical validations are provided based on Finite Difference Frequency Dom
 ## Spectral imaging
 Example scripts to efficiently simulate the effect on measured spectra using spectral cameras with pixel-integrated thin-film filters.
 
-# How to cite this work
-T. Goossens, "Filter width affects the transmittance of patterned all-dielectric Fabry–Perot filters," Opt. Lett. 46, 5926-5929 (2021)
 
 # Related work
 Goossens, Thomas. "Tiny thin-film filters from a different angle: Correcting angular dependency for spectral imaging.", PhD Thesis (2020).  
